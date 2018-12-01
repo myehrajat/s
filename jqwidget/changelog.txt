@@ -1,0 +1,43 @@
+1.0.8 1396-12-12
+soorathesab and gharardad function to get data completely change for speed
+send header for thirdparty and temp delete later
+add advanced filter
+some more data send to soorathesab and gharardad see their php for more detail
+available getting raw data
+1.0.7 1396-10-05
+jqwidget updated core to 5.6
+all height and width of form corrected to be fit
+.live was deprecated method in jquery replace it with `.on`
+some data needed in js list moved to jquery general
+and js compress plugin.php enqueue to wp
+add an script in jsxcompressor directory for compress data 
+some change in json.php to compress and write in js in tempbin directory with 50char random name and after that
+it will be deleted by list script .js by calling and passing tempfile delete-temp-file.php and more
+how work compressor:
+1.json.php will not return json anymore it will compress json and write in the file in tempbin directory the name specified
+by list script and passed to to json.php by get method (its a js file and commpressed str in var h variable
+2.the list script wait complete and then load tempfile created by json.php and decompress h variable -that the original json needed
+3.call delete-temp-file.php by jquery.get after calling json.php and h decompressed load
+to delete the tempfile to save host space it pass tempfile name to know whatshould be deleted
+Note: some change was needed we use now localdata in jqwidget and use jquery.get to call json.php and even delete tempfile
+1.0.6 1396-10-05
+bugfix mojoodi brand js and json edited
+1.0.5 1396-10-02
+mojoodi api corrected and tuned and rewrite the query and some tunning with its js again
+1.0.4 1396-09-29
+mojoodi api correct and rewrite the query and some tunning with its js
+1.0.3 1396-09-27
+bugfix other user cant see their list
+1.0.2 1396-09-26
+completely standalone without needing shortcode
+jsonjs folder make possible to omit shortcode
+instead using wp-config in json.php use native wpdb
+some other changes
+#note use _ chars for all list names
+1.0.1 1396-09-17
+Add page-post.php the page of list and include form the wp
+make more cleaner  page-post.php to create visitor and restict the user from other parts
+1.0.0 1396-09-10
+comptible with version 1.0.1 ehrajat-form
+1.0.0 1396-09-10
+comptible with version 1.0.1 ehrajat-form

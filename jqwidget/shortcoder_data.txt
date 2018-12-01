@@ -1,0 +1,4191 @@
+﻿a:18:{s:7:"ashkhas";a:4:{s:7:"content";s:9526:"<script type="text/javascript">
+
+jQuery(document).ready
+(function($){ 
+	var form = 1;
+	var title = "لیست اشخاص";
+	var list = "ashkhas";
+	var query = "SELECT ashkhas.id AS aid,ashkhas.ashkhas_tasvire_fard AS aashkhas_tasvire_fard,ashkhas.ashkhas_moaref AS aashkhas_moaref,ashkhas.ashkhas_name_khanevadegi AS aashkhas_name_khanevadegi,ashkhas.ashkhas_nam AS aashkhas_nam,ashkhas.ashkhas_kode_meli AS aashkhas_kode_meli,ashkhas.ashkhas_shomare_shenasname AS aashkhas_shomare_shenasname,ashkhas.ashkhas_name_pedar AS aashkhas_name_pedar,ashkhas.ashkhas_sadere_az AS aashkhas_sadere_az,ashkhas.ashkhas_tarikhe_tavalod AS aashkhas_tarikhe_tavalod,ashkhas.save_id AS asave_id,moaref.id AS moaref_id,moaref.ashkhas_name_khanevadegi AS moaref_name_khanevadegi,moaref.ashkhas_nam AS moaref_nam,address_phone.id AS apid,address_phone.address_phone_nesbat AS apaddress_phone_nesbat,address_phone.address_phone_nam AS apaddress_phone_nam,address_phone.address_phone_phone AS apaddress_phone_phone,address_phone.address_phone_address AS apaddress_phone_address,address_phone.address_phone_tozihat AS apaddress_phone_tozihat,address_phone.save_id AS apsave_id FROM wp_rent_ashkhas AS ashkhas LEFT JOIN wp_rent_address_phone AS address_phone ON ashkhas.id=address_phone.address_phone_ashkhas_id LEFT JOIN wp_rent_ashkhas AS moaref ON ashkhas.ashkhas_moaref=moaref.id ORDER BY ashkhas.id DESC";//
+	var url = "http://"+window.location.hostname+"/wp-content/plugins/jqwidgetnew/json.php/?list="+list+"&sql_query="+query;
+	var columns = [
+		{
+			text:"#" ,
+			datafield:"aid",
+			width:"4%",
+			cellsalign:"center" ,
+			align:"center" ,
+		},
+		{
+			text:"تصویر" ,
+			datafield:"aashkhas_tasvire_fard",
+			width:"4%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:
+				function(row,columnfield,value,defaulthtml,columnproperties){
+					if(value){
+						return "<div class='jqx-grid-cell-"+columnproperties['cellsalign']+"-align'><a href='"+value+"'><img src='"+value+"' width='50' height='50' ></a></div>";
+					}
+				}
+		},
+		{
+			text:"تعاملات" ,
+			datafield:"all_taamol",
+			width:"14%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"نام خانوادگی" ,
+			datafield:"aashkhas_name_khanevadegi",
+			width:"11.5%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties,rowdata){return add_link_tolist(columnproperties,'list=soorathesab&shakhs=',rowdata.aid,value);}
+		},
+		
+		{
+			text:"نام" ,
+			datafield:"aashkhas_nam",
+			width:"7.5%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties,rowdata){return add_link_tolist(columnproperties,'list=gharardad&shakhs=',rowdata.aid,value);}
+		},
+		{
+			text:"کد ملی" ,
+			datafield:"aashkhas_kode_meli",
+			width:"7.5%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"شماره شناسنامه" ,
+			datafield:"aashkhas_shomare_shenasname",
+			width:"9.5%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"نام پدر" ,
+			datafield:"aashkhas_name_pedar",
+			width:"7.5%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"صادره از" ,
+			datafield:"aashkhas_sadere_az",
+			width:"5%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"تاریخ تولد" ,
+			datafield:"aashkhas_tarikhe_tavalod",
+			width:"11.5%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"معرف ن خ" ,
+			datafield:"moaref_name_khanevadegi",
+			width:"6.5%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"معرف نام" ,
+			datafield:"moaref_nam",
+			width:"6.5%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"اقدامات" ,
+			datafield:"asave_id",
+			width:"5%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties){return add_virayesh(columnproperties,value);}
+		},
+		{
+			text:"ap" ,
+			datafield:"ap",
+			hidden:true,
+		},
+	]
+	var source =
+		{
+			datatype: "json",
+			datafields: 
+			[ 
+				{ name: "aid", type: "number" },
+				{ name: "aashkhas_tasvire_fard", type: "string" },
+				{ name: "all_taamol", type: "string" },
+				{ name: "aashkhas_name_khanevadegi", type: "string" },
+				{ name: "aashkhas_nam", type: "string" },
+				{ name: "aashkhas_kode_meli", type: "string" },
+				{ name: "aashkhas_shomare_shenasname", type: "string" },
+				{ name: "aashkhas_name_pedar", type: "string" },
+				{ name: "aashkhas_sadere_az", type: "string" },
+				{ name: "aashkhas_tarikhe_tavalod", type: "string" },
+				{ name: "moaref_name_khanevadegi", type: "string" },
+				{ name: "moaref_nam", type: "string" },
+				{ name: "asave_id", type: "string" },
+				{ name: "ap", type: "string" },
+			],
+			id: "SSSidSSS", 
+			url: url
+		}; 
+  var initrowdetails = function (index, parentElement, gridElement, datarecord) {
+      var details = jQuery(jQuery(parentElement).children()[0]);
+		Len = datarecord.ap.length;
+		text = "<table dir='rtl'><tr dir='rtl'><th><div class='jqx-grid-cell-right-align' style='margin-top:4px;  ' >#</div></th><th><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>نسبت</div></th><th><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>نام و نام خانوادگی</div></th><th><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>تلفن</div></th><th><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>آدرس</div></th><th><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>توضیحات</div></th><th><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>اقدامات</div></th></tr>";
+		for (i = 0; i < Len; i++) {
+			
+			text +=  "<tr><td><div class='jqx-grid-cell-right-align' style='margin-top:4px;  ' >"+datarecord.ap[i].id +"</div></td><td><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>"+ datarecord.ap[i].address_phone_nesbat +"</div></td><td><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>"+ datarecord.ap[i].address_phone_nam  +"</div></td><td><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>"+ datarecord.ap[i].address_phone_phone +"</div></td><td><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>"+ datarecord.ap[i].address_phone_address+"</div></td><td><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>"+  datarecord.ap[i].address_phone_tozihat+"</div></td><td><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>"+ "<a href='http://"+window.location.hostname+"/?page_id=2&mode=edit&record_id="+datarecord.ap[i].save_id+"'>ویرایش</a>"+"</div></td></tr>";
+		}
+	  text +="</table>";
+      details.html(text);
+  }
+ 	var dataAdapter = new jQuery.jqx.dataAdapter(source); 
+jQuery("#jqxgrid").jqxGrid
+({ 
+	localization: localizationobj,
+	theme:"energyblue",
+	width:"100%",
+	height:"1000px",
+	source:dataAdapter,
+	sortable:true,
+	filterable:true,
+	groupable:true,
+	altrows:true,
+	columnsautoresize:true,
+	columnsresize:true,
+	rtl:true,
+	showfilterrow:true,
+	enablebrowserselection: true,
+    showtoolbar: true,
+    toolbarheight: 40,
+	rendertoolbar: function (toolbar) {toolbar.append(add_toolbar(form,title));},
+	columns:columns,
+    rowdetails: true,
+    rowdetailstemplate: {
+          rowdetails: "<div style='margin: 10px;'>اطلاعات تماس</div>",
+		  rowdetailsheight: 1000,
+    },
+   initrowdetails: initrowdetails,
+ });
+	
+
+
+	jQuery("#print").jqxButton();
+	jQuery('#print').live('click',function(){
+
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'aashkhas_tasvire_fard');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'aashkhas_shomare_shenasname');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'aashkhas_name_pedar');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'aashkhas_sadere_az');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'aashkhas_tarikhe_tavalod');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'asave_id');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'ap');
+
+		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','html');
+        var newWindow = window.open('', '', 'width=800, height=500'),
+        document = newWindow.document.open(),
+        pageContent =
+        '<!DOCTYPE html>' +
+        '<html>' +
+        '<head>' +
+        '<meta charset="utf-8" />' +
+        '<title>'+title+'</title>' +
+        '</head>' +
+        '<body>' + gridContent + '</body></html>';
+        document.write(pageContent);
+        document.close();
+        newWindow.print();
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'aashkhas_tasvire_fard');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'aashkhas_shomare_shenasname');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'aashkhas_name_pedar');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'aashkhas_sadere_az');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'aashkhas_tarikhe_tavalod');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'asave_id');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'ap');
+    });
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	jQuery("#excel").jqxButton();
+	jQuery('#excel').live('click',function(){
+		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','xls',title, true, null, true, "http://"+window.location.hostname+"/wp-content/plugins/jqwidgetnew/save-file.php" );
+    });
+	
+
+	
+
+	
+
+
+
+
+
+
+    });
+</script>";s:8:"disabled";i:0;s:10:"hide_admin";i:0;s:7:"devices";s:3:"all";}s:6:"taamol";a:4:{s:7:"content";s:8970:"<script type="text/javascript">
+
+jQuery(document).ready
+(function($){ 
+	var form = 1;
+	var title = "لیست اشخاص";
+	var list = "ashkhas";
+	var query = "SELECT ashkhas.id AS aid,ashkhas.ashkhas_tasvire_fard AS aashkhas_tasvire_fard,ashkhas.ashkhas_name_khanevadegi AS aashkhas_name_khanevadegi,ashkhas.ashkhas_nam AS aashkhas_nam,ashkhas.ashkhas_kode_meli AS aashkhas_kode_meli,ashkhas.ashkhas_shomare_shenasname AS aashkhas_shomare_shenasname,ashkhas.ashkhas_name_pedar AS aashkhas_name_pedar,ashkhas.ashkhas_sadere_az AS aashkhas_sadere_az, ashkhas.ashkhas_tarikhe_tavalod AS aashkhas_tarikhe_tavalod,ashkhas.save_id AS asave_id,address_phone.id AS apid,address_phone.address_phone_nesbat AS apaddress_phone_nesbat,address_phone.address_phone_nam AS apaddress_phone_nam, address_phone.address_phone_phone AS apaddress_phone_phone, address_phone.address_phone_address AS apaddress_phone_address, address_phone.address_phone_tozihat AS apaddress_phone_tozihat, address_phone.save_id AS apsave_id FROM wp_rent_ashkhas AS ashkhas LEFT JOIN wp_rent_address_phone AS address_phone ON ashkhas.id=address_phone.address_phone_ashkhas_id ORDER BY ashkhas.id DESC";//
+	var url = "http://"+window.location.hostname+"/wp-content/plugins/jqwidgetnew/json.php/?list="+list+"&sql_query="+query;
+	var columns = [
+		{
+			text:"#" ,
+			datafield:"aid",
+			width:"4%",
+			cellsalign:"center" ,
+			align:"center" ,
+		},
+		{
+			text:"تصویر" ,
+			datafield:"aashkhas_tasvire_fard",
+			width:"4%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:
+				function(row,columnfield,value,defaulthtml,columnproperties){
+					if(value){
+						return "<div class='jqx-grid-cell-"+columnproperties['cellsalign']+"-align'><a href='"+value+"'><img src='"+value+"' width='50' height='50' ></a></div>";
+					}
+				}
+		},
+		{
+			text:"تعاملات" ,
+			datafield:"all_taamol",
+			width:"14%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"نام خانوادگی" ,
+			datafield:"aashkhas_name_khanevadegi",
+			width:"11.5%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties,rowdata){return add_link_tolist(columnproperties,'list=soorathesab&shakhs=',rowdata.aid,value);}
+		},
+		
+		{
+			text:"نام" ,
+			datafield:"aashkhas_nam",
+			width:"7.5%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties,rowdata){return add_link_tolist(columnproperties,'list=gharardad&shakhs=',rowdata.aid,value);}
+		},
+		{
+			text:"کد ملی" ,
+			datafield:"aashkhas_kode_meli",
+			width:"7.5%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"شماره شناسنامه" ,
+			datafield:"aashkhas_shomare_shenasname",
+			width:"9.5%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"نام پدر" ,
+			datafield:"aashkhas_name_pedar",
+			width:"7.5%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"صادره از" ,
+			datafield:"aashkhas_sadere_az",
+			width:"11.5%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"تاریخ تولد" ,
+			datafield:"aashkhas_tarikhe_tavalod",
+			width:"11.5%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"اقدامات" ,
+			datafield:"asave_id",
+			width:"11.5%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties){return add_virayesh(columnproperties,value);}
+		},
+		{
+			text:"ap" ,
+			datafield:"ap",
+			hidden:true,
+		},
+	]
+	var source =
+		{
+			datatype: "json",
+			datafields: 
+			[ 
+				{ name: "aid", type: "number" },
+				{ name: "aashkhas_tasvire_fard", type: "string" },
+				{ name: "all_taamol", type: "string" },
+				{ name: "aashkhas_name_khanevadegi", type: "string" },
+				{ name: "aashkhas_nam", type: "string" },
+				{ name: "aashkhas_kode_meli", type: "string" },
+				{ name: "aashkhas_shomare_shenasname", type: "string" },
+				{ name: "aashkhas_name_pedar", type: "string" },
+				{ name: "aashkhas_sadere_az", type: "string" },
+				{ name: "aashkhas_tarikhe_tavalod", type: "string" },
+				{ name: "asave_id", type: "string" },
+				{ name: "ap", type: "string" },
+			],
+			id: "SSSidSSS", 
+			url: url
+		}; 
+  var initrowdetails = function (index, parentElement, gridElement, datarecord) {
+      var details = jQuery(jQuery(parentElement).children()[0]);
+		Len = datarecord.ap.length;
+		text = "<table dir='rtl'><tr dir='rtl'><th><div class='jqx-grid-cell-right-align' style='margin-top:4px;  ' >#</div></th><th><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>نسبت</div></th><th><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>نام و نام خانوادگی</div></th><th><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>تلفن</div></th><th><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>آدرس</div></th><th><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>توضیحات</div></th><th><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>اقدامات</div></th></tr>";
+		for (i = 0; i < Len; i++) {
+			
+			text +=  "<tr><td><div class='jqx-grid-cell-right-align' style='margin-top:4px;  ' >"+datarecord.ap[i].id +"</div></td><td><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>"+ datarecord.ap[i].address_phone_nesbat +"</div></td><td><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>"+ datarecord.ap[i].address_phone_nam  +"</div></td><td><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>"+ datarecord.ap[i].address_phone_phone +"</div></td><td><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>"+ datarecord.ap[i].address_phone_address+"</div></td><td><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>"+  datarecord.ap[i].address_phone_tozihat+"</div></td><td><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>"+ "<a href='http://"+window.location.hostname+"/?page_id=2&mode=edit&record_id="+datarecord.ap[i].save_id+"'>ویرایش</a>"+"</div></td></tr>";
+		}
+	  text +="</table>";
+      details.html(text);
+  }
+ 	var dataAdapter = new jQuery.jqx.dataAdapter(source); 
+jQuery("#jqxgrid").jqxGrid
+({ 
+	localization: localizationobj,
+	theme:"energyblue",
+	width:"100%",
+	height:"1000px",
+	source:dataAdapter,
+	sortable:true,
+	filterable:true,
+	groupable:true,
+	altrows:true,
+	columnsautoresize:true,
+	columnsresize:true,
+	rtl:true,
+	showfilterrow:true,
+	enablebrowserselection: true,
+    showtoolbar: true,
+    toolbarheight: 40,
+	rendertoolbar: function (toolbar) {toolbar.append(add_toolbar(form,title));},
+	columns:columns,
+    rowdetails: true,
+    rowdetailstemplate: {
+          rowdetails: "<div style='margin: 10px;'>اطلاعات تماس</div>",
+		  rowdetailsheight: 1000,
+    },
+   initrowdetails: initrowdetails,
+ });
+	
+	var getValues = getSearchParameters();
+
+
+	jQuery("#print").jqxButton();
+	jQuery('#print').live('click',function(){
+
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'aashkhas_tasvire_fard');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'aashkhas_shomare_shenasname');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'aashkhas_name_pedar');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'aashkhas_sadere_az');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'aashkhas_tarikhe_tavalod');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'asave_id');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'ap');
+
+		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','html');
+        var newWindow = window.open('', '', 'width=800, height=500'),
+        document = newWindow.document.open(),
+        pageContent =
+        '<!DOCTYPE html>' +
+        '<html>' +
+        '<head>' +
+        '<meta charset="utf-8" />' +
+        '<title>'+title+'</title>' +
+        '</head>' +
+        '<body>' + gridContent + '</body></html>';
+        document.write(pageContent);
+        document.close();
+        newWindow.print();
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'aashkhas_tasvire_fard');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'aashkhas_shomare_shenasname');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'aashkhas_name_pedar');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'aashkhas_sadere_az');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'aashkhas_tarikhe_tavalod');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'asave_id');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'ap');
+    });
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	jQuery("#excel").jqxButton();
+	jQuery('#excel').live('click',function(){
+		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','xls',title, true, null, true, "http://"+window.location.hostname+"/wp-content/plugins/jqwidgetnew/save-file.php" );
+    });
+	
+
+	
+
+	
+
+
+
+
+
+
+    });
+</script>";s:8:"disabled";i:0;s:10:"hide_admin";i:0;s:7:"devices";s:3:"all";}s:17:"taamol_ba_sherkat";a:4:{s:7:"content";s:6744:"<script type="text/javascript">
+
+jQuery(document).ready
+(function($){
+	var form = 3;
+	var list = "taamol_ba_sherkat";
+	var title = "لیست تعامل اشخاص با شرکت";
+	var query = "SELECT taamol_ba_sherkat.id AS tbsid,ashkhas.id AS aid,taamol_ba_sherkat.save_id AS tbssave_id,taamol.taamol_taamol AS ttaamol_taamol,ashkhas.save_id AS asave_id, ashkhas.ashkhas_nam AS aashkhas_nam ,ashkhas.ashkhas_name_khanevadegi AS aashkhas_name_khanevadegi ,ashkhas.ashkhas_kode_meli AS aashkhas_kode_meli,ashkhas.ashkhas_shomare_shenasname AS aashkhas_shomare_shenasname,ashkhas.ashkhas_name_pedar AS aashkhas_name_pedar,ashkhas.ashkhas_sadere_az AS aashkhas_sadere_az,ashkhas.ashkhas_tarikhe_tavalod AS aashkhas_tarikhe_tavalod FROM wp_rent_taamol as taamol,wp_rent_ashkhas AS ashkhas, wp_rent_taamol_ba_sherkat AS taamol_ba_sherkat  WHERE ashkhas.id=taamol_ba_sherkat.taamol_ba_sherkat_ashkhas_id AND taamol_ba_sherkat.taamol_ba_sherkat_noe_taamol=taamol.id ORDER BY ashkhas.id DESC";//
+	var url = "http://"+window.location.hostname+"/wp-content/plugins/jqwidgetnew/json.php/?list="+list+"&sql_query="+query;
+	var columns = [
+		{
+			text:"#" ,
+			datafield:"tbsid",
+			width:"4%",
+			cellsalign:"center" ,
+			align:"center" ,
+		},
+		{
+			text:"نوع تعامل" ,
+			datafield:"ttaamol_taamol",
+			width:"10%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"نام خانوادگی" ,
+			datafield:"aashkhas_name_khanevadegi",
+			width:"13%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties,rowdata){return add_link_tolist(columnproperties,'list=soorathesab&shakhs=',rowdata.aid,value);}
+		},
+		{
+			text:"نام" ,
+			datafield:"aashkhas_nam",
+			width:"10%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties,rowdata){return add_link_tolist(columnproperties,'list=gharardad&shakhs=',rowdata.aid,value);}
+		},
+		{
+			text:"کد ملی" ,
+			datafield:"aashkhas_kode_meli",
+			width:"10%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"شماره شناسنامه" ,
+			datafield:"aashkhas_shomare_shenasname",
+			width:"9%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"نام پدر" ,
+			datafield:"aashkhas_name_pedar",
+			width:"10%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"صادره از" ,
+			datafield:"aashkhas_sadere_az",
+			width:"10%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"تاریخ تولد" ,
+			datafield:"aashkhas_tarikhe_tavalod",
+			width:"12%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"اقدامات" ,
+			datafield:"tbssave_id",
+			width:"12%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties){return add_virayesh(columnproperties,value);}
+		},
+		{
+			text:"save_id اشخاص h" ,
+			datafield:"asave_id",
+			hidden:true,
+			
+		},
+		{
+			text:"id اشخاص h" ,
+			datafield:"aid",
+			hidden:true,
+			
+		},
+	]
+	var source =
+		{
+			datatype: "json",
+			datafields: 
+			[ 
+				{ name: "tbsid", type: "number" },
+				{ name: "ttaamol_taamol", type: "string" },
+				{ name: "aashkhas_name_khanevadegi", type: "string" },
+				{ name: "aashkhas_kode_meli", type: "string" },
+				{ name: "aashkhas_shomare_shenasname", type: "string" },
+				{ name: "aashkhas_name_pedar", type: "string" },
+				{ name: "aashkhas_sadere_az", type: "string" },
+				{ name: "aashkhas_tarikhe_tavalod", type: "string" },
+				{ name: "tbssave_id", type: "string" },
+				{ name: "asave_id", type: "string" },
+				{ name: "aashkhas_nam", type: "string" },
+				{ name: "aid", type: "number" },
+
+			],
+			id: "SSSidSSS", 
+			url: url
+		}; 
+	var dataAdapter = new jQuery.jqx.dataAdapter(source); 
+jQuery("#jqxgrid").jqxGrid
+({ 
+	localization: localizationobj,
+	theme:"energyblue",
+	width:"100%",
+	height:"1000px",
+	source:dataAdapter,
+	sortable:true,
+	filterable:true,
+	groupable:true,
+	altrows:true,
+	columnsautoresize:true,
+	columnsresize:true,
+	rtl:true,
+	showfilterrow:true,
+	enablebrowserselection: true,
+    showtoolbar: true,
+    toolbarheight: 40,
+	rendertoolbar: function (toolbar) {toolbar.append(add_toolbar(form,title));},
+	columns:columns,
+	groups: ['ttaamol_taamol'],
+});
+				
+				
+
+
+
+	jQuery("#print").jqxButton();
+	jQuery('#print').live('click',function(){
+
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'tbsid');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'aashkhas_shomare_shenasname');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'aashkhas_kode_meli');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'aashkhas_shomare_shenasname');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'aashkhas_name_pedar');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'aashkhas_sadere_az');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'aashkhas_tarikhe_tavalod');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'tbssave_id');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'asave_id');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'aid');
+
+		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','html');
+        var newWindow = window.open('', '', 'width=800, height=500'),
+        document = newWindow.document.open(),
+        pageContent =
+        '<!DOCTYPE html>' +
+        '<html>' +
+        '<head>' +
+        '<meta charset="utf-8" />' +
+        '<title>'+title+'</title>' +
+        '</head>' +
+        '<body>' + gridContent + '</body></html>';
+        document.write(pageContent);
+        document.close();
+        newWindow.print();
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'tbsid');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'aashkhas_shomare_shenasname');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'aashkhas_kode_meli');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'aashkhas_shomare_shenasname');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'aashkhas_name_pedar');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'aashkhas_sadere_az');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'aashkhas_tarikhe_tavalod');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'tbssave_id');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'asave_id');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'aid');
+    });
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	jQuery("#excel").jqxButton();
+	jQuery('#excel').live('click',function(){
+		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','xls',title, true, null, true, "http://"+window.location.hostname+"/wp-content/plugins/jqwidgetnew/save-file.php" );
+    });
+	
+
+	
+
+	
+
+
+
+});
+
+
+
+
+
+</script>
+
+";s:8:"disabled";i:0;s:10:"hide_admin";i:0;s:7:"devices";s:3:"all";}s:13:"address_phone";a:4:{s:7:"content";s:6485:"	
+<script type="text/javascript">
+
+jQuery(document).ready
+(function($){
+	var form = 5;
+	var title = "لیست آدرس و تلفن";
+	var list = "address_phone";
+	var query = "SELECT address_phone.save_id AS apsave_id,address_phone.id AS apid,address_phone.address_phone_nesbat AS apaddress_phone_nesbat,address_phone.address_phone_nam AS apaddress_phone_nam,address_phone.address_phone_phone AS apaddress_phone_phone,address_phone.address_phone_address AS apaddress_phone_address,address_phone.address_phone_tozihat AS apaddress_phone_tozihat,ashkhas.id  AS aid,ashkhas.ashkhas_tasvire_fard  AS aashkhas_tasvire_fard, ashkhas.ashkhas_name_khanevadegi  AS aashkhas_name_khanevadegi, ashkhas.ashkhas_nam  AS aashkhas_nam, ashkhas.ashkhas_kode_meli  AS aashkhas_kode_meli, ashkhas.save_id  AS asave_id FROM wp_rent_ashkhas AS ashkhas,wp_rent_address_phone AS address_phone WHERE ashkhas.id=address_phone_ashkhas_id ORDER BY ashkhas.id DESC";//
+	var url = "http://"+window.location.hostname+"/wp-content/plugins/jqwidgetnew/json.php/?list="+list+"&sql_query="+query;
+	var columns = [
+		{
+			text:"#" ,
+			datafield:"apid",
+			width:"3%",
+			cellsalign:"center" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties){}
+		},
+		{
+			text:"تصویر" ,
+			datafield:"aashkhas_tasvire_fard",
+			width:"4%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:
+				function(row,columnfield,value,defaulthtml,columnproperties){
+					if(value){
+						return "<div class='jqx-grid-cell-"+columnproperties['cellsalign']+"-align''><a href='"+value+"'><img src='"+value+"' width='50' height='50' ></a></div>";
+					}
+				}
+		},
+		{
+			text:"نام خانوادگی" ,
+			datafield:"aashkhas_name_khanevadegi",
+			width:"11%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties,rowdata){return add_link_tolist(columnproperties,'list=soorathesab&shakhs=',rowdata.aid,value);}
+		},
+		{
+			text:"نام" ,
+			datafield:"aashkhas_nam",
+			width:"5%",
+			cellsalign:"right" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties,rowdata){return add_link_tolist(columnproperties,'list=gharardad&shakhs=',rowdata.aid,value);}
+		},
+
+		{
+			text:"نسبت" ,
+			datafield:"apaddress_phone_nesbat",
+			width:"5.66%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"نام منتسب" ,
+			datafield:"apaddress_phone_nam",
+			width:"7.66%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"تلفن" ,
+			datafield:"apaddress_phone_phone",
+			width:"7.66%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"آدرس" ,
+			datafield:"apaddress_phone_address",
+			width:"41.62%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"توضحیات" ,
+			datafield:"apaddress_phone_tozihat",
+			width:"7.66%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"اقدامات" ,
+			datafield:"apsave_id",
+			width:"6.66%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties){return add_virayesh(columnproperties,value);}
+		},
+		{
+			text:" save_id نام h" ,
+			datafield:"asave_id",
+			hidden:true
+		},
+		{
+			text:"اشخاص id" ,
+			datafield:"aid",
+			hidden:true
+		},
+	]
+	var source =
+		{
+			datatype: "json",
+			datafields: 
+			[ 
+				
+				{ name: "aid", type: "number" },
+				{ name: "apid", type: "number" },
+				{ name: "aashkhas_tasvire_fard", type: "string" },
+				{ name: "aashkhas_name_khanevadegi", type: "string" },
+				{ name: "apaddress_phone_tozihat", type: "string" },
+				{ name: "apaddress_phone_nesbat", type: "string" },
+				{ name: "apaddress_phone_nam", type: "string" },
+				{ name: "apaddress_phone_phone", type: "string" },
+				{ name: "apaddress_phone_address", type: "string" },
+				{ name: "apsave_id", type: "string" },
+				{ name: "aashkhas_nam", type: "string" },
+				{ name: "asave_id", type: "string" },
+			],
+			id: "SSSidSSS", 
+			url: url
+		}; 
+	var dataAdapter = new jQuery.jqx.dataAdapter(source); 
+jQuery("#jqxgrid").jqxGrid
+({ 
+	localization: localizationobj,
+	theme:"energyblue",
+	width:"100%",
+	height:"1000px",
+	source:dataAdapter,
+	sortable:true,
+	filterable:true,
+	groupable:true,
+	altrows:true,
+	columnsautoresize:true,
+	columnsresize:true,
+	rtl:true,
+	showfilterrow:true,
+	enablebrowserselection: true,
+    showtoolbar: true,
+    toolbarheight: 40,
+	rendertoolbar: function (toolbar) {toolbar.append(add_toolbar(form,title));},
+	columns:columns,
+   groups: ['aashkhas_name_khanevadegi','aashkhas_nam'],
+});
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+					
+
+	jQuery("#print").jqxButton();
+	jQuery('#print').live('click',function(){
+
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'aid');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'apid');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'aashkhas_tasvire_fard');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'aashkhas_kode_meli');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'apsave_id');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'asave_id');
+
+		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','html');
+        var newWindow = window.open('', '', 'width=800, height=500'),
+        document = newWindow.document.open(),
+        pageContent =
+        '<!DOCTYPE html>' +
+        '<html>' +
+        '<head>' +
+        '<meta charset="utf-8" />' +
+        '<title>'+title+'</title>' +
+        '</head>' +
+        '<body>' + gridContent + '</body></html>';
+        document.write(pageContent);
+        document.close();
+        newWindow.print();
+
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'aid');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'apid');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'aashkhas_tasvire_fard');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'aashkhas_kode_meli');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'apsave_id');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'asave_id');
+    });
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	jQuery("#excel").jqxButton();
+	jQuery('#excel').live('click',function(){
+		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','xls',title, true, null, true, "http://"+window.location.hostname+"/wp-content/plugins/jqwidgetnew/save-file.php" );
+    });
+	
+
+	
+
+				
+});
+
+
+
+
+
+
+
+
+
+
+</script>
+
+";s:8:"disabled";i:0;s:10:"hide_admin";i:0;s:7:"devices";s:3:"all";}s:6:"khodro";a:4:{s:7:"content";s:6876:"<script type="text/javascript">
+
+jQuery(document).ready
+(function($){ 
+	var form = 10;
+	var title = "لیست خودرو";
+	var list = "khodro";
+	var query = "SELECT khodro.id AS kid,khodro.khodro_khodro AS kkhodro_khodro,khodro.khodro_model AS kkhodro_model ,khodro.khodro_rang AS kkhodro_rang,khodro.khodro_shomare_shahrbani AS kkhodro_shomare_shahrbani ,khodro.khodro_shomare_shasi AS kkhodro_shomare_shasi,khodro.khodro_shomare_barkode_kart AS kkhodro_shomare_barkode_kart,khodro.khodro_malek_id AS kkhodro_malek_id,khodro.khodro_saheb_emtiyaz_id AS kkhodro_saheb_emtiyaz_id,khodro.save_id AS ksave_id,malek_ashkhas.ashkhas_nam AS mashkhas_nam,malek_ashkhas.ashkhas_name_khanevadegi  AS mashkhas_name_khanevadegi,saheb_emtiyaz_ashkhas.ashkhas_nam AS sashkhas_nam,saheb_emtiyaz_ashkhas.ashkhas_name_khanevadegi  AS sashkhas_name_khanevadegi FROM wp_rent_khodro AS khodro LEFT JOIN wp_rent_ashkhas as malek_ashkhas ON malek_ashkhas.id=khodro.khodro_malek_id LEFT JOIN  wp_rent_ashkhas AS saheb_emtiyaz_ashkhas ON saheb_emtiyaz_ashkhas.id=khodro.khodro_saheb_emtiyaz_id ORDER BY khodro_khodro,khodro_model,khodro_rang,khodro_shomare_shahrbani DESC";//
+	var url = "http://"+window.location.hostname+"/wp-content/plugins/jqwidgetnew/json.php/?list="+list+"&sql_query="+query;
+	var columns = [
+		{
+			text:"#" ,
+			datafield:"kid",
+			width:"2%",
+			cellsalign:"center" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties){}
+		},
+		{
+			text:"خودرو" ,
+			datafield:"kkhodro_khodro",
+			width:"15%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties,rowdata){return add_link_tolist(columnproperties,'list=gharardad&khodro=',rowdata.kid,value);}
+		},
+		{
+			text:"مدل" ,
+			datafield:"kkhodro_model",
+			width:"5%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"رنگ" ,
+			datafield:"kkhodro_rang",
+			width:"7%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"شماره شهربانی" ,
+			datafield:"kkhodro_shomare_shahrbani",
+			width:"9%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"شماره شاسی" ,
+			datafield:"kkhodro_shomare_shasi",
+			width:"18.8%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"بارکد کارت" ,
+			datafield:"kkhodro_shomare_barkode_kart",
+			width:"8%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"مالک" ,
+			datafield:"mashkhas_name_khanevadegi",
+			width:"8%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties,rowdata){return add_link_tolist(columnproperties,'list=soorathesab&shakhs=',rowdata.kkhodro_malek_id,value);}
+		},
+		{
+			text:"مالک" ,
+			datafield:"mashkhas_nam",
+			width:"6.8%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties,rowdata){return add_link_tolist(columnproperties,'list=gharardad&shakhs=',rowdata.kkhodro_malek_id,value);}
+		},
+		{
+			text:"صاحب امتیاز" ,
+			datafield:"sashkhas_name_khanevadegi",
+			width:"6.8%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties,rowdata){return add_link_tolist(columnproperties,'list=soorathesab&shakhs=',rowdata.kkhodro_saheb_emtiyaz_id,value);}			
+		},
+		{
+			text:"صاحب امتیاز" ,
+			datafield:"sashkhas_nam",
+			width:"6.8%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties,rowdata){return add_link_tolist(columnproperties,'list=gharardad&shakhs=',rowdata.kkhodro_saheb_emtiyaz_id,value);}			
+		},
+		{
+			text:"اقدامات" ,
+			datafield:"ksave_id",
+			width:"6.6%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties){return add_virayesh(columnproperties,value);}
+		},
+		{
+			text:"id مالک h" ,
+			datafield:"kkhodro_malek_id",
+			hidden:true,
+		},		
+		{
+			text:"id صاحب امتیاز h" ,
+			datafield:"kkhodro_saheb_emtiyaz_id",
+			hidden:true,
+		},		
+	]
+	var source =
+		{
+			datatype: "json",
+			datafields: 
+			[ 
+				{ name: "kid", type: "number" },
+				{ name: "kkhodro_khodro", type: "string" },
+				{ name: "kkhodro_model", type: "string" },
+				{ name: "kkhodro_rang", type: "string" },
+				{ name: "kkhodro_shomare_shahrbani", type: "string" },
+				{ name: "kkhodro_shomare_shasi", type: "string" },
+				{ name: "mashkhas_name_khanevadegi", type: "string" },
+				{ name: "sashkhas_name_khanevadegi", type: "string" },
+				{ name: "mashkhas_nam", type: "string" },
+				{ name: "sashkhas_nam", type: "string" },
+				{ name: "kkhodro_shomare_barkode_kart", type: "string" },
+				{ name: "ksave_id", type: "string" },
+				{ name: "kkhodro_malek_id", type: "string" },
+				{ name: "kkhodro_saheb_emtiyaz_id", type: "number" },
+			],
+			id: "SSSidSSS", 
+			url: url
+		}; 
+	var dataAdapter = new jQuery.jqx.dataAdapter(source); 
+jQuery("#jqxgrid").jqxGrid
+({ 
+	localization: localizationobj,
+	theme:"energyblue",
+	width:"100%",
+	height:'1000px',
+	source:dataAdapter,
+	sortable:true,
+	filterable:true,
+	groupable:true,
+	altrows:true,
+	columnsautoresize:true,
+	columnsresize:true,
+	rtl:true,
+	showfilterrow:true,
+	enablebrowserselection: true,
+    showtoolbar: true,
+    toolbarheight: 40,
+	rendertoolbar: function (toolbar) {toolbar.append(add_toolbar(form,title));},
+	columns:columns,
+	
+});	
+	
+	
+	
+
+
+	jQuery("#print").jqxButton();
+	jQuery('#print').live('click',function(){
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'kid');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'ksave_id');
+
+		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','html');
+        var newWindow = window.open('', '', 'width=800, height=500'),
+        document = newWindow.document.open(),
+        pageContent =
+        '<!DOCTYPE html>' +
+        '<html>' +
+        '<head>' +
+        '<meta charset="utf-8" />' +
+        '<title>'+title+'</title>' +
+        '</head>' +
+        '<body>' + gridContent + '</body></html>';
+        document.write(pageContent);
+        document.close();
+        newWindow.print();
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'kid');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'ksave_id');
+    });
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	jQuery("#excel").jqxButton();
+	jQuery('#excel').live('click',function(){
+		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','xls',title, true, null, true, "http://"+window.location.hostname+"/wp-content/plugins/jqwidgetnew/save-file.php" );
+    });
+	
+
+	
+
+	
+	
+	
+	
+	
+				
+});
+
+
+
+
+
+
+
+
+
+
+</script>";s:8:"disabled";i:0;s:10:"hide_admin";i:0;s:7:"devices";s:3:"all";}s:9:"gharardad";a:4:{s:7:"content";s:27666:"<script type="text/javascript">
+
+jQuery(document).ready
+(function($){ 
+	var getValues = getSearchParameters();
+	var form = 20;
+	var title = "لیست قرارداد";
+	var list = "gharardad";
+if(getValues.khodro && getValues.shakhs){
+	var query = "SELECT gharardad.id AS gid ,gharardad.gharardad_shomare_gharardad AS ggharardad_shomare_gharardad ,gharardad.gharardad_mostajer_id AS ggharardad_mostajer_id ,gharardad.gharardad_mojer_id AS ggharardad_mojer_id ,gharardad.gharardad_khodro_id AS ggharardad_khodro_id ,gharardad.gharardad_tarikhe_tahvil AS ggharardad_tarikhe_tahvil ,gharardad.gharardad_tarikhe_odat AS ggharardad_tarikhe_odat ,gharardad.gharardad_vadeye_tarikhe_odat AS ggharardad_vadeye_tarikhe_odat ,gharardad.gharardad_doreye_zamani_ejareh AS ggharardad_doreye_zamani_ejareh ,gharardad.gharardad_gheymate AS ggharardad_gheymate ,gharardad.gharardad_odo_mojaz AS ggharardad_odo_mojaz ,gharardad.gharardad_odo_avaliye AS ggharardad_odo_avaliye ,gharardad.gharardad_odo_sanaviye AS ggharardad_odo_sanaviye ,gharardad.gharardad_odo_hazine AS ggharardad_odo_hazine ,gharardad.gharardad_benzin_avaliye AS ggharardad_benzin_avaliye ,gharardad.gharardad_benzin_sanaviye AS ggharardad_benzin_sanaviye ,gharardad.gharardad_tahvil_dahande AS ggharardad_tahvil_dahande ,gharardad.gharardad_sharhe_khesarat AS ggharardad_sharhe_khesarat ,gharardad.gharardad_baravorde_khesarat AS ggharardad_baravorde_khesarat ,gharardad.gharardad_baravorde_khabe_khesarat AS ggharardad_baravorde_khabe_khesarat ,gharardad.gharardad_hazineye_karvash AS ggharardad_hazineye_karvash ,gharardad.gharardad_hazineye_ayab_zahab AS ggharardad_hazineye_ayab_zahab ,gharardad.gharardad_tozihat AS ggharardad_tozihat ,gharardad.save_id AS gsave_id ,khodro.khodro_khodro AS kkhodro_khodro ,khodro.khodro_model AS kkhodro_model ,khodro.khodro_rang AS kkhodro_rang ,khodro.khodro_shomare_shahrbani AS kkhodro_shomare_shahrbani ,khodro.save_id AS ksave_id ,khodro.khodro_malek_id ,khodro.khodro_saheb_emtiyaz_id ,khodro.id ,mojer_ashkhas.ashkhas_nam AS mojerashkhas_nam ,mojer_ashkhas.ashkhas_name_khanevadegi AS mojerashkhas_name_khanevadegi ,mostajer_ashkhas.ashkhas_nam AS mostajerashkhas_nam ,mostajer_ashkhas.ashkhas_name_khanevadegi AS mostajerashkhas_name_khanevadegi ,gharardad_tahvil_dahande.id AS gharardad_tahvil_dahandeid ,gharardad_tahvil_dahande.ashkhas_nam AS gharardad_tahvil_dahandeashkhas_nam ,gharardad_tahvil_dahande.ashkhas_name_khanevadegi AS gharardad_tahvil_dahandeashkhas_name_khanevadegi ,gharardad_tahvil_girande.id AS gharardad_tahvil_girandeid ,gharardad_tahvil_girande.ashkhas_nam AS gharardad_tahvil_girandeashkhas_nam ,gharardad_tahvil_girande.ashkhas_name_khanevadegi AS gharardad_tahvil_girandeashkhas_name_khanevadegi FROM wp_rent_gharardad AS gharardad LEFT JOIN wp_rent_khodro AS khodro ON gharardad.gharardad_khodro_id=khodro.id LEFT JOIN wp_rent_ashkhas AS mojer_ashkhas ON mojer_ashkhas.id=gharardad.gharardad_mojer_id LEFT JOIN wp_rent_ashkhas AS mostajer_ashkhas ON mostajer_ashkhas.id=gharardad.gharardad_mostajer_id LEFT JOIN wp_rent_ashkhas AS gharardad_tahvil_dahande ON gharardad_tahvil_dahande.id=gharardad.gharardad_tahvil_dahande LEFT JOIN wp_rent_ashkhas AS gharardad_tahvil_girande ON gharardad_tahvil_girande.id=gharardad.gharardad_tahvil_girande WHERE gharardad.gharardad_khodro_id = "+getValues.khodro+" AND (gharardad.gharardad_mostajer_id = "+getValues.shakhs+" OR  gharardad.gharardad_mojer_id = "+getValues.shakhs+") ORDER BY  if(ggharardad_tarikhe_odat = '' OR ggharardad_tarikhe_odat is null,0,1) ASC ,ggharardad_tarikhe_tahvil DESC";//
+}else if(getValues.khodro && !getValues.shakhs){
+	var query = "SELECT gharardad.id AS gid ,gharardad.gharardad_shomare_gharardad AS ggharardad_shomare_gharardad ,gharardad.gharardad_mostajer_id AS ggharardad_mostajer_id ,gharardad.gharardad_mojer_id AS ggharardad_mojer_id ,gharardad.gharardad_khodro_id AS ggharardad_khodro_id ,gharardad.gharardad_tarikhe_tahvil AS ggharardad_tarikhe_tahvil ,gharardad.gharardad_tarikhe_odat AS ggharardad_tarikhe_odat ,gharardad.gharardad_vadeye_tarikhe_odat AS ggharardad_vadeye_tarikhe_odat ,gharardad.gharardad_doreye_zamani_ejareh AS ggharardad_doreye_zamani_ejareh ,gharardad.gharardad_gheymate AS ggharardad_gheymate ,gharardad.gharardad_odo_mojaz AS ggharardad_odo_mojaz ,gharardad.gharardad_odo_avaliye AS ggharardad_odo_avaliye ,gharardad.gharardad_odo_sanaviye AS ggharardad_odo_sanaviye ,gharardad.gharardad_odo_hazine AS ggharardad_odo_hazine ,gharardad.gharardad_benzin_avaliye AS ggharardad_benzin_avaliye ,gharardad.gharardad_benzin_sanaviye AS ggharardad_benzin_sanaviye ,gharardad.gharardad_tahvil_dahande AS ggharardad_tahvil_dahande ,gharardad.gharardad_sharhe_khesarat AS ggharardad_sharhe_khesarat ,gharardad.gharardad_baravorde_khesarat AS ggharardad_baravorde_khesarat ,gharardad.gharardad_baravorde_khabe_khesarat AS ggharardad_baravorde_khabe_khesarat ,gharardad.gharardad_hazineye_karvash AS ggharardad_hazineye_karvash ,gharardad.gharardad_hazineye_ayab_zahab AS ggharardad_hazineye_ayab_zahab ,gharardad.gharardad_tozihat AS ggharardad_tozihat ,gharardad.save_id AS gsave_id ,khodro.khodro_khodro AS kkhodro_khodro ,khodro.khodro_model AS kkhodro_model ,khodro.khodro_rang AS kkhodro_rang ,khodro.khodro_shomare_shahrbani AS kkhodro_shomare_shahrbani ,khodro.save_id AS ksave_id ,khodro.khodro_malek_id ,khodro.khodro_saheb_emtiyaz_id ,khodro.id ,mojer_ashkhas.ashkhas_nam AS mojerashkhas_nam ,mojer_ashkhas.ashkhas_name_khanevadegi AS mojerashkhas_name_khanevadegi ,mostajer_ashkhas.ashkhas_nam AS mostajerashkhas_nam ,mostajer_ashkhas.ashkhas_name_khanevadegi AS mostajerashkhas_name_khanevadegi ,gharardad_tahvil_dahande.id AS gharardad_tahvil_dahandeid ,gharardad_tahvil_dahande.ashkhas_nam AS gharardad_tahvil_dahandeashkhas_nam ,gharardad_tahvil_dahande.ashkhas_name_khanevadegi AS gharardad_tahvil_dahandeashkhas_name_khanevadegi ,gharardad_tahvil_girande.id AS gharardad_tahvil_girandeid ,gharardad_tahvil_girande.ashkhas_nam AS gharardad_tahvil_girandeashkhas_nam ,gharardad_tahvil_girande.ashkhas_name_khanevadegi AS gharardad_tahvil_girandeashkhas_name_khanevadegi FROM wp_rent_gharardad AS gharardad LEFT JOIN wp_rent_khodro AS khodro ON gharardad.gharardad_khodro_id=khodro.id LEFT JOIN wp_rent_ashkhas AS mojer_ashkhas ON mojer_ashkhas.id=gharardad.gharardad_mojer_id LEFT JOIN wp_rent_ashkhas AS mostajer_ashkhas ON mostajer_ashkhas.id=gharardad.gharardad_mostajer_id LEFT JOIN wp_rent_ashkhas AS gharardad_tahvil_dahande ON gharardad_tahvil_dahande.id=gharardad.gharardad_tahvil_dahande LEFT JOIN wp_rent_ashkhas AS gharardad_tahvil_girande ON gharardad_tahvil_girande.id=gharardad.gharardad_tahvil_girande WHERE gharardad.gharardad_khodro_id = "+getValues.khodro+" ORDER BY  if(ggharardad_tarikhe_odat = '' OR ggharardad_tarikhe_odat is null,0,1) ASC ,ggharardad_tarikhe_tahvil DESC";//
+
+	
+}else if(getValues.shakhs && !getValues.khodro){
+	var query = "SELECT gharardad.id AS gid ,gharardad.gharardad_shomare_gharardad AS ggharardad_shomare_gharardad ,gharardad.gharardad_mostajer_id AS ggharardad_mostajer_id ,gharardad.gharardad_mojer_id AS ggharardad_mojer_id ,gharardad.gharardad_khodro_id AS ggharardad_khodro_id ,gharardad.gharardad_tarikhe_tahvil AS ggharardad_tarikhe_tahvil ,gharardad.gharardad_tarikhe_odat AS ggharardad_tarikhe_odat ,gharardad.gharardad_vadeye_tarikhe_odat AS ggharardad_vadeye_tarikhe_odat ,gharardad.gharardad_doreye_zamani_ejareh AS ggharardad_doreye_zamani_ejareh ,gharardad.gharardad_gheymate AS ggharardad_gheymate ,gharardad.gharardad_odo_mojaz AS ggharardad_odo_mojaz ,gharardad.gharardad_odo_avaliye AS ggharardad_odo_avaliye ,gharardad.gharardad_odo_sanaviye AS ggharardad_odo_sanaviye ,gharardad.gharardad_odo_hazine AS ggharardad_odo_hazine ,gharardad.gharardad_benzin_avaliye AS ggharardad_benzin_avaliye ,gharardad.gharardad_benzin_sanaviye AS ggharardad_benzin_sanaviye ,gharardad.gharardad_tahvil_dahande AS ggharardad_tahvil_dahande ,gharardad.gharardad_sharhe_khesarat AS ggharardad_sharhe_khesarat ,gharardad.gharardad_baravorde_khesarat AS ggharardad_baravorde_khesarat ,gharardad.gharardad_baravorde_khabe_khesarat AS ggharardad_baravorde_khabe_khesarat ,gharardad.gharardad_hazineye_karvash AS ggharardad_hazineye_karvash ,gharardad.gharardad_hazineye_ayab_zahab AS ggharardad_hazineye_ayab_zahab ,gharardad.gharardad_tozihat AS ggharardad_tozihat ,gharardad.save_id AS gsave_id ,khodro.khodro_khodro AS kkhodro_khodro ,khodro.khodro_model AS kkhodro_model ,khodro.khodro_rang AS kkhodro_rang ,khodro.khodro_shomare_shahrbani AS kkhodro_shomare_shahrbani ,khodro.save_id AS ksave_id ,khodro.khodro_malek_id ,khodro.khodro_saheb_emtiyaz_id ,khodro.id ,mojer_ashkhas.ashkhas_nam AS mojerashkhas_nam ,mojer_ashkhas.ashkhas_name_khanevadegi AS mojerashkhas_name_khanevadegi ,mostajer_ashkhas.ashkhas_nam AS mostajerashkhas_nam ,mostajer_ashkhas.ashkhas_name_khanevadegi AS mostajerashkhas_name_khanevadegi ,gharardad_tahvil_dahande.id AS gharardad_tahvil_dahandeid ,gharardad_tahvil_dahande.ashkhas_nam AS gharardad_tahvil_dahandeashkhas_nam ,gharardad_tahvil_dahande.ashkhas_name_khanevadegi AS gharardad_tahvil_dahandeashkhas_name_khanevadegi ,gharardad_tahvil_girande.id AS gharardad_tahvil_girandeid ,gharardad_tahvil_girande.ashkhas_nam AS gharardad_tahvil_girandeashkhas_nam ,gharardad_tahvil_girande.ashkhas_name_khanevadegi AS gharardad_tahvil_girandeashkhas_name_khanevadegi FROM wp_rent_gharardad AS gharardad LEFT JOIN wp_rent_khodro AS khodro ON gharardad.gharardad_khodro_id=khodro.id LEFT JOIN wp_rent_ashkhas AS mojer_ashkhas ON mojer_ashkhas.id=gharardad.gharardad_mojer_id LEFT JOIN wp_rent_ashkhas AS mostajer_ashkhas ON mostajer_ashkhas.id=gharardad.gharardad_mostajer_id LEFT JOIN wp_rent_ashkhas AS gharardad_tahvil_dahande ON gharardad_tahvil_dahande.id=gharardad.gharardad_tahvil_dahande LEFT JOIN wp_rent_ashkhas AS gharardad_tahvil_girande ON gharardad_tahvil_girande.id=gharardad.gharardad_tahvil_girande   WHERE (gharardad.gharardad_mostajer_id = "+getValues.shakhs+" OR  gharardad.gharardad_mojer_id = "+getValues.shakhs+")   ORDER BY  if(ggharardad_tarikhe_odat = '' OR ggharardad_tarikhe_odat is null,0,1) ASC ,ggharardad_tarikhe_tahvil DESC";//
+
+}else{
+	var query = "SELECT gharardad.id AS gid ,gharardad.gharardad_shomare_gharardad AS ggharardad_shomare_gharardad ,gharardad.gharardad_mostajer_id AS ggharardad_mostajer_id ,gharardad.gharardad_mojer_id AS ggharardad_mojer_id ,gharardad.gharardad_khodro_id AS ggharardad_khodro_id ,gharardad.gharardad_tarikhe_tahvil AS ggharardad_tarikhe_tahvil ,gharardad.gharardad_tarikhe_odat AS ggharardad_tarikhe_odat ,gharardad.gharardad_vadeye_tarikhe_odat AS ggharardad_vadeye_tarikhe_odat ,gharardad.gharardad_doreye_zamani_ejareh AS ggharardad_doreye_zamani_ejareh ,gharardad.gharardad_gheymate AS ggharardad_gheymate ,gharardad.gharardad_odo_mojaz AS ggharardad_odo_mojaz ,gharardad.gharardad_odo_avaliye AS ggharardad_odo_avaliye ,gharardad.gharardad_odo_sanaviye AS ggharardad_odo_sanaviye ,gharardad.gharardad_odo_hazine AS ggharardad_odo_hazine ,gharardad.gharardad_benzin_avaliye AS ggharardad_benzin_avaliye ,gharardad.gharardad_benzin_sanaviye AS ggharardad_benzin_sanaviye ,gharardad.gharardad_tahvil_dahande AS ggharardad_tahvil_dahande ,gharardad.gharardad_sharhe_khesarat AS ggharardad_sharhe_khesarat ,gharardad.gharardad_baravorde_khesarat AS ggharardad_baravorde_khesarat ,gharardad.gharardad_baravorde_khabe_khesarat AS ggharardad_baravorde_khabe_khesarat ,gharardad.gharardad_hazineye_karvash AS ggharardad_hazineye_karvash ,gharardad.gharardad_hazineye_ayab_zahab AS ggharardad_hazineye_ayab_zahab ,gharardad.gharardad_tozihat AS ggharardad_tozihat ,gharardad.save_id AS gsave_id ,khodro.khodro_khodro AS kkhodro_khodro ,khodro.khodro_model AS kkhodro_model ,khodro.khodro_rang AS kkhodro_rang ,khodro.khodro_shomare_shahrbani AS kkhodro_shomare_shahrbani ,khodro.save_id AS ksave_id ,khodro.khodro_malek_id ,khodro.khodro_saheb_emtiyaz_id ,khodro.id ,mojer_ashkhas.ashkhas_nam AS mojerashkhas_nam ,mojer_ashkhas.ashkhas_name_khanevadegi AS mojerashkhas_name_khanevadegi ,mostajer_ashkhas.ashkhas_nam AS mostajerashkhas_nam ,mostajer_ashkhas.ashkhas_name_khanevadegi AS mostajerashkhas_name_khanevadegi ,gharardad_tahvil_dahande.id AS gharardad_tahvil_dahandeid ,gharardad_tahvil_dahande.ashkhas_nam AS gharardad_tahvil_dahandeashkhas_nam ,gharardad_tahvil_dahande.ashkhas_name_khanevadegi AS gharardad_tahvil_dahandeashkhas_name_khanevadegi ,gharardad_tahvil_girande.id AS gharardad_tahvil_girandeid ,gharardad_tahvil_girande.ashkhas_nam AS gharardad_tahvil_girandeashkhas_nam ,gharardad_tahvil_girande.ashkhas_name_khanevadegi AS gharardad_tahvil_girandeashkhas_name_khanevadegi FROM wp_rent_gharardad AS gharardad LEFT JOIN wp_rent_khodro AS khodro ON gharardad.gharardad_khodro_id=khodro.id LEFT JOIN wp_rent_ashkhas AS mojer_ashkhas ON mojer_ashkhas.id=gharardad.gharardad_mojer_id LEFT JOIN wp_rent_ashkhas AS mostajer_ashkhas ON mostajer_ashkhas.id=gharardad.gharardad_mostajer_id LEFT JOIN wp_rent_ashkhas AS gharardad_tahvil_dahande ON gharardad_tahvil_dahande.id=gharardad.gharardad_tahvil_dahande LEFT JOIN wp_rent_ashkhas AS gharardad_tahvil_girande ON gharardad_tahvil_girande.id=gharardad.gharardad_tahvil_girande ORDER BY  if(ggharardad_tarikhe_odat = '' OR ggharardad_tarikhe_odat is null,0,1) ASC ,ggharardad_tarikhe_tahvil DESC";//
+
+}
+	var url = "http://"+window.location.hostname+"/wp-content/plugins/jqwidgetnew/json.php/?sql_query="+query;
+	var columns = [
+		{
+			text:"#" ,
+			datafield:"gid",
+			width:"4%",
+			cellsalign:"center" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties){}
+		},
+		{
+			text:"ش ق" ,
+			datafield:"ggharardad_shomare_gharardad",
+			width:"3%",
+			cellsalign:"right" ,
+			align:"center" ,
+			hidden:true,			
+		},
+		{
+			text:"خودرو" ,
+			datafield:"kkhodro_khodro",
+			width:"12%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:
+				function(row,columnfield,value,defaulthtml,columnproperties,rowdata){
+					return "<div class='jqx-grid-cell-"+columnproperties['cellsalign']+"-align' style='margin-top:4px;'><a href='http://"+window.location.hostname+"/لیست-ها/?list=gharardad&khodro="+rowdata.ggharardad_khodro_id+"'>"+value+"</a></div>";
+				}
+		},
+		{
+			text:"مدل" ,
+			datafield:"kkhodro_model",
+			width:"4%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"رنگ" ,
+			datafield:"kkhodro_rang",
+			width:"5%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		/*{
+			text:"شماره شهربانی" ,
+			datafield:"kkhodro_shomare_shahrbani",
+			width:"7%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},*/
+		{
+			text:"مستاجر" ,
+			datafield:"mostajerashkhas_name_khanevadegi",
+			width:"8%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties,rowdata){return add_link_tolist(columnproperties,'list=soorathesab&shakhs=',rowdata.ggharardad_mostajer_id,value);}
+		},
+		{
+			text:"مستاجر" ,
+			datafield:"mostajerashkhas_nam",
+			width:"8%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties,rowdata){return add_link_tolist(columnproperties,'list=gharardad&shakhs=',rowdata.ggharardad_mostajer_id,value);}
+		},
+		{
+			text:"موجر" ,
+			datafield:"mojerashkhas_name_khanevadegi",
+			width:"8%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties,rowdata){return add_link_tolist(columnproperties,'list=soorathesab&shakhs=',rowdata.ggharardad_mojer_id,value);}
+		},
+		{
+			text:"موجر" ,
+			datafield:"mojerashkhas_nam",
+			width:"8%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties,rowdata){return add_link_tolist(columnproperties,'list=gharardad&shakhs=',rowdata.ggharardad_mojer_id,value);}
+		},
+		{
+			text:"تحویل" ,
+			datafield:"ggharardad_tarikhe_tahvil", 
+			width:"14%",
+			cellsalign:"right" ,
+			align:"center" ,
+			
+		},
+		{
+			text:"عودت" ,
+			datafield:"ggharardad_tarikhe_odat", 
+			width:"14%",
+			cellsalign:"right" ,
+			align:"center" ,
+			
+		},
+		{
+			text:"و عودت" ,
+			datafield:"ggharardad_vadeye_tarikhe_odat", 
+			width:"6%",
+			cellsalign:"right" ,
+			align:"center" ,
+			
+		},
+		{
+			text:"ق روزانه" ,
+			datafield:"ggharardad_gheymate", 
+			width:"5%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties,rowdata){
+				if(rowdata.ggharardad_mostajer_id == 11){
+					return add_link_tolist(columnproperties,'list=gharardad&shakhs=',rowdata.ggharardad_mojer_id+"&khodro="+rowdata.ggharardad_khodro_id,value)
+				}else if(rowdata.ggharardad_mojer_id == 11){
+					return add_link_tolist(columnproperties,'list=gharardad&shakhs=',rowdata.ggharardad_mostajer_id+"&khodro="+rowdata.ggharardad_khodro_id,value)
+				}else{
+					
+				}
+				;}
+		},
+		{
+			text:"ک مجاز روزانه" ,
+			datafield:"ggharardad_odo_mojaz", 
+			hidden:true,			
+			
+		},
+		{
+			text:"ک رفت" ,
+			datafield:"ggharardad_odo_avaliye", 
+			hidden:true,			
+		},
+		
+		{
+			text:"ک برگشت" ,
+			datafield:"ggharardad_odo_sanaviye", 
+			hidden:true,			
+			
+		},
+		{
+			text:"هر کیلومتر اضافه" ,
+			datafield:"ggharardad_odo_hazine", 
+			hidden:true,			
+			
+		},
+		{
+			text:"ب رفت" ,
+			datafield:"ggharardad_benzin_avaliye", 
+			hidden:true,			
+			
+		},
+		{
+			text:"ب برگشت" ,
+			datafield:"ggharardad_benzin_sanaviye", 
+			hidden:true,			
+			
+		},
+		{
+			text:"تحویل دهنده" ,
+			datafield:"gharardad_tahvil_dahandeashkhas_name_khanevadegi", 
+			hidden:true,			
+			
+		},
+		{
+			text:"تحویل دهنده" ,
+			datafield:"gharardad_tahvil_dahandeashkhas_nam", 
+			hidden:true,			
+			
+		},
+		{
+			text:"تحویل گیرنده" ,
+			datafield:"gharardad_tahvil_girandeashkhas_name_khanevadegi", 
+			hidden:true,			
+			
+		},
+		{
+			text:"تحویل گیرنده" ,
+			datafield:"gharardad_tahvil_girandeashkhas_nam", 
+			hidden:true,			
+			
+		},
+		{
+			text:"مستاجر ID" ,
+			datafield:"ggharardad_mostajer_id", 
+			hidden:true,			
+			
+		},
+		{
+			text:"موجر ID" ,
+			datafield:"ggharardad_mojer_id", 
+			hidden:true,			
+			
+		},		
+		{
+			text:"خودرو ID" ,
+			datafield:"ggharardad_khodro_id", 
+			hidden:true,			
+			
+		},		
+		{
+			text:"اقدامات" ,
+			datafield:"gsave_id",
+			width:"4%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties){
+				if(getValues.noedit!=1){return add_virayesh(columnproperties,value);}else{return '';}}
+		},
+	]
+	var source =
+		{
+			datatype: "json",
+			datafields: 
+			[ 
+				{ name: "gid", type: "number" },
+				{ name: "ggharardad_shomare_gharardad", type: "string" },
+				{ name: "kkhodro_khodro", type: "string" },
+				{ name: "kkhodro_model", type: "string" },
+				{ name: "kkhodro_rang", type: "string" },
+				//{ name: "kkhodro_shomare_shahrbani", type: "string" },
+				{ name: "mojerashkhas_name_khanevadegi", type: "string" },
+				{ name: "mojerashkhas_nam", type: "string" },
+				{ name: "mostajerashkhas_nam", type: "string" },
+				{ name: "mostajerashkhas_name_khanevadegi", type: "string" },
+				{ name: "ggharardad_tarikhe_tahvil", type: "string" },
+				{ name: "ggharardad_tarikhe_odat", type: "string" },
+				{ name: "ggharardad_vadeye_tarikhe_odat", type: "string" },
+				{ name: "ggharardad_gheymate", type: "string" },
+				{ name: "ggharardad_odo_mojaz", type: "string" },
+				{ name: "ggharardad_odo_avaliye", type: "string" },
+				{ name: "ggharardad_odo_sanaviye", type: "string" },
+				{ name: "ggharardad_odo_hazine", type: "string" },
+				{ name: "gsave_id", type: "string" },
+				{ name: "ggharardad_benzin_avaliye", type: "string" },
+				{ name: "ggharardad_benzin_sanaviye", type: "string" },
+				{ name: "gharardad_tahvil_dahandeashkhas_name_khanevadegi", type: "string" },
+				{ name: "gharardad_tahvil_dahandeashkhas_nam", type: "string" },
+				{ name: "gharardad_tahvil_girandeashkhas_name_khanevadegi", type: "string" },
+				{ name: "gharardad_tahvil_girandeashkhas_nam", type: "string" },
+				{ name: "ggharardad_mostajer_id", type: "string" },
+				{ name: "ggharardad_mojer_id", type: "string" },
+				{ name: "ggharardad_khodro_id", type: "string" },
+				],
+			id: "SSSidSSS", 
+			url: url
+		}; 
+  var initrowdetails = function (index, parentElement, gridElement, datarecord) {
+      var details = jQuery(jQuery(parentElement).children()[0]);
+		text = "<table dir='rtl' border='1px'><tr dir='rtl'><th><div class='jqx-grid-cell-right-align' style='margin-top:4px;' >کیلومتر مجاز روزانه</div></th><th><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>کیلومتر اولیه</div></th><th><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>کیلومتر ثانویه</div></th><th><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>هر کیلومتر اضافه</div></th><th><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>بنزین اولیه</div></th><th><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>بنزین ثانویه</div></th><th><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>تحویل دهنده</div></th><th><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>تحویل گیرنده</div></th></tr>";
+		text +=  "<tr><td><div class='jqx-grid-cell-right-align' style='margin-top:4px;  ' >"+datarecord.ggharardad_odo_mojaz +"</div></td><td><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>"+ datarecord.ggharardad_odo_avaliye +"</div></td><td><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>"+ datarecord.ggharardad_odo_sanaviye  +"</div></td><td><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>"+ datarecord.ggharardad_odo_hazine  +"</div></td><td><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>"+ datarecord.ggharardad_benzin_avaliye +"</div></td><td><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>"+ datarecord.ggharardad_benzin_sanaviye+"</div></td><td><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>"+  datarecord.gharardad_tahvil_dahandeashkhas_nam +" "+datarecord.gharardad_tahvil_dahandeashkhas_name_khanevadegi+"</div></td><td><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>"+datarecord.gharardad_tahvil_girandeashkhas_nam+" "+datarecord.gharardad_tahvil_girandeashkhas_name_khanevadegi+"</div></td></tr>";
+	  text +="</table>";
+      details.html(text);
+  }
+	var dataAdapter = new jQuery.jqx.dataAdapter(source); 
+if(getValues.khodro && getValues.shakhs){
+	jQuery("#jqxgrid").jqxGrid
+	({ 
+		localization: localizationobj,
+		theme:"energyblue",
+		width:"100%",
+		height:"1000px",
+		source:dataAdapter,
+		sortable:true,
+		filterable:true,
+		groupable:true,
+		altrows:true,
+		columnsautoresize:true,
+		columnsresize:true,
+		rtl:true,
+		showfilterrow:true,
+		enablebrowserselection: true,
+		showtoolbar: true,
+		toolbarheight: 40,
+		rendertoolbar: function (toolbar) {toolbar.append(add_toolbar(form,title+ " شخص و خودروی خاص"));},
+		columns:columns,
+		rowdetails: true,
+		rowdetailstemplate: {
+
+			  rowdetails: "<div style='margin: 10px;'>اطلاعات قرارداد</div>",
+			  rowdetailsheight: 85,
+		},
+	   initrowdetails: initrowdetails,
+	   //groups: ['kkhodro_khodro'],
+	  // sortcolumn: 'ggharardad_tarikhe_odat',
+	   //sortdirection: 'asc',
+	});
+	
+}else if(getValues.khodro && !getValues.shakhs){
+	jQuery("#jqxgrid").jqxGrid
+	({ 
+		localization: localizationobj,
+		theme:"energyblue",
+		width:"100%",
+		height:"1000px",
+		source:dataAdapter,
+		sortable:true,
+		filterable:true,
+		groupable:true,
+		altrows:true,
+		columnsautoresize:true,
+		columnsresize:true,
+		rtl:true,
+		showfilterrow:true,
+		enablebrowserselection: true,
+		showtoolbar: true,
+		toolbarheight: 40,
+		rendertoolbar: function (toolbar) {toolbar.append(add_toolbar(form,title+ " شخص خاص"));},
+		columns:columns,
+		rowdetails: true,
+		rowdetailstemplate: {
+
+			  rowdetails: "<div style='margin: 10px;'>اطلاعات قرارداد</div>",
+			  rowdetailsheight: 100,
+		},
+	   initrowdetails: initrowdetails,
+	   //groups: ['kkhodro_khodro'],
+	  // sortcolumn: 'ggharardad_tarikhe_odat',
+	   //sortdirection: 'asc',
+	});
+}else if(getValues.shakhs && !getValues.khodro){
+	jQuery("#jqxgrid").jqxGrid
+	({ 
+		localization: localizationobj,
+		theme:"energyblue",
+		width:"100%",
+		height:"1000px",
+		source:dataAdapter,
+		sortable:true,
+		filterable:true,
+		groupable:true,
+		altrows:true,
+		columnsautoresize:true,
+		columnsresize:true,
+		rtl:true,
+		showfilterrow:true,
+		enablebrowserselection: true,
+		showtoolbar: true,
+		toolbarheight: 40,
+		rendertoolbar: function (toolbar) {toolbar.append(add_toolbar(form,title+ " شخص خاص"));},
+		columns:columns,
+		rowdetails: true,
+		rowdetailstemplate: {
+			  rowdetails: "<div style='margin: 10px;'>اطلاعات قرارداد</div>",
+			  rowdetailsheight: 100,
+		},
+	   initrowdetails: initrowdetails,
+	  // groups: ['kkhodro_khodro'],
+	  // sortcolumn: 'ggharardad_tarikhe_odat',
+	   //sortdirection: 'asc',
+	});
+}else{
+	jQuery("#jqxgrid").jqxGrid
+	({ 
+		localization: localizationobj,
+		theme:"energyblue",
+		width:"100%",
+		height:"1000px",
+		source:dataAdapter,
+		sortable:true,
+		filterable:true,
+		groupable:true,
+		altrows:true,
+		columnsautoresize:true,
+		columnsresize:true,
+		rtl:true,
+		showfilterrow:true,
+		enablebrowserselection: true,
+		showtoolbar: true,
+		toolbarheight: 40,
+		rendertoolbar: function (toolbar) {toolbar.append(add_toolbar(form,title));},
+		columns:columns,
+		rowdetails: true,
+		rowdetailstemplate: {
+			  rowdetails: "<div style='margin: 10px;'>اطلاعات قرارداد</div>",
+			  rowdetailsheight: 100,
+		},
+	   initrowdetails: initrowdetails,
+	   groups: ['kkhodro_khodro'],
+	  // sortcolumn: 'ggharardad_tarikhe_odat',
+	   //sortdirection: 'asc',
+	});
+}
+
+	
+
+
+	jQuery("#print").jqxButton();
+	jQuery('#print').live('click',function(){
+		
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'gid');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'gsave_id');
+
+		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','html');
+        var newWindow = window.open('', '', 'width=800, height=500'),
+        document = newWindow.document.open(),
+        pageContent =
+        '<!DOCTYPE html>' +
+        '<html>' +
+        '<head>' +
+        '<meta charset="utf-8" />' +
+        '<title>'+title+'</title>' +
+        '</head>' +
+        '<body>' + gridContent + '</body></html>';
+        document.write(pageContent);
+        document.close();
+        newWindow.print();
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'gid');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'gsave_id');
+    });
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	jQuery("#excel").jqxButton();
+	jQuery('#excel').live('click',function(){
+		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','xls',title, true, null, true, "http://"+window.location.hostname+"/wp-content/plugins/jqwidgetnew/save-file.php" );
+    });
+	
+
+		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+});
+
+
+
+
+
+
+
+
+
+
+</script>
+
+";s:8:"disabled";i:0;s:10:"hide_admin";i:0;s:7:"devices";s:3:"all";}s:11:"soorathesab";a:4:{s:7:"content";s:11518:"<script type="text/javascript">
+
+jQuery(document).ready
+(function($){
+	var getValues = getSearchParameters();
+	var form = 23;
+	var title = "لیست صورتحساب";
+	var list = "soorathesab";
+	if(!getValues.shakhs){
+		var query = "SELECT ashkhas.id  AS aid, ashkhas.ashkhas_tasvire_fard  AS aashkhas_tasvire_fard, ashkhas.ashkhas_name_khanevadegi  AS aashkhas_name_khanevadegi, ashkhas.ashkhas_nam  AS aashkhas_nam, ashkhas.ashkhas_kode_meli  AS aashkhas_kode_meli, ashkhas.save_id  AS asave_id, soorathesab.save_id  AS ssave_id, soorathesab.id  AS sid, soorathesab.soorathesab_ashkhas_id  AS ssoorathesab_ashkhas_id, soorathesab.soorathesab_tarikh  AS ssoorathesab_tarikh, soorathesab.soorathesab_khodro_id  AS ssoorathesab_khodro_id, soorathesab.soorathesab_variz  AS ssoorathesab_variz, soorathesab.soorathesab_bedehi  AS ssoorathesab_bedehi, soorathesab.soorathesab_babat  AS ssoorathesab_babat, soorathesab.soorathesab_tozihat  AS ssoorathesab_tozihat, khodro.id AS kid, khodro.khodro_khodro AS kkhodro_khodro, khodro.khodro_model AS kkhodro_model, khodro.khodro_rang AS kkhodro_rang, khodro.khodro_shomare_shahrbani AS kkhodro_shomare_shahrbani FROM wp_rent_soorathesab AS soorathesab LEFT JOIN wp_rent_ashkhas AS ashkhas ON ashkhas.id=soorathesab.soorathesab_ashkhas_id LEFT JOIN wp_rent_khodro AS khodro  ON soorathesab.soorathesab_khodro_id=khodro.id  WHERE soorathesab.soorathesab_variz <> '' OR soorathesab.soorathesab_bedehi <> '' ORDER BY soorathesab.soorathesab_tarikh DESC,soorathesab.id DESC";//
+	}else{
+		var query = "SELECT ashkhas.id  AS aid, ashkhas.ashkhas_tasvire_fard  AS aashkhas_tasvire_fard, ashkhas.ashkhas_name_khanevadegi  AS aashkhas_name_khanevadegi, ashkhas.ashkhas_nam  AS aashkhas_nam, ashkhas.ashkhas_kode_meli  AS aashkhas_kode_meli, ashkhas.save_id  AS asave_id, soorathesab.save_id  AS ssave_id, soorathesab.id  AS sid, soorathesab.soorathesab_ashkhas_id  AS ssoorathesab_ashkhas_id, soorathesab.soorathesab_tarikh  AS ssoorathesab_tarikh, soorathesab.soorathesab_khodro_id  AS ssoorathesab_khodro_id, soorathesab.soorathesab_variz  AS ssoorathesab_variz, soorathesab.soorathesab_bedehi  AS ssoorathesab_bedehi, soorathesab.soorathesab_babat  AS ssoorathesab_babat, soorathesab.soorathesab_tozihat  AS ssoorathesab_tozihat, khodro.id AS kid, khodro.khodro_khodro AS kkhodro_khodro, khodro.khodro_model AS kkhodro_model, khodro.khodro_rang AS kkhodro_rang, khodro.khodro_shomare_shahrbani AS kkhodro_shomare_shahrbani FROM wp_rent_soorathesab AS soorathesab LEFT JOIN wp_rent_ashkhas AS ashkhas ON ashkhas.id=soorathesab.soorathesab_ashkhas_id LEFT JOIN wp_rent_khodro AS khodro  ON soorathesab.soorathesab_khodro_id=khodro.id  WHERE (soorathesab.soorathesab_variz <> '' OR soorathesab.soorathesab_bedehi <> '') AND (ashkhas.id='"+getValues.shakhs+"' OR soorathesab.soorathesab_ashkhas_id='"+getValues.shakhs+"') ORDER BY soorathesab.soorathesab_tarikh DESC,soorathesab.id DESC";
+	}
+	var list = "soorathesab";
+	var url = "http://"+window.location.hostname+"/wp-content/plugins/jqwidgetnew/json.php/?sql_query="+query+"&list="+list+"&shakhs="+getValues.shakhs;
+	var columns = [
+		{
+			text:"#" ,
+			datafield:"sid",
+			width:"4%",
+			cellsalign:"center" ,
+			align:"center" ,
+			cellsformat: 'n'
+		},
+		{
+			text:"نام خانوادگی" ,
+			datafield:"aashkhas_name_khanevadegi",
+			width:"7%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties,rowdata){return add_link_tolist(columnproperties,'list=soorathesab&shakhs=',rowdata.aid,value);}
+		},
+		{
+			text:"نام" ,
+			datafield:"aashkhas_nam",
+			width:"5%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties,rowdata){return add_link_tolist(columnproperties,'list=gharardad&shakhs=',rowdata.aid,value);}
+		},
+
+		{
+			text:"تاریخ" ,
+			datafield:"ssoorathesab_tarikh",
+			width:"7%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"خودرو" ,
+			datafield:"kkhodro_khodro",
+			width:"11%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties,rowdata){return add_link_tolist(columnproperties,'list=gharardad&khodro=',rowdata.kid,value);}
+		},
+		{
+			text:"مدل" ,
+			datafield:"kkhodro_model",
+			width:"4%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"رنگ" ,
+			datafield:"kkhodro_rang",
+			width:"4%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"شماره شهربانی" ,
+			datafield:"kkhodro_shomare_shahrbani",
+			width:"8%",
+			cellsalign:"right" ,
+			align:"center" ,
+			hidden:true,
+		},
+		{
+			text:"بابت" ,
+			datafield:"ssoorathesab_babat",
+			width:"26.7%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"برداشت" ,
+			datafield:"ssoorathesab_bedehi",
+			width:"5%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsformat: 'n'
+		},
+		{
+			text:"واریز" ,
+			datafield:"ssoorathesab_variz",
+			width:"5%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsformat: 'n'
+		},
+		{
+			text:"گردش مالی" ,
+			datafield:"ssoorathesab_gardesh",
+			width:"6%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsformat: 'n'
+			//cellsrenderer:
+				//function(row,columnfield,value,defaulthtml,columnproperties,rowdata){
+					//var index=rowdata.jqxindex;
+					//var i=parseInt(index);
+					//var allrows = jQuery('#jqxgrid').jqxGrid('getrows');
+					//var allrowsLen = parseInt(allrows.length-1);
+					//alert('allrows.length'+parseInt(allrowsLen));
+					//alert(rowdata.ssoorathesab_variz);
+					//alert(rowdata.ssoorathesab_variz);
+					//alert(rowdata.ssoorathesab_bedehi);
+					//alert('parseInt(index)'+parseInt(i));
+					//alert('rowdata.ssoorathesab_variz'+rowdata.ssoorathesab_variz);
+					//alert('rowdata.ssoorathesab_bedehi'+rowdata.ssoorathesab_bedehi);
+					//alert('soorathesab'+parseInt(rowdata.ssoorathesab_variz-rowdata.ssoorathesab_bedehi));
+					//alert("parseInt(allrowsLen)"+parseInt(allrowsLen));
+					//var result;
+					//result = parseInt(rowdata.ssoorathesab_variz-rowdata.ssoorathesab_bedehi);
+							//alert('result'+result);
+					//while (parseInt(allrowsLen) > parseInt(i)){
+						//i = parseInt(i+1);
+						//alert("i"+i);
+					//	if(rowdata.aid == allrows[i].aid){
+						//	result = parseInt(allrows[i].ssoorathesab_variz-allrows[i].ssoorathesab_bedehi+result);
+						//	//alert('p'+result);
+					//	}
+					//}
+					//alert(result);
+					//return String(result);
+				//}
+		},
+		{
+			text:"حساب نهایی" ,
+			datafield:"ssoorathesab_nahayi",
+			width:"6%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsformat: 'n'
+		},
+		{
+			text:"توضیحات" ,
+			datafield:"ssoorathesab_tozihat",
+			width:"6%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+				
+		{
+			text:"اقدامات" ,
+			datafield:"ssave_id",
+			width:"4%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties){
+				if(getValues.noedit!=1){return add_virayesh(columnproperties,value);}else{return '';}}
+		},
+		{
+			text:"index" ,
+			datafield:"jqxindex",
+			hidden:true ,
+		},
+		{
+			text:"aid" ,
+			datafield:"aid",
+			hidden:true ,
+		},
+		{
+			text:"خودرو kid" ,
+			datafield:"kid",
+			hidden:true ,
+		},
+		
+		{
+			text:" save_id نام h" ,
+			datafield:"asave_id",
+			hidden:true
+		},
+	]
+	var source =
+		{
+			datatype: "json",
+			datafields: 
+			[ 
+				{ name: "sid", type: "number" },
+				{ name: "aashkhas_name_khanevadegi", type: "string" },
+				{ name: "aashkhas_nam", type: "string" },
+				{ name: "kkhodro_khodro", type: "string" },
+				{ name: "kkhodro_model", type: "string" },
+				{ name: "kkhodro_rang", type: "string" },
+				{ name: "kkhodro_shomare_shahrbani", type: "string" },
+				{ name: "ssoorathesab_tarikh", type: "string" },
+				{ name: "ssoorathesab_variz", type: "number" },
+				{ name: "ssoorathesab_bedehi", type: "number" },
+				{ name: "ssoorathesab_babat", type: "string" },
+				{ name: "ssoorathesab_tozihat", type: "string" },
+				{ name: "ssave_id", type: "string" },
+				{ name: "asave_id", type: "string" },
+				{ name: "ssoorathesab_gardesh", type: "number" },
+				{ name: "ssoorathesab_nahayi", type: "number" },
+				{ name: "jqxindex", type: "string" },
+				{ name: "aid", type: "string" },
+				{ name: "kid", type: "string" },
+
+			],
+			id: "SSSidSSS", 
+			url: url
+		}; 
+	var dataAdapter = new jQuery.jqx.dataAdapter(source); 
+	//dump(dataAdapter);
+if(getValues.shakhs){
+	jQuery("#jqxgrid").jqxGrid
+	({ 
+		localization: localizationobj,
+		theme:"energyblue",
+		width:"100%",
+		height:"1000px",
+		source:dataAdapter,
+		sortable:true,
+		filterable:true,
+		groupable:true,
+		altrows:true,
+		columnsautoresize:true,
+		columnsresize:true,
+		rtl:true,
+		showfilterrow:true,
+		enablebrowserselection: true,
+		showtoolbar: true,
+		toolbarheight: 40,
+		rendertoolbar: function (toolbar) {toolbar.append(add_toolbar(form,title+ " شخص خاص"));},
+		columns:columns,
+		//groups: ['aashkhas_name_khanevadegi','aashkhas_nam'],
+	});	
+}else{
+	jQuery("#jqxgrid").jqxGrid
+	({ 
+		localization: localizationobj,
+		theme:"energyblue",
+		width:"100%",
+		height:"1000px",
+		source:dataAdapter,
+		sortable:true,
+		filterable:true,
+		groupable:true,
+		altrows:true,
+		columnsautoresize:true,
+		columnsresize:true,
+		rtl:true,
+		showfilterrow:true,
+		enablebrowserselection: true,
+		showtoolbar: true,
+		toolbarheight: 40,
+		rendertoolbar: function (toolbar) {toolbar.append(add_toolbar(form,title));},
+		columns:columns,
+		groups: ['aashkhas_name_khanevadegi','aashkhas_nam'],
+	});
+}			
+
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+		
+	//filter_mode
+	jQuery("#filter_mode").jqxButton();
+	jQuery('#filter_mode').live('click',function(){
+		var filtermode = $('#jqxgrid').jqxGrid('filtermode'); 
+		if(filtermode=='default'){
+			$('#jqxgrid').jqxGrid({ showfilterrow: false}); 
+			$('#jqxgrid').jqxGrid({ filtermode: 'excel'}); 
+		}else if(filtermode=='excel'){
+			$('#jqxgrid').jqxGrid({ showfilterrow: true}); 
+			$('#jqxgrid').jqxGrid({ filtermode: 'default'}); 
+		}
+	});
+	
+	
+	
+	
+	
+	
+	
+	
+
+	jQuery("#print").jqxButton();
+	jQuery('#print').live('click',function(){
+		
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'ssave_id');
+
+		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','html');
+        var newWindow = window.open('', '', 'width=800, height=500'),
+        document = newWindow.document.open(),
+        pageContent =
+        '<!DOCTYPE html>' +
+        '<html>' +
+        '<head>' +
+        '<meta charset="utf-8" />' +
+        '<title>'+title+'</title>' +
+        '</head>' +
+        '<body>' + gridContent + '</body></html>';
+        document.write(pageContent);
+        document.close();
+        newWindow.print();
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'ssave_id');
+    });
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	jQuery("#excel").jqxButton();
+	jQuery('#excel').live('click',function(){
+		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','xls',title, true, null, true, "http://"+window.location.hostname+"/wp-content/plugins/jqwidgetnew/save-file.php" );
+    });
+	
+
+		
+	
+	
+	
+	
+	
+	
+	
+					
+					
+					
+					
+					
+					
+});
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+";s:8:"disabled";i:0;s:10:"hide_admin";i:0;s:7:"devices";s:3:"all";}s:4:"bime";a:4:{s:7:"content";s:7111:"<script type="text/javascript">
+jQuery(document).ready
+(function($){ 
+	var form = 24;
+	var title = "لیست بیمه";
+	var list = "bime";
+	var query = "SELECT bime.id AS bid,bime.bime_khodro_id AS bbime_khodro_id,bime.bime_noe_bime AS bbime_noe_bime,bime.bime_sherkate_bime AS bbime_sherkate_bime,bime.bime_kode_namyandegi AS bbime_kode_namyandegi,bime.bime_shomareh_bime AS bbime_shomareh_bime,bime.bime_tarikhe_engheza AS bbime_tarikhe_engheza,bime.bime_tasvire_bime AS bbime_tasvire_bime,bime.bime_tasvire_govahi_sodoor AS bbime_tasvire_govahi_sodoor,bime.bime_tozihat AS bbime_tozihat,bime.save_id AS bsave_id,khodro.id AS kid,khodro.khodro_khodro AS kkhodro_khodro,khodro.khodro_model AS kkhodro_model,khodro.khodro_rang AS kkhodro_rang,khodro.khodro_shomare_shahrbani AS kkhodro_shomare_shahrbani,khodro.save_id AS ksave_id FROM wp_rent_bime AS bime LEFT JOIN wp_rent_khodro AS khodro ON bime.bime_khodro_id=khodro.id ORDER BY bime.bime_tarikhe_engheza ASC";//
+	var url = "http://"+window.location.hostname+"/wp-content/plugins/jqwidgetnew/json.php/?sql_query="+query+"&list="+list;
+	var columns = [
+		{
+			
+
+			text:"#" ,
+			datafield:"bid",
+			width:"2%",
+			cellsalign:"center" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties){}
+		},
+		{
+			text:"خودرو" ,
+			datafield:"kkhodro_khodro",
+			width:"9%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties,rowdata){return add_link_tolist(columnproperties,'list=gharardad&khodro=',rowdata.kid,value);}		
+		},
+		{
+			text:"شماره شهربانی" ,
+			datafield:"kkhodro_shomare_shahrbani",
+			width:"9%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"مدل" ,
+			datafield:"kkhodro_model",
+			width:"4%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"رنگ" ,
+			datafield:"kkhodro_rang",
+			width:"5%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"نوع بیمه" ,
+			datafield:"bbime_noe_bime",
+			width:"5%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"شرکت" ,
+			datafield:"bbime_sherkate_bime",
+			width:"9%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"کد نمایندگی" ,
+			datafield:"bbime_kode_namyandegi",
+			width:"8%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"شماره بیمه" ,
+			datafield:"bbime_shomareh_bime",
+			width:"12%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"انقضا" ,
+			datafield:"bbime_tarikhe_engheza",
+			width:"8%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"بیمه" ,
+			datafield:"bbime_tasvire_bime",
+			width:"6%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:
+				function(row,columnfield,value,defaulthtml,columnproperties){
+					if(value){
+						return "<div class='jqx-grid-cell-"+columnproperties['cellsalign']+"-align'><a href='"+value+"'><img src='"+value+"' width='50' height='50' ></a></div>";
+					}
+				}
+		},
+		{
+			text:"گواهی صدور" ,
+			datafield:"bbime_tasvire_govahi_sodoor",
+			width:"6%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:
+				function(row,columnfield,value,defaulthtml,columnproperties){
+					if(value){
+						return "<div class='jqx-grid-cell-"+columnproperties['cellsalign']+"-align'><a href='"+value+"'><img src='"+value+"' width='50' height='50' ></a></div>";
+					}
+				}
+		},
+		{
+			text:"توضیحات" ,
+			datafield:"bbime_tozihat",
+			width:"10%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"kid" ,
+			datafield:"kid",
+			hidden:true,
+		},
+		{
+			text:"اقدامات" ,
+			datafield:"bsave_id",
+			width:"7%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties){
+				if(getValues.noedi!=1){return add_virayesh(columnproperties,value);}else{return '';}}
+
+		}
+	]
+	var source =
+		{
+			datatype: "json",
+			datafields: 
+			[ 
+				{ name: "bid", type: "number" },
+				{ name: "kkhodro_khodro", type: "string" },
+				{ name: "kkhodro_shomare_shahrbani", type: "string" },
+				{ name: "kkhodro_model", type: "string" },
+				{ name: "kkhodro_rang", type: "string" },
+				{ name: "bbime_noe_bime", type: "string" },
+				{ name: "bbime_sherkate_bime", type: "string" },
+				{ name: "bbime_kode_namyandegi", type: "string" },
+				{ name: "bbime_shomareh_bime", type: "string" },
+				{ name: "bbime_tarikhe_engheza", type: "string" },
+				{ name: "bbime_tasvire_bime", type: "string" },
+				{ name: "bbime_tasvire_govahi_sodoor", type: "string" },
+				{ name: "bbime_tozihat", type: "string" },
+				{ name: "bsave_id", type: "string" },
+				{ name: "kid", type: "string" }
+			],
+			id: "SSSidSSS", 
+			url: url
+		}; 
+	var dataAdapter = new jQuery.jqx.dataAdapter(source); 
+jQuery("#jqxgrid").jqxGrid
+({ 
+	localization: localizationobj,
+	theme:"energyblue",
+	width:"100%",
+	height:"1000px",
+	source:dataAdapter,
+	sortable:true,
+	filterable:true,
+	groupable:true,
+	altrows:true,
+	columnsautoresize:true,
+	columnsresize:true,
+	rtl:true,
+	showfilterrow:true,
+	enablebrowserselection: true,
+    showtoolbar: true,
+    toolbarheight: 40,
+	rendertoolbar: function (toolbar) {toolbar.append(add_toolbar(form,title));},
+	columns:columns,
+	   groups: ['bbime_noe_bime'],
+});
+				
+
+	jQuery("#print").jqxButton();
+	jQuery('#print').live('click',function(){
+
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'bid');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'bbime_kode_namyandegi');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'bbime_tasvire_bime');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'bbime_tasvire_govahi_sodoor');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'bsave_id');
+
+		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','html');
+        var newWindow = window.open('', '', 'width=800, height=500'),
+        document = newWindow.document.open(),
+        pageContent =
+        '<!DOCTYPE html>' +
+        '<html>' +
+        '<head>' +
+        '<meta charset="utf-8" />' +
+        '<title>'+title+'</title>' +
+        '</head>' +
+        '<body>' + gridContent + '</body></html>';
+        document.write(pageContent);
+        document.close();
+        newWindow.print();
+
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'bid');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'bbime_kode_namyandegi');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'bbime_tasvire_bime');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'bbime_tasvire_govahi_sodoor');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'bsave_id');
+    });
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	jQuery("#excel").jqxButton();
+	jQuery('#excel').live('click',function(){
+		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','xls',title, true, null, true, "http://"+window.location.hostname+"/wp-content/plugins/jqwidgetnew/save-file.php" );
+    });
+					
+});
+
+
+
+
+
+
+
+
+
+
+</script>
+
+";s:8:"disabled";i:0;s:10:"hide_admin";i:0;s:7:"devices";s:3:"all";}s:3:"gps";a:4:{s:7:"content";s:5453:"<script type="text/javascript">
+jQuery(document).ready
+(function($){ 
+	var form = 25;
+	var title = "لیست جی پی اس";
+	var list = "gps";
+	var query = "SELECT gps.id  AS gid ,gps.gps_khodro_id AS ggps_khodro_id,gps.gps_noe_gps  AS ggps_noe_gps ,gps.gps_shomareh_sim  AS ggps_shomareh_sim ,gps.gps_shomareh_serial  AS ggps_shomareh_serial ,gps.gps_mahale_nasb  AS ggps_mahale_nasb ,gps.gps_ghatkon  AS ggps_ghatkon ,gps.gps_barghe_mostaghim  AS ggps_barghe_mostaghim ,gps.gps_shenood  AS ggps_shenood ,gps.gps_tozihat  AS ggps_tozihat, gps.save_id  AS gsave_id ,khodro.id AS kid,khodro.khodro_khodro AS kkhodro_khodro,khodro.khodro_model AS kkhodro_model,khodro.khodro_rang AS kkhodro_rang,khodro.khodro_shomare_shahrbani AS kkhodro_shomare_shahrbani,khodro.save_id AS ksave_id FROM wp_rent_gps AS gps LEFT JOIN wp_rent_khodro AS khodro ON gps.gps_khodro_id=khodro.id ORDER BY gps.id ASC";//
+	var url = "http://"+window.location.hostname+"/wp-content/plugins/jqwidgetnew/json.php/?sql_query="+query+"&list="+list;
+	var columns = [
+		{
+			
+
+			text:"#" ,
+			datafield:"gid",
+			width:"2%",
+			cellsalign:"center" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties){}
+		},
+		{
+			text:"خودرو" ,
+			datafield:"kkhodro_khodro",
+			width:"9%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:
+				function(row,columnfield,value,defaulthtml,columnproperties,rowdata){
+					return "<div class='jqx-grid-cell-"+columnproperties['cellsalign']+"-align' style='margin-top:4px;'><a href='http://"+window.location.hostname+"/لیست-ها/?list=gharardad&khodro="+rowdata.kid+"'>"+value+"</a></div>";
+				}
+		},
+		{
+			text:"شماره شهربانی" ,
+			datafield:"kkhodro_shomare_shahrbani",
+			width:"9%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"مدل" ,
+			datafield:"kkhodro_model",
+			width:"4%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"رنگ" ,
+			datafield:"kkhodro_rang",
+			width:"5%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"نوع دستگاه" ,
+			datafield:"ggps_noe_gps",
+			width:"5%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"شماره سیم کارت" ,
+			datafield:"ggps_shomareh_sim",
+			width:"9%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"شماره سریال" ,
+			datafield:"ggps_shomareh_serial",
+			width:"8%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"محل نصب" ,
+			datafield:"ggps_mahale_nasb",
+			width:"12%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"قطع کن" ,
+			datafield:"ggps_ghatkon",
+			width:"8%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"برق مستقیم" ,
+			datafield:"ggps_barghe_mostaghim",
+			width:"6%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"شنود" ,
+			datafield:"ggps_shenood",
+			width:"6%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"توضیحات" ,
+			datafield:"ggps_tozihat",
+			width:"10%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"kid" ,
+			datafield:"kid",
+			hidden:true,
+		},
+		{
+			text:"اقدامات" ,
+			datafield:"gsave_id",
+			width:"7%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:
+				function(row,columnfield,value,defaulthtml,columnproperties){
+					return "<div class='jqx-grid-cell-"+columnproperties['cellsalign']+"-align' style='margin-top:4px;'><a href='http://"+window.location.hostname+"/?page_id=2&mode=edit&record_id="+value+"'>ویرایش</a></div>" 
+				}
+		}
+	]
+	var source =
+		{
+			datatype: "json",
+			datafields: 
+			[ 
+				{ name: "gid", type: "number" },
+				{ name: "kkhodro_khodro", type: "string" },
+				{ name: "kkhodro_shomare_shahrbani", type: "string" },
+				{ name: "kkhodro_model", type: "string" },
+				{ name: "kkhodro_rang", type: "string" },
+				{ name: "ggps_khodro_id", type: "string" },
+				{ name: "ggps_noe_gps", type: "string" },
+				{ name: "ggps_shomareh_sim", type: "string" },
+				{ name: "ggps_shomareh_serial", type: "string" },
+				{ name: "ggps_mahale_nasb", type: "string" },
+				{ name: "ggps_ghatkon", type: "string" },
+				{ name: "ggps_barghe_mostaghim", type: "string" },
+				{ name: "ggps_shenood", type: "string" },
+				{ name: "ggps_tozihat", type: "string" },
+				{ name: "gsave_id", type: "string" },
+				{ name: "kid", type: "string" }
+			],
+			id: "SSSidSSS", 
+			url: url
+		}; 
+	var dataAdapter = new jQuery.jqx.dataAdapter(source); 
+jQuery("#jqxgrid").jqxGrid
+({ 
+	localization: localizationobj,
+	theme:"energyblue",
+	width:"100%",
+	height:"470px",
+	source:dataAdapter,
+	sortable:true,
+	filterable:true,
+	groupable:true,
+	altrows:true,
+	columnsautoresize:true,
+	columnsresize:true,
+	rtl:true,
+	showfilterrow:true,
+	enablebrowserselection: true,
+    showtoolbar: true,
+    toolbarheight: 40,
+	rendertoolbar: function (toolbar) {
+					var gridTitle = "<div style='width: 100%; height: 100%; text-align: center; margin-top:4px; font-size:24px;'><a href='#' onclick='add_another("+form+");return false;'> افزودن </a> &nbsp&nbsp&nbsp <span>"+title+"</span></div>";
+                    toolbar.append(gridTitle);
+                },
+	columns:columns,
+	
+});
+				
+				
+				
+});
+
+
+
+
+
+
+
+
+
+
+</script>
+
+";s:8:"disabled";i:0;s:10:"hide_admin";i:0;s:7:"devices";s:3:"all";}s:6:"servis";a:4:{s:7:"content";s:8124:"<script type="text/javascript">
+
+jQuery(document).ready
+(function($){ 
+	var form = 26;
+	var title = "لیست سرویس و تعمیرات";
+	var list = "servis";
+	var query = "SELECT ashkhas.save_id  AS asave_id ,ashkhas.id  AS aid ,ashkhas.ashkhas_nam  AS aashkhas_nam ,ashkhas.ashkhas_name_khanevadegi  AS aashkhas_name_khanevadegi ,ashkhas.ashkhas_kode_meli  AS aashkhas_kode_meli ,servis.id  AS sid ,servis.servis_khodro_id AS sservis_khodro_id,servis.servis_noe_servis  AS sservis_noe_servis ,servis.servis_sharh  AS sservis_sharh ,servis.servis_kilometer  AS sservis_kilometer ,servis.servis_tarikh  AS sservis_tarikh ,servis.servis_mahale_servis  AS sservis_mahale_servis ,servis.servis_servis_konnadeh_id  AS sservis_servis_konnadeh_id ,servis.servis_hazine  AS sservis_hazine ,servis.servis_tasvire_faktor  AS sservis_tasvire_faktor,servis.servis_tozihat  AS sservis_tozihat,servis.save_id  AS ssave_id ,khodro.id AS kid,khodro.khodro_khodro AS kkhodro_khodro,khodro.khodro_model AS kkhodro_model,khodro.khodro_rang AS kkhodro_rang,khodro.khodro_shomare_shahrbani AS kkhodro_shomare_shahrbani,khodro.save_id AS ksave_id FROM wp_rent_servis AS servis LEFT JOIN wp_rent_khodro AS khodro ON servis.servis_khodro_id=khodro.id LEFT JOIN wp_rent_ashkhas AS ashkhas ON servis.servis_servis_konnadeh_id=ashkhas.id ORDER BY servis.servis_tarikh ASC";//
+	var url = "http://"+window.location.hostname+"/wp-content/plugins/jqwidgetnew/json.php/?sql_query="+query+"&list="+list;
+	var columns = [
+		{
+			text:"#" ,
+			datafield:"sid",
+			width:"2%",
+			cellsalign:"center" ,
+			align:"center" ,
+		},
+		{
+			text:"خودرو" ,
+			datafield:"kkhodro_khodro",
+			width:"13%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties,rowdata){return add_link_tolist(columnproperties,'list=gharardad&khodro=',rowdata.kid,value);}
+		},
+		{
+			text:"شماره شهربانی" ,
+			datafield:"kkhodro_shomare_shahrbani",
+			width:"9%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"مدل" ,
+			datafield:"kkhodro_model",
+			width:"4%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"رنگ" ,
+			datafield:"kkhodro_rang",
+			width:"5%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},		
+		{
+			text:"نوع سرویس" ,
+			datafield:"sservis_noe_servis",
+			width:"5%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"شرح سرویس" ,
+			datafield:"sservis_sharh",
+			width:"9%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"کیلومتر" ,
+			datafield:"sservis_kilometer",
+			width:"6%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"تاریخ" ,
+			datafield:"sservis_tarikh",
+			width:"7%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"سرویس کار" ,
+			datafield:"sservis_mahale_servis",
+			width:"8%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"هزینه" ,
+			datafield:"sservis_hazine",
+			width:"5%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"فاکتور" ,
+			datafield:"sservis_tasvire_faktor",
+			width:"5%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:
+				function(row,columnfield,value,defaulthtml,columnproperties){
+					if(value){
+						return "<div class='jqx-grid-cell-"+columnproperties['cellsalign']+"-align'><a href='"+value+"'><img src='"+value+"' width='50' height='50' ></a></div>";
+					}
+				}
+		},
+		{
+			text:"مراجعه کننده ن خ" ,
+			datafield:"aashkhas_name_khanevadegi",
+			width:"6%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties,rowdata){return add_link_tolist(columnproperties,'list=soorathesab&shakhs=',rowdata.aid,value);}
+		},
+		{
+			text:"مراجعه کننده ن" ,
+			datafield:"aashkhas_nam",
+			width:"6%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties,rowdata){return add_link_tolist(columnproperties,'list=gharardad&shakhs=',rowdata.aid,value);}
+		},
+		{
+			text:"توضیحات" ,
+			datafield:"sservis_tozihat",
+			width:"5%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"kid" ,
+			datafield:"ksave_id",
+			hidden:true,
+		},
+		{
+			text:"asave_id" ,
+			datafield:"asave_id",
+			hidden:true,
+		},
+		{
+			text:"اقدامات" ,
+			datafield:"ssave_id",
+			width:"5%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties){
+				if(getValues.noedit!=1){return add_virayesh(columnproperties,value);}else{return '';}}
+		}
+	]
+	var source =
+		{
+			datatype: "json",
+			datafields: 
+			[ 
+			
+				{ name: "sid", type: "number" },
+				{ name: "kkhodro_khodro", type: "string" },
+				{ name: "kkhodro_shomare_shahrbani", type: "string" },
+				{ name: "kkhodro_model", type: "string" },
+				{ name: "kkhodro_rang", type: "string" },
+				{ name: "sservis_noe_servis", type: "string" },
+				{ name: "sservis_sharh", type: "string" },
+				{ name: "sservis_kilometer", type: "string" },
+				{ name: "sservis_tarikh", type: "string" },
+				{ name: "sservis_mahale_servis", type: "string" },
+				{ name: "sservis_servis_konnadeh", type: "string" },
+				{ name: "sservis_hazine", type: "string" },
+				{ name: "sservis_tasvire_faktor", type: "string" },
+				{ name: "sservis_tozihat", type: "string" },
+				{ name: "aashkhas_nam", type: "string" },
+				{ name: "aashkhas_name_khanevadegi", type: "string" },
+				{ name: "ssave_id", type: "string" },
+				{ name: "kid", type: "string" },
+				{ name: "asave_id", type: "string" },
+			],
+			id: "SSSidSSS", 
+			url: url
+		}; 
+	var dataAdapter = new jQuery.jqx.dataAdapter(source); 
+jQuery("#jqxgrid").jqxGrid
+({ 
+	localization: localizationobj,
+	theme:"energyblue",
+	width:"100%",
+	height:"1000px",
+	source:dataAdapter,
+	sortable:true,
+	filterable:true,
+	groupable:true,
+	altrows:true,
+	columnsautoresize:true,
+	columnsresize:true,
+	rtl:true,
+	showfilterrow:true,
+	enablebrowserselection: true,
+    showtoolbar: true,
+    toolbarheight: 40,
+	rendertoolbar: function (toolbar) {toolbar.append(add_toolbar(form,title));},
+	columns:columns,
+	
+});
+		
+	jQuery("#print").jqxButton();
+	jQuery('#print').live('click',function(){
+
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'sid');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'kkhodro_shomare_shahrbani');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'sservis_hazine');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'sservis_tasvire_faktor');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'sservis_tozihat');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'ssave_id');
+		
+		
+
+		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','html');
+        var newWindow = window.open('', '', 'width=800, height=500'),
+        document = newWindow.document.open(),
+        pageContent =
+        '<!DOCTYPE html>' +
+        '<html>' +
+        '<head>' +
+        '<meta charset="utf-8" />' +
+        '<title>'+title+'</title>' +
+        '</head>' +
+        '<body>' + gridContent + '</body></html>';
+        document.write(pageContent);
+        document.close();
+        newWindow.print();
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'sid');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'kkhodro_shomare_shahrbani');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'sservis_hazine');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'sservis_tasvire_faktor');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'sservis_tozihat');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'ssave_id');
+    });
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	jQuery("#excel").jqxButton();
+	jQuery('#excel').live('click',function(){
+		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','xls',title, true, null, true, "http://"+window.location.hostname+"/wp-content/plugins/jqwidgetnew/save-file.php" );
+    });
+	
+});
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+";s:8:"disabled";i:0;s:10:"hide_admin";i:0;s:7:"devices";s:3:"all";}s:14:"gharardad-jari";a:4:{s:7:"content";s:14629:"<script type="text/javascript">
+
+jQuery(document).ready
+(function($){ 
+	var form = 20;
+	var title = "لیست قرارداد جاری"; 
+	var list = "gharardad-jari";
+	var query = "SELECT gharardad.id AS gid ,gharardad.gharardad_shomare_gharardad AS ggharardad_shomare_gharardad ,gharardad.gharardad_mostajer_id AS ggharardad_mostajer_id ,gharardad.gharardad_mojer_id AS ggharardad_mojer_id ,gharardad.gharardad_khodro_id AS ggharardad_khodro_id ,gharardad.gharardad_tarikhe_tahvil AS ggharardad_tarikhe_tahvil ,gharardad.gharardad_tarikhe_odat AS ggharardad_tarikhe_odat ,gharardad.gharardad_vadeye_tarikhe_odat AS ggharardad_vadeye_tarikhe_odat ,gharardad.gharardad_doreye_zamani_ejareh AS ggharardad_doreye_zamani_ejareh ,gharardad.gharardad_gheymate AS ggharardad_gheymate ,gharardad.gharardad_odo_mojaz AS ggharardad_odo_mojaz ,gharardad.gharardad_odo_avaliye AS ggharardad_odo_avaliye ,gharardad.gharardad_odo_sanaviye AS ggharardad_odo_sanaviye ,gharardad.gharardad_odo_hazine AS ggharardad_odo_hazine ,gharardad.gharardad_benzin_avaliye AS ggharardad_benzin_avaliye ,gharardad.gharardad_benzin_sanaviye AS ggharardad_benzin_sanaviye ,gharardad.gharardad_tahvil_dahande AS ggharardad_tahvil_dahande ,gharardad.gharardad_sharhe_khesarat AS ggharardad_sharhe_khesarat ,gharardad.gharardad_baravorde_khesarat AS ggharardad_baravorde_khesarat ,gharardad.gharardad_baravorde_khabe_khesarat AS ggharardad_baravorde_khabe_khesarat ,gharardad.gharardad_hazineye_karvash AS ggharardad_hazineye_karvash ,gharardad.gharardad_hazineye_ayab_zahab AS ggharardad_hazineye_ayab_zahab ,gharardad.gharardad_tozihat AS ggharardad_tozihat ,gharardad.save_id AS gsave_id ,khodro.khodro_khodro AS kkhodro_khodro ,khodro.khodro_model AS kkhodro_model ,khodro.khodro_rang AS kkhodro_rang ,khodro.khodro_shomare_shahrbani AS kkhodro_shomare_shahrbani ,khodro.save_id AS ksave_id ,khodro.khodro_malek_id ,khodro.khodro_saheb_emtiyaz_id ,khodro.id ,mojer_ashkhas.ashkhas_nam AS mojerashkhas_nam ,mojer_ashkhas.ashkhas_name_khanevadegi AS mojerashkhas_name_khanevadegi ,mostajer_ashkhas.ashkhas_nam AS mostajerashkhas_nam ,mostajer_ashkhas.ashkhas_name_khanevadegi AS mostajerashkhas_name_khanevadegi ,gharardad_tahvil_dahande.id AS gharardad_tahvil_dahandeid ,gharardad_tahvil_dahande.ashkhas_nam AS gharardad_tahvil_dahandeashkhas_nam ,gharardad_tahvil_dahande.ashkhas_name_khanevadegi AS gharardad_tahvil_dahandeashkhas_name_khanevadegi ,gharardad_tahvil_girande.id AS gharardad_tahvil_girandeid ,gharardad_tahvil_girande.ashkhas_nam AS gharardad_tahvil_girandeashkhas_nam ,gharardad_tahvil_girande.ashkhas_name_khanevadegi AS gharardad_tahvil_girandeashkhas_name_khanevadegi FROM wp_rent_gharardad AS gharardad LEFT JOIN wp_rent_khodro AS khodro ON gharardad.gharardad_khodro_id=khodro.id LEFT JOIN wp_rent_ashkhas AS mojer_ashkhas ON mojer_ashkhas.id=gharardad.gharardad_mojer_id LEFT JOIN wp_rent_ashkhas AS mostajer_ashkhas ON mostajer_ashkhas.id=gharardad.gharardad_mostajer_id LEFT JOIN wp_rent_ashkhas AS gharardad_tahvil_dahande ON gharardad_tahvil_dahande.id=gharardad.gharardad_tahvil_dahande LEFT JOIN wp_rent_ashkhas AS gharardad_tahvil_girande ON gharardad_tahvil_girande.id=gharardad.gharardad_tahvil_girande WHERE gharardad.gharardad_tarikhe_odat='' ORDER BY khodro_khodro ASC";//
+	var url = "http://"+window.location.hostname+"/wp-content/plugins/jqwidgetnew/json.php/?list="+list+"&sql_query="+query;
+	var columns = [
+		{
+			text:"#" ,
+			datafield:"gid",
+			width:"3%",
+			cellsalign:"center" ,
+			align:"center" ,
+		},
+		{
+			text:"خودرو" ,
+			datafield:"kkhodro_khodro",
+			width:"12%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties,rowdata){return add_link_tolist(columnproperties,'list=gharardad&khodro=',rowdata.ggharardad_khodro_id,value);}
+		},
+		{
+			text:"مدل" ,
+			datafield:"kkhodro_model",
+			width:"4%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"رنگ" ,
+			datafield:"kkhodro_rang",
+			width:"5%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"مستاجر" ,
+			datafield:"mostajerashkhas_name_khanevadegi",
+			width:"8%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties,rowdata){return add_link_tolist(columnproperties,'list=soorathesab&shakhs=',rowdata.ggharardad_mostajer_id,value);}
+		},
+		{
+			text:"مستاجر" ,
+			datafield:"mostajerashkhas_nam",
+			width:"8%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties,rowdata){return add_link_tolist(columnproperties,'list=gharardad&shakhs=',rowdata.ggharardad_mostajer_id,value);}
+		},
+		{
+			text:"موجر" ,
+			datafield:"mojerashkhas_name_khanevadegi",
+			width:"8%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties,rowdata){return add_link_tolist(columnproperties,'list=soorathesab&shakhs=',rowdata.ggharardad_mojer_id,value);}
+		},
+		{
+			text:"موجر" ,
+			datafield:"mojerashkhas_nam",
+			width:"8%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties,rowdata){return add_link_tolist(columnproperties,'list=gharardad&shakhs=',rowdata.ggharardad_mojer_id,value);}
+		},
+		{
+			text:"تحویل" ,
+			datafield:"ggharardad_tarikhe_tahvil", 
+			width:"12%",
+			cellsalign:"right" ,
+			align:"center" ,
+			
+		},
+		{
+			text:"و عودت" ,
+			datafield:"ggharardad_vadeye_tarikhe_odat", 
+			width:"7%",
+			cellsalign:"right" ,
+			align:"center" ,
+			
+		},
+		{
+			text:"ق روزانه" ,
+			datafield:"ggharardad_gheymate", 
+			width:"6%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties,rowdata){
+				if(rowdata.ggharardad_mostajer_id == 11){
+					return add_link_tolist(columnproperties,'list=gharardad&shakhs=',rowdata.ggharardad_mojer_id+"&khodro="+rowdata.ggharardad_khodro_id,value)
+				}else if(rowdata.ggharardad_mojer_id == 11){
+					return add_link_tolist(columnproperties,'list=gharardad&shakhs=',rowdata.ggharardad_mostajer_id+"&khodro="+rowdata.ggharardad_khodro_id,value)
+				}else{
+					
+				};}		},		
+		{
+			text:"صورتحساب" ,
+			datafield:"ssoorathesab_nahayi", 
+			width:"6%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		
+		{
+			text:"ک مجاز روزانه" ,
+			datafield:"ggharardad_odo_mojaz", 
+			hidden:true,			
+		},
+		{
+			text:"ک رفت" ,
+			datafield:"ggharardad_odo_avaliye", 
+			hidden:true,			
+		},
+		{
+			text:"ک برگشت" ,
+			datafield:"ggharardad_odo_sanaviye", 
+			hidden:true,			
+		},
+		{
+			text:"هر کیلومتر اضافه" ,
+			datafield:"ggharardad_odo_hazine", 
+			hidden:true,			
+			
+		},
+		{
+			text:"ب رفت" ,
+			datafield:"ggharardad_benzin_avaliye", 
+			hidden:true,			
+			
+		},
+		{
+			text:"ب برگشت" ,
+			datafield:"ggharardad_benzin_sanaviye", 
+			hidden:true,			
+		},
+		{
+			text:"تحویل دهنده" ,
+			datafield:"gharardad_tahvil_dahandeashkhas_name_khanevadegi", 
+			hidden:true,			
+		},
+		{
+			text:"تحویل دهنده" ,
+			datafield:"gharardad_tahvil_dahandeashkhas_nam", 
+			hidden:true,			
+			
+		},
+		{
+			text:"تحویل گیرنده" ,
+			datafield:"gharardad_tahvil_girandeashkhas_name_khanevadegi", 
+			hidden:true,			
+			
+		},
+		{
+			text:"تحویل گیرنده" ,
+			datafield:"gharardad_tahvil_girandeashkhas_nam", 
+			hidden:true,			
+			
+		},
+		{
+			text:"مستاجر ID" ,
+			datafield:"ggharardad_mostajer_id", 
+			hidden:true,			
+			
+		},
+		{
+			text:"موجر ID" ,
+			datafield:"ggharardad_mojer_id", 
+			hidden:true,			
+			
+		},		
+		{
+			text:"خودرو ID" ,
+			datafield:"ggharardad_khodro_id", 
+			hidden:true,			
+			
+		},		
+		{
+			text:"اقدامات" ,
+			datafield:"gsave_id",
+			width:"10%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties){if(getValues.noedit!=1){return add_virayesh(columnproperties,value);}else{return '';}}
+		}
+	]
+	var source =
+		{
+			datatype: "json",
+			datafields: 
+			[ 
+				{ name: "gid", type: "number" },
+				{ name: "kkhodro_khodro", type: "string" },
+				{ name: "kkhodro_model", type: "string" },
+				{ name: "kkhodro_rang", type: "string" },				
+				{ name: "mojerashkhas_name_khanevadegi", type: "string" },
+				{ name: "mojerashkhas_nam", type: "string" },
+				{ name: "mostajerashkhas_nam", type: "string" },
+				{ name: "mostajerashkhas_name_khanevadegi", type: "string" },
+				{ name: "ggharardad_tarikhe_tahvil", type: "string" },
+				{ name: "ggharardad_vadeye_tarikhe_odat", type: "string" },
+				{ name: "ggharardad_gheymate", type: "string" },
+				{ name: "ssoorathesab_nahayi", type: "string" },
+				{ name: "ggharardad_odo_mojaz", type: "string" },
+				{ name: "ggharardad_odo_avaliye", type: "string" },
+				{ name: "ggharardad_odo_sanaviye", type: "string" },
+				{ name: "ggharardad_odo_hazine", type: "string" },
+				{ name: "gsave_id", type: "string" },
+				{ name: "ggharardad_benzin_avaliye", type: "string" },
+				{ name: "ggharardad_benzin_sanaviye", type: "string" },
+				{ name: "gharardad_tahvil_dahandeashkhas_name_khanevadegi", type: "string" },
+				{ name: "gharardad_tahvil_dahandeashkhas_nam", type: "string" },
+				{ name: "gharardad_tahvil_girandeashkhas_name_khanevadegi", type: "string" },
+				{ name: "gharardad_tahvil_girandeashkhas_nam", type: "string" },
+				{ name: "ggharardad_mostajer_id", type: "string" },
+				{ name: "ggharardad_mojer_id", type: "string" },
+				{ name: "ggharardad_khodro_id", type: "string" },
+				
+			],
+			id: "SSSidSSS", 
+			url: url
+		}; 
+  var initrowdetails = function (index, parentElement, gridElement, datarecord) {
+      var details = jQuery(jQuery(parentElement).children()[0]);
+		text = "<table dir='rtl' border='1px'><tr dir='rtl'><th><div class='jqx-grid-cell-right-align' style='margin-top:4px;' >کیلومتر مجاز روزانه</div></th><th><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>کیلومتر اولیه</div></th><th><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>کیلومتر ثانویه</div></th><th><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>هر کیلومتر اضافه</div></th><th><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>بنزین اولیه</div></th><th><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>بنزین ثانویه</div></th><th><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>تحویل دهنده</div></th><th><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>تحویل گیرنده</div></th></tr>";
+		text +=  "<tr><td><div class='jqx-grid-cell-right-align' style='margin-top:4px;  ' >"+datarecord.ggharardad_odo_mojaz +"</div></td><td><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>"+ datarecord.ggharardad_odo_avaliye +"</div></td><td><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>"+ datarecord.ggharardad_odo_sanaviye  +"</div></td><td><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>"+ datarecord.ggharardad_odo_hazine  +"</div></td><td><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>"+ datarecord.ggharardad_benzin_avaliye +"</div></td><td><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>"+ datarecord.ggharardad_benzin_sanaviye+"</div></td><td><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>"+  datarecord.gharardad_tahvil_dahandeashkhas_nam +" "+datarecord.gharardad_tahvil_dahandeashkhas_name_khanevadegi+"</div></td><td><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>"+datarecord.gharardad_tahvil_girandeashkhas_nam+" "+datarecord.gharardad_tahvil_girandeashkhas_name_khanevadegi+"</div></td></tr>";
+	  text +="</table>";
+      details.html(text);
+  }
+	var dataAdapter = new jQuery.jqx.dataAdapter(source); 
+jQuery("#jqxgrid").jqxGrid
+({ 
+	localization: localizationobj,
+	theme:"energyblue",
+	width:"100%",
+	height:"1000px",
+	source:dataAdapter,
+	sortable:true,
+	filterable:true,
+	groupable:true,
+	altrows:true,
+	columnsautoresize:true,
+	columnsresize:true,
+	rtl:true,
+	showfilterrow:true,
+	enablebrowserselection: true,
+    showtoolbar: true,
+    toolbarheight: 40,
+	rendertoolbar: function (toolbar) {toolbar.append(add_toolbar(form,title));},
+	columns:columns,
+    rowdetails: true,
+    rowdetailstemplate: {
+          rowdetails: "<div style='margin: 10px;'>اطلاعات قرارداد</div>",
+		  rowdetailsheight: 85,
+    },
+   initrowdetails: initrowdetails,
+   groups: ['kkhodro_khodro'],
+});
+	
+	
+	
+	
+
+	
+	
+	
+	//filter_mode
+	jQuery("#filter_mode").jqxButton();
+	jQuery('#filter_mode').live('click',function(){
+		var filtermode = $('#jqxgrid').jqxGrid('filtermode'); 
+		alert(filtermode);
+		if(filtermode=='default'){
+			$('#jqxgrid').jqxGrid({ showfilterrow: false}); 
+			$('#jqxgrid').jqxGrid({ filtermode: 'excel'}); 
+		}else if(filtermode=='excel'){
+			$('#jqxgrid').jqxGrid({ showfilterrow: true}); 
+			$('#jqxgrid').jqxGrid({ filtermode: 'default'}); 
+		}
+	});
+	
+	
+	
+
+	jQuery("#print").jqxButton();
+	jQuery('#print').live('click',function(){
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'gsave_id');
+			jQuery("#jqxgrid").jqxGrid('hidecolumn', 'gid');
+
+		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','html');
+        var newWindow = window.open('', '', 'width=800, height=500'),
+        document = newWindow.document.open(),
+        pageContent =
+        '<!DOCTYPE html>' +
+        '<html>' +
+        '<head>' +
+        '<meta charset="utf-8" />' +
+        '<title>'+title+'</title>' +
+        '</head>' +
+        '<body>' + gridContent + '</body></html>';
+        document.write(pageContent);
+        document.close();
+        newWindow.print();
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'gsave_id');
+			jQuery("#jqxgrid").jqxGrid('showcolumn', 'gid');
+    });
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	jQuery("#excel").jqxButton();
+	jQuery('#excel').live('click',function(){
+		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','xls',title, true, null, true, "http://"+window.location.hostname+"/wp-content/plugins/jqwidgetnew/save-file.php" );
+    });
+	
+
+	
+
+	
+
+
+
+				
+				
+});
+
+
+
+
+
+
+
+
+
+</script>
+
+";s:8:"disabled";i:0;s:10:"hide_admin";i:0;s:7:"devices";s:3:"all";}s:18:"gharardad-bayegani";a:4:{s:7:"content";s:12993:"<script type="text/javascript">
+jQuery(document).ready
+(function($){ 
+	var form = 20;
+	var title = "لیست قرارداد بایگانی";
+	var list = "gharardad";
+	var query = "SELECT gharardad.id AS gid ,gharardad.gharardad_shomare_gharardad AS ggharardad_shomare_gharardad ,gharardad.gharardad_mostajer_id AS ggharardad_mostajer_id ,gharardad.gharardad_mojer_id AS ggharardad_mojer_id ,gharardad.gharardad_khodro_id AS ggharardad_khodro_id ,gharardad.gharardad_tarikhe_tahvil AS ggharardad_tarikhe_tahvil ,gharardad.gharardad_tarikhe_odat AS ggharardad_tarikhe_odat ,gharardad.gharardad_vadeye_tarikhe_odat AS ggharardad_vadeye_tarikhe_odat ,gharardad.gharardad_doreye_zamani_ejareh AS ggharardad_doreye_zamani_ejareh ,gharardad.gharardad_gheymate AS ggharardad_gheymate ,gharardad.gharardad_odo_mojaz AS ggharardad_odo_mojaz ,gharardad.gharardad_odo_avaliye AS ggharardad_odo_avaliye ,gharardad.gharardad_odo_sanaviye AS ggharardad_odo_sanaviye ,gharardad.gharardad_odo_hazine AS ggharardad_odo_hazine ,gharardad.gharardad_benzin_avaliye AS ggharardad_benzin_avaliye ,gharardad.gharardad_benzin_sanaviye AS ggharardad_benzin_sanaviye ,gharardad.gharardad_tahvil_dahande AS ggharardad_tahvil_dahande ,gharardad.gharardad_sharhe_khesarat AS ggharardad_sharhe_khesarat ,gharardad.gharardad_baravorde_khesarat AS ggharardad_baravorde_khesarat ,gharardad.gharardad_baravorde_khabe_khesarat AS ggharardad_baravorde_khabe_khesarat ,gharardad.gharardad_hazineye_karvash AS ggharardad_hazineye_karvash ,gharardad.gharardad_hazineye_ayab_zahab AS ggharardad_hazineye_ayab_zahab ,gharardad.gharardad_tozihat AS ggharardad_tozihat ,gharardad.save_id AS gsave_id ,khodro.khodro_khodro AS kkhodro_khodro ,khodro.khodro_model AS kkhodro_model ,khodro.khodro_rang AS kkhodro_rang ,khodro.khodro_shomare_shahrbani AS kkhodro_shomare_shahrbani ,khodro.save_id AS ksave_id ,khodro.khodro_malek_id ,khodro.khodro_saheb_emtiyaz_id ,khodro.id ,mojer_ashkhas.ashkhas_nam AS mojerashkhas_nam ,mojer_ashkhas.ashkhas_name_khanevadegi AS mojerashkhas_name_khanevadegi ,mostajer_ashkhas.ashkhas_nam AS mostajerashkhas_nam ,mostajer_ashkhas.ashkhas_name_khanevadegi AS mostajerashkhas_name_khanevadegi ,gharardad_tahvil_dahande.id AS gharardad_tahvil_dahandeid ,gharardad_tahvil_dahande.ashkhas_nam AS gharardad_tahvil_dahandeashkhas_nam ,gharardad_tahvil_dahande.ashkhas_name_khanevadegi AS gharardad_tahvil_dahandeashkhas_name_khanevadegi ,gharardad_tahvil_girande.id AS gharardad_tahvil_girandeid ,gharardad_tahvil_girande.ashkhas_nam AS gharardad_tahvil_girandeashkhas_nam ,gharardad_tahvil_girande.ashkhas_name_khanevadegi AS gharardad_tahvil_girandeashkhas_name_khanevadegi FROM wp_rent_gharardad AS gharardad LEFT JOIN wp_rent_khodro AS khodro ON gharardad.gharardad_khodro_id=khodro.id LEFT JOIN wp_rent_ashkhas AS mojer_ashkhas ON mojer_ashkhas.id=gharardad.gharardad_mojer_id LEFT JOIN wp_rent_ashkhas AS mostajer_ashkhas ON mostajer_ashkhas.id=gharardad.gharardad_mostajer_id LEFT JOIN wp_rent_ashkhas AS gharardad_tahvil_dahande ON gharardad_tahvil_dahande.id=gharardad.gharardad_tahvil_dahande LEFT JOIN wp_rent_ashkhas AS gharardad_tahvil_girande ON gharardad_tahvil_girande.id=gharardad.gharardad_tahvil_girande WHERE gharardad.gharardad_tarikhe_odat<>'' ORDER BY gharardad.gharardad_tarikhe_odat DESC";//
+	var url = "http://"+window.location.hostname+"/wp-content/plugins/jqwidgetnew/json.php/?sql_query="+query;
+	var columns = [
+		{
+			text:"#" ,
+			datafield:"gid",
+			width:"3%",
+			cellsalign:"center" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties){}
+		},
+		{
+			text:"ش ق" ,
+			datafield:"ggharardad_shomare_gharardad",
+			width:"3%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"خودرو" ,
+			datafield:"kkhodro_khodro",
+			width:"12%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"مدل" ,
+			datafield:"kkhodro_model",
+			width:"4%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"رنگ" ,
+			datafield:"kkhodro_rang",
+			width:"5%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		/*{
+			text:"شماره شهربانی" ,
+			datafield:"kkhodro_shomare_shahrbani",
+			width:"7%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},*/
+		{
+			text:"مستاجر" ,
+			datafield:"mostajerashkhas_name_khanevadegi",
+			width:"8%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:
+				function(row,columnfield,value,defaulthtml,columnproperties,rowdata){
+					return "<div class='jqx-grid-cell-"+columnproperties['cellsalign']+"-align' style='margin-top:4px;'><a href='http://"+window.location.hostname+"/لیست-ها/?list=soorathesab&shakhs="+rowdata.ggharardad_mostajer_id+"'>"+value+"</a></div>";
+				},
+		},
+		{
+			text:"مستاجر" ,
+			datafield:"mostajerashkhas_nam",
+			width:"8%",
+			cellsalign:"right" ,
+			align:"center" ,
+			
+		},
+		{
+			text:"موجر" ,
+			datafield:"mojerashkhas_name_khanevadegi",
+			width:"8%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:
+				function(row,columnfield,value,defaulthtml,columnproperties,rowdata){
+					return "<div class='jqx-grid-cell-"+columnproperties['cellsalign']+"-align' style='margin-top:4px;'><a href='http://"+window.location.hostname+"/لیست-ها/?list=soorathesab&shakhs="+rowdata.ggharardad_mojer_id+"'>"+value+"</a></div>";
+				},
+		},
+		{
+			text:"موجر" ,
+			datafield:"mojerashkhas_nam",
+			width:"8%",
+			cellsalign:"right" ,
+			align:"center" ,
+			
+		},
+		{
+			text:"تحویل" ,
+			datafield:"ggharardad_tarikhe_tahvil", 
+			width:"12%",
+			cellsalign:"right" ,
+			align:"center" ,
+			
+		},
+		{
+			text:"عودت" ,
+			datafield:"ggharardad_tarikhe_odat", 
+			width:"12%",
+			cellsalign:"right" ,
+			align:"center" ,
+			
+		},
+		{
+			text:"و عودت" ,
+			datafield:"ggharardad_vadeye_tarikhe_odat", 
+			width:"7%",
+			cellsalign:"right" ,
+			align:"center" ,
+			
+		},
+		{
+			text:"ق روزانه" ,
+			datafield:"ggharardad_gheymate", 
+			width:"5%",
+			cellsalign:"right" ,
+			align:"center" ,
+			
+		},
+		{
+			text:"ک مجاز روزانه" ,
+			datafield:"ggharardad_odo_mojaz", 
+			hidden:true,			
+			
+		},
+		{
+			text:"ک رفت" ,
+			datafield:"ggharardad_odo_avaliye", 
+			hidden:true,			
+		},
+		
+		{
+			text:"ک برگشت" ,
+			datafield:"ggharardad_odo_sanaviye", 
+			hidden:true,			
+			
+		},
+		{
+			text:"هر کیلومتر اضافه" ,
+			datafield:"ggharardad_odo_hazine", 
+			hidden:true,			
+			
+		},
+		{
+			text:"ب رفت" ,
+			datafield:"ggharardad_benzin_avaliye", 
+			hidden:true,			
+			
+		},
+		{
+			text:"ب برگشت" ,
+			datafield:"ggharardad_benzin_sanaviye", 
+			hidden:true,			
+			
+		},
+		{
+			text:"تحویل دهنده" ,
+			datafield:"gharardad_tahvil_dahandeashkhas_name_khanevadegi", 
+			hidden:true,			
+			
+		},
+		{
+			text:"تحویل دهنده" ,
+			datafield:"gharardad_tahvil_dahandeashkhas_nam", 
+			hidden:true,			
+			
+		},
+		{
+			text:"تحویل گیرنده" ,
+			datafield:"gharardad_tahvil_girandeashkhas_name_khanevadegi", 
+			hidden:true,			
+			
+		},
+		{
+			text:"تحویل گیرنده" ,
+			datafield:"gharardad_tahvil_girandeashkhas_nam", 
+			hidden:true,			
+			
+		},
+		{
+			text:"مستاجر ID" ,
+			datafield:"ggharardad_mostajer_id", 
+			hidden:true,			
+			
+		},
+		{
+			text:"موجر ID" ,
+			datafield:"ggharardad_mojer_id", 
+			hidden:true,			
+			
+		},		
+		{
+			text:"اقدامات" ,
+			datafield:"gsave_id",
+			width:"5%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:
+				function(row,columnfield,value,defaulthtml,columnproperties){
+					return "<div class='jqx-grid-cell-"+columnproperties['cellsalign']+"-align' style='margin-top:4px;'><a href='http://"+window.location.hostname+"/?page_id=2&mode=edit&record_id="+value+"'>ویرایش</a></div></div>" 
+				}
+		}
+	]
+	var source =
+		{
+			datatype: "json",
+			datafields: 
+			[ 
+				{ name: "gid", type: "number" },
+				{ name: "ggharardad_shomare_gharardad", type: "string" },
+				{ name: "kkhodro_khodro", type: "string" },
+				{ name: "kkhodro_model", type: "string" },
+				{ name: "kkhodro_rang", type: "string" },
+				//{ name: "kkhodro_shomare_shahrbani", type: "string" },
+				{ name: "mojerashkhas_name_khanevadegi", type: "string" },
+				{ name: "mojerashkhas_nam", type: "string" },
+				{ name: "mostajerashkhas_nam", type: "string" },
+				{ name: "mostajerashkhas_name_khanevadegi", type: "string" },
+				{ name: "ggharardad_tarikhe_tahvil", type: "string" },
+				{ name: "ggharardad_tarikhe_odat", type: "string" },
+				{ name: "ggharardad_vadeye_tarikhe_odat", type: "string" },
+				{ name: "ggharardad_gheymate", type: "string" },
+				{ name: "ggharardad_odo_mojaz", type: "string" },
+				{ name: "ggharardad_odo_avaliye", type: "string" },
+				{ name: "ggharardad_odo_sanaviye", type: "string" },
+				{ name: "ggharardad_odo_hazine", type: "string" },
+				{ name: "gsave_id", type: "string" },
+				{ name: "ggharardad_benzin_avaliye", type: "string" },
+				{ name: "ggharardad_benzin_sanaviye", type: "string" },
+				{ name: "gharardad_tahvil_dahandeashkhas_name_khanevadegi", type: "string" },
+				{ name: "gharardad_tahvil_dahandeashkhas_nam", type: "string" },
+				{ name: "gharardad_tahvil_girandeashkhas_name_khanevadegi", type: "string" },
+				{ name: "gharardad_tahvil_girandeashkhas_nam", type: "string" },
+				{ name: "ggharardad_mostajer_id", type: "string" },
+				{ name: "ggharardad_mojer_id", type: "string" },
+			],
+			id: "SSSidSSS", 
+			url: url
+		}; 
+  var initrowdetails = function (index, parentElement, gridElement, datarecord) {
+      var details = jQuery(jQuery(parentElement).children()[0]);
+		text = "<table dir='rtl'><tr dir='rtl'><th><div class='jqx-grid-cell-right-align' style='margin-top:4px;' >کیلومتر مجاز روزانه</div></th><th><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>کیلومتر اولیه</div></th><th><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>کیلومتر ثانویه</div></th><th><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>هر کیلومتر اضافه</div></th><th><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>بنزین اولیه</div></th><th><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>بنزین ثانویه</div></th><th><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>تحویل دهنده</div></th><th><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>تحویل گیرنده</div></th></tr>";
+		text +=  "<tr><td><div class='jqx-grid-cell-right-align' style='margin-top:4px;  ' >"+datarecord.ggharardad_odo_mojaz +"</div></td><td><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>"+ datarecord.ggharardad_odo_avaliye +"</div></td><td><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>"+ datarecord.ggharardad_odo_sanaviye  +"</div></td><td><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>"+ datarecord.ggharardad_odo_hazine  +"</div></td><td><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>"+ datarecord.ggharardad_benzin_avaliye +"</div></td><td><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>"+ datarecord.ggharardad_benzin_sanaviye+"</div></td><td><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>"+  datarecord.gharardad_tahvil_dahandeashkhas_nam +" "+datarecord.gharardad_tahvil_dahandeashkhas_name_khanevadegi+"</div></td><td><div class='jqx-grid-cell-right-align' style='margin-top:4px; '>"+datarecord.gharardad_tahvil_girandeashkhas_nam+" "+datarecord.gharardad_tahvil_girandeashkhas_name_khanevadegi+"</div></td></tr>";
+	  text +="</table>";
+      details.html(text);
+  }
+	var dataAdapter = new jQuery.jqx.dataAdapter(source); 
+jQuery("#jqxgrid").jqxGrid
+({ 
+	localization: localizationobj,
+	theme:"energyblue",
+	width:"100%",
+	height:"1000px",
+	source:dataAdapter,
+	sortable:true,
+	filterable:true,
+	groupable:true,
+	altrows:true,
+	columnsautoresize:true,
+	columnsresize:true,
+	rtl:true,
+	showfilterrow:true,
+	enablebrowserselection: true,
+    showtoolbar: true,
+    toolbarheight: 40,
+	rendertoolbar: function (toolbar) {
+					var gridTitle = "<div style='width: 100%; height: 100%; text-align: center; margin-top:4px; font-size:24px;'><a href='#' onclick='add_another("+form+");return false; '> افزودن </a> &nbsp&nbsp&nbsp <span>"+title+"</span></div>";
+                    toolbar.append(gridTitle);
+                },
+	columns:columns,
+    rowdetails: true,
+    rowdetailstemplate: {
+          rowdetails: "<div style='margin: 10px;'>اطلاعات قرارداد</div>",
+		  rowdetailsheight: 1000,
+    },
+   initrowdetails: initrowdetails,
+   groups: ['kkhodro_khodro'],
+});
+				
+});
+
+
+
+
+
+
+
+
+
+
+</script>
+
+";s:8:"disabled";i:0;s:10:"hide_admin";i:0;s:7:"devices";s:3:"all";}s:7:"mojoodi";a:4:{s:7:"content";s:3072:"<script type="text/javascript">
+jQuery(document).ready
+(function($){ 
+	var form = 10;
+	var title = "لیست موجودی خودرو";
+	var list = "khodro";
+	var query = "SELECT khodro_khodro,khodro_model,khodro_rang,khodro_shomare_shahrbani,save_id,khodro_saheb_emtiyaz_id,id FROM wp_rent_khodro WHERE id<>ALL(SELECT id FROM wp_rent_khodro WHERE id=ANY(SELECT gharardad_khodro_id FROM wp_rent_gharardad WHERE gharardad_tarikhe_odat='')) AND khodro_saheb_emtiyaz_id=11 AND khodro_vaziyat='' ORDER BY khodro_khodro ASC;";//
+	var url = "http://"+window.location.hostname+"/wp-content/plugins/jqwidgetnew/json.php/?sql_query="+query;
+	var columns = [
+		{
+			text:"#" ,
+			datafield:"id",
+			width:"2%",
+			cellsalign:"center" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties){}
+		},
+		{
+			text:"خودرو" ,
+			datafield:"khodro_khodro",
+			width:"15%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"مدل" ,
+			datafield:"khodro_model",
+			width:"5%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"رنگ" ,
+			datafield:"khodro_rang",
+			width:"7%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"شماره شهربانی" ,
+			datafield:"khodro_shomare_shahrbani",
+			width:"9%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"اقدامات" ,
+			datafield:"save_id",
+			width:"9%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:
+				function(row,columnfield,value,defaulthtml,columnproperties){
+					return "<div class='jqx-grid-cell-"+columnproperties['cellsalign']+"-align' style='margin-top:4px;'><a href='http://"+window.location.hostname+"/?page_id=2&mode=edit&record_id="+value+"'>ویرایش</a></div></div>" 
+				}
+		}
+	]
+	var source =
+		{
+			datatype: "json",
+			datafields: 
+			[ 
+				{ name: "id", type: "number" },
+				{ name: "khodro_khodro", type: "string" },
+				{ name: "khodro_model", type: "string" },
+				{ name: "khodro_rang", type: "string" },
+				{ name: "khodro_shomare_shahrbani", type: "string" },
+				{ name: "save_id", type: "string" }
+			],
+			id: "SSSidSSS", 
+			url: url
+		}; 
+	var dataAdapter = new jQuery.jqx.dataAdapter(source); 
+jQuery("#jqxgrid").jqxGrid
+({ 
+	localization: localizationobj,
+	theme:"energyblue",
+	width:"100%",
+	height:480,
+	source:dataAdapter,
+	sortable:true,
+	filterable:true,
+	groupable:true,
+	altrows:true,
+	columnsautoresize:true,
+	columnsresize:true,
+	rtl:true,
+	showfilterrow:true,
+	enablebrowserselection: true,
+    showtoolbar: true,
+    toolbarheight: 40,
+	rendertoolbar: function (toolbar) {
+					var gridTitle = "<div style='width: 100%; height: 100%; text-align: center; margin-top:4px; font-size:24px;'><a href='#' onclick='add_another("+form+");return false;'> افزودن </a> &nbsp&nbsp&nbsp <span>"+title+"</span></div>";
+                    toolbar.append(gridTitle);
+                },
+	columns:columns,
+	
+});
+				
+				
+				
+});
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+";s:8:"disabled";i:0;s:10:"hide_admin";i:0;s:7:"devices";s:3:"all";}s:18:"soorathesab_noedit";a:4:{s:7:"content";s:10765:"<script type="text/javascript">
+
+jQuery(document).ready
+(function($){
+	var getValues = getSearchParameters();
+	var form = 23;
+	var title = "لیست صورتحساب";
+	var list = "soorathesab";
+	if(!getValues.shakhs){
+		var query = "SELECT ashkhas.id  AS aid, ashkhas.ashkhas_tasvire_fard  AS aashkhas_tasvire_fard, ashkhas.ashkhas_name_khanevadegi  AS aashkhas_name_khanevadegi, ashkhas.ashkhas_nam  AS aashkhas_nam, ashkhas.ashkhas_kode_meli  AS aashkhas_kode_meli, ashkhas.save_id  AS asave_id, soorathesab.save_id  AS ssave_id, soorathesab.id  AS sid, soorathesab.soorathesab_ashkhas_id  AS ssoorathesab_ashkhas_id, soorathesab.soorathesab_tarikh  AS ssoorathesab_tarikh, soorathesab.soorathesab_khodro_id  AS ssoorathesab_khodro_id, soorathesab.soorathesab_variz  AS ssoorathesab_variz, soorathesab.soorathesab_bedehi  AS ssoorathesab_bedehi, soorathesab.soorathesab_babat  AS ssoorathesab_babat, soorathesab.soorathesab_tozihat  AS ssoorathesab_tozihat, khodro.id AS kid, khodro.khodro_khodro AS kkhodro_khodro, khodro.khodro_model AS kkhodro_model, khodro.khodro_rang AS kkhodro_rang, khodro.khodro_shomare_shahrbani AS kkhodro_shomare_shahrbani FROM wp_rent_soorathesab AS soorathesab LEFT JOIN wp_rent_ashkhas AS ashkhas ON ashkhas.id=soorathesab.soorathesab_ashkhas_id LEFT JOIN wp_rent_khodro AS khodro  ON soorathesab.soorathesab_khodro_id=khodro.id  WHERE soorathesab.soorathesab_variz <> '' OR soorathesab.soorathesab_bedehi <> '' ORDER BY soorathesab.soorathesab_tarikh DESC,soorathesab.id DESC";//
+	}else{
+		var query = "SELECT ashkhas.id  AS aid, ashkhas.ashkhas_tasvire_fard  AS aashkhas_tasvire_fard, ashkhas.ashkhas_name_khanevadegi  AS aashkhas_name_khanevadegi, ashkhas.ashkhas_nam  AS aashkhas_nam, ashkhas.ashkhas_kode_meli  AS aashkhas_kode_meli, ashkhas.save_id  AS asave_id, soorathesab.save_id  AS ssave_id, soorathesab.id  AS sid, soorathesab.soorathesab_ashkhas_id  AS ssoorathesab_ashkhas_id, soorathesab.soorathesab_tarikh  AS ssoorathesab_tarikh, soorathesab.soorathesab_khodro_id  AS ssoorathesab_khodro_id, soorathesab.soorathesab_variz  AS ssoorathesab_variz, soorathesab.soorathesab_bedehi  AS ssoorathesab_bedehi, soorathesab.soorathesab_babat  AS ssoorathesab_babat, soorathesab.soorathesab_tozihat  AS ssoorathesab_tozihat, khodro.id AS kid, khodro.khodro_khodro AS kkhodro_khodro, khodro.khodro_model AS kkhodro_model, khodro.khodro_rang AS kkhodro_rang, khodro.khodro_shomare_shahrbani AS kkhodro_shomare_shahrbani FROM wp_rent_soorathesab AS soorathesab LEFT JOIN wp_rent_ashkhas AS ashkhas ON ashkhas.id=soorathesab.soorathesab_ashkhas_id LEFT JOIN wp_rent_khodro AS khodro  ON soorathesab.soorathesab_khodro_id=khodro.id  WHERE (soorathesab.soorathesab_variz <> '' OR soorathesab.soorathesab_bedehi <> '') AND (ashkhas.id='"+getValues.shakhs+"' OR soorathesab.soorathesab_ashkhas_id='"+getValues.shakhs+"') ORDER BY soorathesab.soorathesab_tarikh DESC,soorathesab.id DESC";
+	}
+	var list = "soorathesab";
+	var url = "http://"+window.location.hostname+"/wp-content/plugins/jqwidgetnew/json.php/?sql_query="+query+"&list="+list+"&shakhs="+getValues.shakhs;
+	var columns = [
+		{
+			text:"#" ,
+			datafield:"sid",
+			width:"3%",
+			cellsalign:"center" ,
+			align:"center" ,
+			cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties){}
+		},
+		{
+			text:"نام خانوادگی" ,
+			datafield:"aashkhas_name_khanevadegi",
+			width:"7%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:
+				function(row,columnfield,value,defaulthtml,columnproperties,rowdata){
+					//var getValues = getSearchParameters();
+					//if(rowdata.aashkhas_nam){
+						//return "<div class='jqx-grid-cell-"+columnproperties['cellsalign']+"-align' style='margin-top:4px;'><a href='http://"+window.location.hostname+"/فرمها/?mode=edit&record_id="+rowdata.asave_id+"'>"+value+" - "+rowdata.aashkhas_nam+"</a></div>"; 
+					//}else{
+						return "<div class='jqx-grid-cell-"+columnproperties['cellsalign']+"-align' style='margin-top:4px;'><a href='http://"+window.location.hostname+"/لیست-ها/?list=soorathesab&shakhs="+rowdata.aid+"'>"+value+"</a></div>"; //rowdata.asave_id
+					//}
+				}
+		},
+		{
+			text:"نام" ,
+			datafield:"aashkhas_nam",
+			width:"5%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"کد ملی" ,
+			datafield:"aashkhas_kode_meli",
+			width:"7.33%",
+			cellsalign:"right" ,
+			align:"center" ,
+			hidden:true
+
+		},
+		{
+			text:"تاریخ" ,
+			datafield:"ssoorathesab_tarikh",
+			width:"7%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"خودرو" ,
+			datafield:"kkhodro_khodro",
+			width:"11%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:
+				function(row,columnfield,value,defaulthtml,columnproperties,rowdata){
+					return "<div class='jqx-grid-cell-"+columnproperties['cellsalign']+"-align' style='margin-top:4px;'><a href='http://"+window.location.hostname+"/لیست-ها/?list=gharardad&khodro="+rowdata.kid+"'>"+value+"</a></div>";
+				}
+		},
+		{
+			text:"مدل" ,
+			datafield:"kkhodro_model",
+
+			width:"4%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"رنگ" ,
+			datafield:"kkhodro_rang",
+			width:"4%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"شماره شهربانی" ,
+			datafield:"kkhodro_shomare_shahrbani",
+			width:"8%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"بابت" ,
+			datafield:"ssoorathesab_babat",
+			width:"19.7%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"برداشت" ,
+			datafield:"ssoorathesab_bedehi",
+			width:"5%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"واریز" ,
+			datafield:"ssoorathesab_variz",
+			width:"5%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"گردش مالی" ,
+			datafield:"ssoorathesab_gardesh",
+			width:"6%",
+			cellsalign:"right" ,
+			align:"center" ,
+			//cellsrenderer:
+				//function(row,columnfield,value,defaulthtml,columnproperties,rowdata){
+					//var index=rowdata.jqxindex;
+					//var i=parseInt(index);
+					//var allrows = jQuery('#jqxgrid').jqxGrid('getrows');
+					//var allrowsLen = parseInt(allrows.length-1);
+					//alert('allrows.length'+parseInt(allrowsLen));
+					//alert(rowdata.ssoorathesab_variz);
+					//alert(rowdata.ssoorathesab_variz);
+					//alert(rowdata.ssoorathesab_bedehi);
+					//alert('parseInt(index)'+parseInt(i));
+					//alert('rowdata.ssoorathesab_variz'+rowdata.ssoorathesab_variz);
+					//alert('rowdata.ssoorathesab_bedehi'+rowdata.ssoorathesab_bedehi);
+					//alert('soorathesab'+parseInt(rowdata.ssoorathesab_variz-rowdata.ssoorathesab_bedehi));
+					//alert("parseInt(allrowsLen)"+parseInt(allrowsLen));
+					//var result;
+					//result = parseInt(rowdata.ssoorathesab_variz-rowdata.ssoorathesab_bedehi);
+							//alert('result'+result);
+					//while (parseInt(allrowsLen) > parseInt(i)){
+						//i = parseInt(i+1);
+						//alert("i"+i);
+					//	if(rowdata.aid == allrows[i].aid){
+						//	result = parseInt(allrows[i].ssoorathesab_variz-allrows[i].ssoorathesab_bedehi+result);
+						//	//alert('p'+result);
+					//	}
+					//}
+					//alert(result);
+					//return String(result);
+				//}
+		},
+		{
+			text:"حساب نهایی" ,
+			datafield:"ssoorathesab_nahayi",
+			width:"6%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"توضیحات" ,
+			datafield:"ssoorathesab_tozihat",
+			width:"6%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"index" ,
+			datafield:"jqxindex",
+			hidden:true ,
+		},
+		{
+			text:"aid" ,
+			datafield:"aid",
+			hidden:true ,
+		},
+		{
+			text:"خودرو kid" ,
+			datafield:"kid",
+			hidden:true ,
+		},
+		
+		{
+			text:" save_id نام h" ,
+			datafield:"asave_id",
+			hidden:true
+		},
+	]
+	var source =
+		{
+			datatype: "json",
+			datafields: 
+			[ 
+				{ name: "sid", type: "number" },
+				{ name: "aashkhas_name_khanevadegi", type: "string" },
+				{ name: "aashkhas_nam", type: "string" },
+				{ name: "aashkhas_kode_meli", type: "string" },
+				{ name: "kkhodro_khodro", type: "string" },
+				{ name: "kkhodro_model", type: "string" },
+				{ name: "kkhodro_rang", type: "string" },
+				{ name: "kkhodro_shomare_shahrbani", type: "string" },
+				{ name: "ssoorathesab_tarikh", type: "string" },
+				{ name: "ssoorathesab_variz", type: "string" },
+				{ name: "ssoorathesab_bedehi", type: "string" },
+				{ name: "ssoorathesab_babat", type: "string" },
+				{ name: "ssoorathesab_tozihat", type: "string" },
+				{ name: "asave_id", type: "string" },
+				{ name: "ssoorathesab_gardesh", type: "number" },
+				{ name: "ssoorathesab_nahayi", type: "number" },
+				{ name: "jqxindex", type: "string" },
+				{ name: "aid", type: "string" },
+				{ name: "kid", type: "string" },
+
+			],
+			id: "SSSidSSS", 
+			url: url
+		}; 
+	var dataAdapter = new jQuery.jqx.dataAdapter(source); 
+	//dump(dataAdapter);
+	if(!getValues.shakhs){
+jQuery("#jqxgrid").jqxGrid
+({ 
+	localization: localizationobj,
+	theme:"energyblue",
+	width:"100%",
+	height:"1000px",
+	source:dataAdapter,
+	sortable:true,
+	filterable:true,
+	groupable:true,
+	altrows:true,
+	columnsautoresize:true,
+	columnsresize:true,
+	rtl:true,
+	showfilterrow:true,
+	enablebrowserselection: true,
+    showtoolbar: true,
+    toolbarheight: 40,
+	rendertoolbar: function (toolbar) {
+					var gridTitle = "<div style='width: 100%; height: 100%; text-align: center; margin-top:4px; font-size:24px;'><a href='#' onclick='add_another("+form+");return false;'> افزودن </a> &nbsp&nbsp&nbsp <span>"+title+"</span></div>";
+                    toolbar.append(gridTitle);
+                },
+	columns:columns,
+	 groups: ['aashkhas_name_khanevadegi','aashkhas_nam'],
+});
+}else{
+jQuery("#jqxgrid").jqxGrid
+({ 
+	localization: localizationobj,
+	theme:"energyblue",
+	width:"100%",
+	height:"1000px",
+	source:dataAdapter,
+	sortable:true,
+	filterable:true,
+	groupable:true,
+	altrows:true,
+	columnsautoresize:true,
+	columnsresize:true,
+	rtl:true,
+	showfilterrow:true,
+	enablebrowserselection: true,
+    showtoolbar: true,
+    toolbarheight: 40,
+	rendertoolbar: function (toolbar) {
+					var gridTitle = "<div style='width: 100%; height: 100%; text-align: center; margin-top:4px; font-size:24px;'><a href='#' onclick='add_another("+form+");return false;'> افزودن </a> &nbsp&nbsp&nbsp <span>"+title+" فرد خاص</span></div>";
+                    toolbar.append(gridTitle);
+                },
+	columns:columns,
+	 //groups: ['aashkhas_name_khanevadegi','aashkhas_nam'],
+});	
+}
+				
+				
+				
+});
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+";s:8:"disabled";i:0;s:10:"hide_admin";i:0;s:7:"devices";s:3:"all";}s:7:"general";a:4:{s:7:"content";s:4813:"<script type="text/javascript">
+function getSearchParameters() {
+      var prmstr = window.location.search.substr(1);
+      return prmstr != null && prmstr != "" ? transformToAssocArray(prmstr) : {};
+}
+function transformToAssocArray( prmstr ) {
+    var params = {};
+    var prmarr = prmstr.split("&");
+    for ( var i = 0; i < prmarr.length; i++) {
+        var tmparr = prmarr[i].split("=");
+        params[tmparr[0]] = tmparr[1];
+    }
+    return params;
+}
+function delete_confirm(list,save_id){
+	var con = confirm("آیا مطمئن هستید که می خواهید این اطلاعات را حذف کنید؟");
+	if(con){
+		window.location.href = "http://"+window.location.hostname+"/?list="+list+"&delete-record="+save_id;
+	}
+}
+function add_another(form){
+	window.location.href = "http://"+window.location.hostname+"/فرمها/?form="+form;
+}
+function add_virayesh(columnproperties,value){
+	return "<div class='jqx-grid-cell-"+columnproperties['cellsalign']+"-align' style='margin-top:4px;'><a href='http://"+window.location.hostname+"/فرمها/?mode=edit&record_id="+value+"'>ویرایش</a></div>";
+}
+	
+		var localizationobj = {
+			"/":"/",
+			":":":",
+			firstDay:7,
+			days:{
+				names:["یکشنبه","دوشنبه","سه شنبه","چهارشنبه","پنجشنبه","جمعه","شنبه"],
+				namesAbbr:["یکشنبه","دوشنبه","سه شنبه","چهارشنبه","پنجشنبه","جمعه","شنبه"],
+				namesShort:["یکشنبه","دوشنبه","سه شنبه","چهارشنبه","پنجشنبه","جمعه","شنبه"]
+		},
+		months:{
+			names:["January","February","March","April","May","June","July","August","September","October","November","December",""],
+			namesAbbr:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec",""]
+		},
+		AM:["ق.ط","ق.ط","ق.ط"],
+		PM:["ب.ظ","ب.ظ","ب.ظ"],
+		eras:[{name:"A.D.",start:null,offset:0}],
+		twoDigitYearMax:2029,
+		patterns:{d:"M/d/yyyy",D:"dddd, MMMM dd, yyyy",t:"h:mm tt",T:"h:mm:ss tt",f:"dddd, MMMM dd, yyyy h:mm tt",F:"dddd, MMMM dd, yyyy h:mm:ss tt",M:"MMMM dd",Y:"yyyy MMMM",S:"yyyyu0027-u0027MMu0027-u0027ddu0027Tu0027HHu0027:u0027mmu0027:u0027ss",ISO:"yyyy-MM-dd hh:mm:ss",ISO2:"yyyy-MM-dd HH:mm:ss",d1:"dd.MM.yyyy",d2:"dd-MM-yyyy",d3:"dd-MMMM-yyyy",d4:"dd-MM-yy",d5:"H:mm",d6:"HH:mm",d7:"HH:mm tt",d8:"dd/MMMM/yyyy",d9:"MMMM-dd",d10:"MM-dd",d11:"MM-dd-yyyy"},
+		percentsymbol:"%",
+		currencysymbol:"تومان",
+		currencysymbolposition:" after",
+		decimalseparator:".",
+		thousandsseparator:",",
+		pagergotopagestring:":برو به صفحه",
+		pagershowrowsstring:":تعداد نمایش ردیف ها",
+		pagerrangestring:" از ",
+		pagerpreviousbuttonstring:"قبلی",
+		pagernextbuttonstring:"بعدی",
+		pagerfirstbuttonstring:"اولین",
+		pagerlastbuttonstring:"آخرین",
+		groupsheaderstring:".ستون مورد نظر را برای گروه بندی بر مبنای آن را به اینجا بکشید",
+		sortascendingstring:"مرتب سازی از زیاد به کم",
+		sortdescendingstring:"مرتب سازی از کم به زیاد",
+		sortremovestring:"حذف مرتب سازی",
+		groupbystring:"گروه بندی بر مبنای این ستون",
+		groupremovestring:"حذف گروه بندی بر منبای این ستون",
+		filterclearstring:"حذف فلیتر",
+		filterstring:"فیلتر",
+		filtershowrowstring:":نمایش ردیف هایی که",
+		filterorconditionstring:"یا",
+		filterandconditionstring:"و",
+		filterselectallstring:"(انتخاب همه)",
+		filterchoosestring:":لطفاً انتخاب کنید",
+
+		filterstringcomparisonoperators:["خالی","پر","دارای","دارای - حساس به حروف","فاقد","فاقد - حساس به حروف","شروع با","شروع با - حساس به حروف","پایان با","پایان با - حساس به حروف","برابر","برابر - حساس به حروف","فاقد مقدار","دارای مقدار"],
+		filternumericcomparisonoperators:["برابر","نا برابر","کمتر از","کمتر یا برابر","بیشتر","بیشتر یا برابر","فاقد مقدار","دارای مقدار"],
+		filterdatecomparisonoperators:["برابر","نا برابر","کمتر از","کمتر یا برابر","بیشتر","بیشتر یا برابر","فاقد مقدار","دارای مقدار"],
+		filterbooleancomparisonoperators:["برابر","نا برابر"],
+		validationstring:".مقدار وارد شده معتبر نمی باشد",
+		emptydatastring:".اطلاعاتی برای نمایش وجود ندارد",
+		filterselectstring:"انتخاب فیلتر",
+		loadtext:"...در حال بار گیری",
+		clearstring:"حذف فلیتر",
+		todaystring:"امروز"
+	};
+</script>";s:8:"disabled";i:0;s:10:"hide_admin";i:0;s:7:"devices";s:3:"all";}s:11:"tahvil-odat";a:4:{s:7:"content";s:5556:"<script type="text/javascript">
+
+jQuery(document).ready
+(function($){ 
+	var title = "لیست تحویل و عودت خودرو";
+	var form = 27;
+	var list = "tahvil-odat";
+	var query = "SELECT tahvil_odat.id AS toid,   tahvil_odat.tahvil_odat_ashkhas_id AS toashkhas_id,   tahvil_odat.tahvil_odat_khodro_id AS tokhodro_id,   tahvil_odat.tahvil_odat_tarikh AS totarikh,   tahvil_odat.tahvil_odat_tozihat AS totozihat,   tahvil_odat.save_id AS tosave_id,      ashkhas.id AS aid ,   ashkhas.ashkhas_nam AS aashkhas_nam ,   ashkhas.ashkhas_name_khanevadegi AS aashkhas_name_khanevadegi ,   ashkhas.ashkhas_kode_meli AS aashkhas_kode_meli,   ashkhas.save_id AS asave_id,    khodro.id AS kid ,   khodro.khodro_khodro AS kkhodro_khodro ,   khodro.khodro_model AS kkhodro_model,  khodro.khodro_rang AS kkhodro_rang,  khodro.khodro_shomare_shahrbani AS kkhodro_shomare_shahrbani,   khodro.save_id AS ksave_id    FROM wp_rent_tahvil_odat as tahvil_odat,   wp_rent_ashkhas AS ashkhas,  wp_rent_khodro AS khodro   WHERE    ashkhas.id=tahvil_odat.tahvil_odat_ashkhas_id AND khodro.id=tahvil_odat.tahvil_odat_khodro_id   ORDER BY tahvil_odat.tahvil_odat_tarikh DESC";//
+	var url = "http://"+window.location.hostname+"/wp-content/plugins/jqwidgetnew/json.php/?sql_query="+query;
+	var columns = [
+		{
+			text:"#" ,
+			datafield:"toid",
+			width:"4%",
+			cellsalign:"center" ,
+			align:"center" ,
+			//cellsrenderer:function(row,columnfield,value,defaulthtml,columnproperties){}
+		},
+		{
+			text:"خودرو" ,
+			datafield:"kkhodro_khodro",
+			width:"15%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"مدل" ,
+			datafield:"kkhodro_model",
+			width:"4%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"رنگ" ,
+			datafield:"kkhodro_rang",
+			width:"4%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"شماره شهربانی" ,
+			datafield:"kkhodro_shomare_shahrbani",
+			width:"9%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"نام خانوادگی" ,
+			datafield:"aashkhas_name_khanevadegi",
+			width:"11%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:
+				function(row,columnfield,value,defaulthtml,columnproperties,rowdata){
+					//if(rowdata.aashkhas_nam){
+						//return "<div class='jqx-grid-cell-"+columnproperties['cellsalign']+"-align' style='margin-top:4px;'><a href='http://"+window.location.hostname+"/فرمها/?mode=edit&record_id="+rowdata.asave_id+"'>"+value+' - '+rowdata.aashkhas_nam+"</a></div>"; 
+					//}else{
+						return "<div class='jqx-grid-cell-"+columnproperties['cellsalign']+"-align' style='margin-top:4px;'><a href='http://"+window.location.hostname+"/فرمها/?mode=edit&record_id="+rowdata.asave_id+"'>"+value+"</a></div>"; 
+					//}
+				}
+		},
+		{
+			text:"نام" ,
+			datafield:"aashkhas_nam",
+			width:"7%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"کد ملی" ,
+			datafield:"aashkhas_kode_meli",
+			width:"7%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"تاریخ تحویل" ,
+			datafield:"totarikh",
+			width:"10%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"توضیحات" ,
+			datafield:"totozihat",
+			width:"22%",
+			cellsalign:"right" ,
+			align:"center" ,
+		},
+		{
+			text:"اقدامات" ,
+			datafield:"tosave_id",
+			width:"7%",
+			cellsalign:"right" ,
+			align:"center" ,
+			cellsrenderer:
+				function(row,columnfield,value,defaulthtml,columnproperties){
+					return "<div class='jqx-grid-cell-"+columnproperties['cellsalign']+"-align' style='margin-top:4px;'><a href='http://"+window.location.hostname+"/?page_id=2&mode=edit&record_id="+value+"'>ویرایش</a></div>";
+				}
+		},
+		{
+			text:"save_id اشخاص" ,
+			datafield:"asave_id",
+			hidden:true,
+			
+		},
+		{
+			text:"save_id خودرو" ,
+			datafield:"ksave_id",
+			hidden:true,
+			
+		},
+	]
+	var source =
+		{
+			datatype: "json",
+			datafields: 
+			[ 
+				{ name: "toid", type: "number" },
+				{ name: "kkhodro_khodro", type: "string" },
+				{ name: "kkhodro_model", type: "string" },
+				{ name: "kkhodro_rang", type: "string" },
+				{ name: "kkhodro_shomare_shahrbani", type: "string" },
+				{ name: "aashkhas_name_khanevadegi", type: "string" },
+				{ name: "aashkhas_nam", type: "string" },
+				{ name: "aashkhas_kode_meli", type: "string" },
+				{ name: "totarikh", type: "string" },
+				{ name: "totozihat", type: "string" },
+				{ name: "asave_id", type: "string" },
+				{ name: "ksave_id", type: "string" },
+				{ name: "tosave_id", type: "string" },
+				
+			],
+			id: "SSSidSSS", 
+			url: url
+		}; 
+	var dataAdapter = new jQuery.jqx.dataAdapter(source); 
+jQuery("#jqxgrid").jqxGrid
+({ 
+	localization: localizationobj,
+	theme:"energyblue",
+	width:"100%",
+	height:480,
+	source:dataAdapter,
+	sortable:true,
+	filterable:true,
+	groupable:true,
+	altrows:true,
+	columnsautoresize:true,
+	columnsresize:true,
+	rtl:true,
+	showfilterrow:true,
+	enablebrowserselection: true,
+    showtoolbar: true,
+    toolbarheight: 40,
+	rendertoolbar: function (toolbar) {
+					var gridTitle = "<div style='width: 100%; height: 100%; text-align: center; margin-top:4px; font-size:24px;'><a href='#' onclick='add_another("+form+");return false;'> افزودن </a> &nbsp&nbsp&nbsp <span>"+title+"</span></div>";
+                    toolbar.append(gridTitle);
+                },
+	columns:columns,
+	
+});
+				
+				
+});
+
+
+
+
+
+
+
+
+
+
+</script>
+
+";s:8:"disabled";i:0;s:10:"hide_admin";i:0;s:7:"devices";s:3:"all";}s:10:"jquery-end";a:4:{s:7:"content";s:5579:"<script type="text/javascript">
+jQueryq(document).ready
+(function($){
+
+	var getValues = getSearchParameters();
+
+
+	jQueryq("#print").jqxButton();
+	jQueryq('#print').live('click',function(){
+		if(getValues.list='gharardad-jari'){////user param of url list is not set
+			//jQueryq("#jqxgrid").jqxGrid('hidecolumn', 'mostajerashkhas_nam');
+			jQueryq("#jqxgrid").jqxGrid('hidecolumn', 'gid');
+			jQueryq("#jqxgrid").jqxGrid('hidecolumn', 'ggharardad_shomare_gharardad');
+			jQueryq("#jqxgrid").jqxGrid('hidecolumn', 'kkhodro_model');
+			jQueryq("#jqxgrid").jqxGrid('hidecolumn', 'kkhodro_rang');
+			//jQueryq("#jqxgrid").jqxGrid('hidecolumn', 'mojerashkhas_name_khanevadegi');
+			jQueryq("#jqxgrid").jqxGrid('hidecolumn', 'ggharardad_tarikhe_odat');
+			jQueryq("#jqxgrid").jqxGrid('hidecolumn', 'ggharardad_vadeye_tarikhe_odat');
+			jQueryq("#jqxgrid").jqxGrid('hidecolumn', 'gsave_id');
+			//jQueryq("#jqxgrid").jqxGrid('hidecolumn', 'ggharardad_odo_mojaz');
+			//jQueryq("#jqxgrid").jqxGrid('hidecolumn', 'ggharardad_odo_avaliye');
+			//jQueryq("#jqxgrid").jqxGrid('hidecolumn', 'ggharardad_odo_sanaviye');
+			//jQueryq("#jqxgrid").jqxGrid('hidecolumn', 'ggharardad_odo_hazine');
+
+			//jQueryq("#jqxgrid").jqxGrid('hidecolumn', 'ggharardad_benzin_avaliye');
+			//jQueryq("#jqxgrid").jqxGrid('hidecolumn', 'ggharardad_benzin_sanaviye');
+			//jQueryq("#jqxgrid").jqxGrid('hidecolumn', 'gharardad_tahvil_dahandeashkhas_name_khanevadegi');
+			//jQueryq("#jqxgrid").jqxGrid('hidecolumn', 'gharardad_tahvil_dahandeashkhas_nam');
+			//jQueryq("#jqxgrid").jqxGrid('hidecolumn', 'gharardad_tahvil_girandeashkhas_name_khanevadegi');
+			//jQueryq("#jqxgrid").jqxGrid('hidecolumn', 'gharardad_tahvil_girandeashkhas_nam');
+		}elseif(getValues.list='gharardad'){
+			
+		}
+		var gridContent = jQueryq("#jqxgrid").jqxGrid('exportdata','html');
+        var newWindow = window.open('', '', 'width=800, height=500'),
+        document = newWindow.document.open(),
+        pageContent =
+        '<!DOCTYPE html>' +
+        '<html>' +
+        '<head>' +
+        '<meta charset="utf-8" />' +
+        '<title>'+title+'</title>' +
+        '</head>' +
+        '<body>' + gridContent + '</body>n</html>';
+        document.write(pageContent);
+        document.close();
+        newWindow.print();
+
+    });
+	jQueryq("#excel").jqxButton();
+	jQueryq('#excel').live('click',function(){
+		var gridContent = jQueryq("#jqxgrid").jqxGrid('exportdata','xls',title, true, null, true, "http://"+window.location.hostname+"/wp-content/plugins/jqwidgetnew/save-file.php" );
+    });
+	if(getValues.list='gharardad-jari'){//user param of url list is not set
+		jQueryq("#jqxgrid").jqxGrid('showcolumn', 'mostajerashkhas_nam');
+		jQueryq("#jqxgrid").jqxGrid('showcolumn', 'gid');
+		jQueryq("#jqxgrid").jqxGrid('showcolumn', 'ggharardad_shomare_gharardad');
+		jQueryq("#jqxgrid").jqxGrid('showcolumn', 'kkhodro_model');
+		jQueryq("#jqxgrid").jqxGrid('showcolumn', 'kkhodro_rang');
+		jQueryq("#jqxgrid").jqxGrid('showcolumn', 'mojerashkhas_name_khanevadegi');
+		jQueryq("#jqxgrid").jqxGrid('showcolumn', 'ggharardad_tarikhe_odat');
+		jQueryq("#jqxgrid").jqxGrid('showcolumn', 'ggharardad_vadeye_tarikhe_odat');
+		jQueryq("#jqxgrid").jqxGrid('showcolumn', 'gsave_id');
+		//jQueryq("#jqxgrid").jqxGrid('showcolumn', 'ggharardad_odo_mojaz');
+		//jQueryq("#jqxgrid").jqxGrid('showcolumn', 'ggharardad_odo_avaliye');
+		//jQueryq("#jqxgrid").jqxGrid('showcolumn', 'ggharardad_odo_sanaviye');
+		//jQueryq("#jqxgrid").jqxGrid('showcolumn', 'ggharardad_odo_hazine');
+		
+		//jQueryq("#jqxgrid").jqxGrid('showcolumn', 'ggharardad_benzin_avaliye');
+		//jQueryq("#jqxgrid").jqxGrid('showcolumn', 'ggharardad_benzin_sanaviye');
+		//jQueryq("#jqxgrid").jqxGrid('showcolumn', 'gharardad_tahvil_dahandeashkhas_name_khanevadegi');
+		//jQueryq("#jqxgrid").jqxGrid('showcolumn', 'gharardad_tahvil_dahandeashkhas_nam');
+		//jQueryq("#jqxgrid").jqxGrid('showcolumn', 'gharardad_tahvil_girandeashkhas_name_khanevadegi');
+		//jQueryq("#jqxgrid").jqxGrid('showcolumn', 'gharardad_tahvil_girandeashkhas_nam');
+	}elseif(getValues.list='gharardad'){
+		
+	}
+
+	
+
+
+	
+
+
+
+
+
+                // Create a jqxMenu
+                var contextMenu = jQueryq("#jqxMenu").jqxMenu({rtl: true, width: '120px', height: '58px', autoOpenPopup: false, mode: 'popup'});
+                // open the context menu when the user presses the mouse right button.
+                jQueryq("#jqxWidget").live('mousedown', function (event) {
+                    var rightClick = isRightClick(event) || jQueryq.jqx.mobile.isTouchDevice();
+                    if (rightClick) {
+                        var scrollTop = jQueryq(window).scrollTop();
+                        var scrollLeft = jQueryq(window).scrollLeft();
+                        contextMenu.jqxMenu('open', parseInt(event.clientX) + 5 + scrollLeft, parseInt(event.clientY) + 5 + scrollTop);
+                        return false;
+                    }
+                });
+                // disable the default browser's context menu.
+                jQueryq(document).live('contextmenu', function (e) {
+                    return false;
+                });
+                function isRightClick(event) {
+                    var rightclick;
+                    if (!event) var event = window.event;
+                    if (event.which) rightclick = (event.which == 3);
+                    else if (event.button) rightclick = (event.button == 2);
+                    return rightclick;
+                }
+
+});
+
+</script>";s:8:"disabled";i:0;s:10:"hide_admin";i:0;s:7:"devices";s:3:"all";}s:14:"jquery-general";a:4:{s:7:"content";s:5752:"<script type="text/javascript">
+var getValues = getSearchParameters();
+
+
+function dump(obj) {
+    var out = '';
+    for (var i in obj) {
+        out += i + ": " + obj[i] + "\n";
+    }
+
+    alert(out);
+
+    // or, if you wanted to avoid alerts...
+
+    var pre = document.createElement('pre');
+    pre.innerHTML = out;
+    document.body.appendChild(pre)
+}
+
+
+
+
+function getSearchParameters() {
+      var prmstr = window.location.search.substr(1);
+      return prmstr != null && prmstr != "" ? transformToAssocArray(prmstr) : {};
+}
+function transformToAssocArray( prmstr ) {
+    var params = {};
+    var prmarr = prmstr.split("&");
+    for ( var i = 0; i < prmarr.length; i++) {
+        var tmparr = prmarr[i].split("=");
+        params[tmparr[0]] = tmparr[1];
+    }
+    return params;
+}
+function delete_confirm(list,save_id){
+	var con = confirm("آیا مطمئن هستید که می خواهید این اطلاعات را حذف کنید؟");
+	if(con){
+		window.location.href = "http://"+window.location.hostname+"/?list="+list+"&delete-record="+save_id;
+	}
+}
+function add_another(form){
+	window.location.href = "http://"+window.location.hostname+"/فرمها/?form="+form;
+}
+function add_virayesh(columnproperties,value){
+	return "<div class='jqx-grid-cell-"+columnproperties['cellsalign']+"-align' style='margin-top:4px;'><a href='http://"+window.location.hostname+"/فرمها/?mode=edit&record_id="+value+"'>ویرایش</a></div>";
+}
+		function add_link_tolist(columnproperties,uri,id,value){
+			return "<div class='jqx-grid-cell-"+columnproperties['cellsalign']+"-align' style='margin-top:4px;'><a href='http://"+window.location.hostname+"/لیست-ها/?"+uri+id+"'>"+value+"</a></div>";			
+		}
+	
+			function add_toolbar(form,title){
+			 var gridTitle = "<div style='width: 100%; height: 100%; text-align: center; margin-top:4px; font-size:24px;'><a href='#' target='_blank' onclick='add_another("+form+");return false;'> افزودن </a> &nbsp&nbsp&nbsp <span>"+title+"</span></div>";
+			return gridTitle;
+			
+		}
+
+		var localizationobj = {
+			"/":"/",
+			":":":",
+			firstDay:7,
+			days:{
+				names:["یکشنبه","دوشنبه","سه شنبه","چهارشنبه","پنجشنبه","جمعه","شنبه"],
+				namesAbbr:["یکشنبه","دوشنبه","سه شنبه","چهارشنبه","پنجشنبه","جمعه","شنبه"],
+				namesShort:["یکشنبه","دوشنبه","سه شنبه","چهارشنبه","پنجشنبه","جمعه","شنبه"]
+		},
+		months:{
+			names:["January","February","March","April","May","June","July","August","September","October","November","December",""],
+			namesAbbr:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec",""]
+		},
+		AM:["ق.ط","ق.ط","ق.ط"],
+		PM:["ب.ظ","ب.ظ","ب.ظ"],
+		eras:[{name:"A.D.",start:null,offset:0}],
+		twoDigitYearMax:2029,
+		patterns:{d:"M/d/yyyy",D:"dddd, MMMM dd, yyyy",t:"h:mm tt",T:"h:mm:ss tt",f:"dddd, MMMM dd, yyyy h:mm tt",F:"dddd, MMMM dd, yyyy h:mm:ss tt",M:"MMMM dd",Y:"yyyy MMMM",S:"yyyyu0027-u0027MMu0027-u0027ddu0027Tu0027HHu0027:u0027mmu0027:u0027ss",ISO:"yyyy-MM-dd hh:mm:ss",ISO2:"yyyy-MM-dd HH:mm:ss",d1:"dd.MM.yyyy",d2:"dd-MM-yyyy",d3:"dd-MMMM-yyyy",d4:"dd-MM-yy",d5:"H:mm",d6:"HH:mm",d7:"HH:mm tt",d8:"dd/MMMM/yyyy",d9:"MMMM-dd",d10:"MM-dd",d11:"MM-dd-yyyy"},
+		percentsymbol:"%",
+		currencysymbol:"تومان",
+		currencysymbolposition:" after",
+		decimalseparator:".",
+		thousandsseparator:",",
+		pagergotopagestring:":برو به صفحه",
+		pagershowrowsstring:":تعداد نمایش ردیف ها",
+		pagerrangestring:" از ",
+		pagerpreviousbuttonstring:"قبلی",
+		pagernextbuttonstring:"بعدی",
+		pagerfirstbuttonstring:"اولین",
+		pagerlastbuttonstring:"آخرین",
+		groupsheaderstring:".ستون مورد نظر را برای گروه بندی بر مبنای آن را به اینجا بکشید",
+		sortascendingstring:"مرتب سازی از زیاد به کم",
+		sortdescendingstring:"مرتب سازی از کم به زیاد",
+		sortremovestring:"حذف مرتب سازی",
+		groupbystring:"گروه بندی بر مبنای این ستون",
+		groupremovestring:"حذف گروه بندی بر منبای این ستون",
+		filterclearstring:"حذف فلیتر",
+		filterstring:"فیلتر",
+		filtershowrowstring:":نمایش ردیف هایی که",
+		filterorconditionstring:"یا",
+		filterandconditionstring:"و",
+		filterselectallstring:"(انتخاب همه)",
+		filterchoosestring:":لطفاً انتخاب کنید",
+
+		filterstringcomparisonoperators:["خالی","پر","دارای","دارای - حساس به حروف","فاقد","فاقد - حساس به حروف","شروع با","شروع با - حساس به حروف","پایان با","پایان با - حساس به حروف","برابر","برابر - حساس به حروف","فاقد مقدار","دارای مقدار"],
+		filternumericcomparisonoperators:["برابر","نا برابر","کمتر از","کمتر یا برابر","بیشتر","بیشتر یا برابر","فاقد مقدار","دارای مقدار"],
+		filterdatecomparisonoperators:["برابر","نا برابر","کمتر از","کمتر یا برابر","بیشتر","بیشتر یا برابر","فاقد مقدار","دارای مقدار"],
+		filterbooleancomparisonoperators:["برابر","نا برابر"],
+		validationstring:".مقدار وارد شده معتبر نمی باشد",
+		emptydatastring:".اطلاعاتی برای نمایش وجود ندارد",
+		filterselectstring:"انتخاب فیلتر",
+		loadtext:"...در حال بار گیری",
+		clearstring:"حذف فلیتر",
+		todaystring:"امروز"
+	};
+</script>";s:8:"disabled";i:0;s:10:"hide_admin";i:0;s:7:"devices";s:3:"all";}}

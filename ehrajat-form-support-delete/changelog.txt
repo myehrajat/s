@@ -1,0 +1,2 @@
+1.0.0 1396-09-10
+only delete accesslible by superuser id 1
