@@ -59,7 +59,7 @@ function sst_update_db_to_on_off_count_bedehkari_be_digaran(){
 		if($result){
 			echo 'successfully deactivate count_bedehkari_be_digaran!<br>';
 		}else{
-			echo 'unfortunately can not deactivate count_bedehkari_be_digaran! please check sst_update_db_to_on_off_count_bedehkari_be_digaran() function or previously has been deactivated<br>';
+			//echo 'unfortunately can not deactivate count_bedehkari_be_digaran! please check sst_update_db_to_on_off_count_bedehkari_be_digaran() function or previously has been deactivated<br>';
 		}
 	}else{
 		$query="UPDATE ".$wpdb->prefix."sst_form SET `data_action_ids`='121-123' , `description`='this row data action will change by sst_update_db_to_on_off_count_bedehkari_be_digaran() to activate and deactivate bedehkari be digaran it now will  in count bedehkari be digaran to deactivate it you must deactivate it by sst_get_option(count_bedehkari_be_digaran) set to zero and automatically deactvite and change data action ids to 121-122' WHERE id=32";
@@ -67,7 +67,7 @@ function sst_update_db_to_on_off_count_bedehkari_be_digaran(){
 		if(!$result){
 			echo 'successfully deactivate count_bedehkari_be_digaran!<br>';
 		}else{
-			echo 'unfortunately can not activate count_bedehkari_be_digaran! please check sst_update_db_to_on_off_count_bedehkari_be_digaran() function or previously has been activated<br>';
+			//echo 'unfortunately can not activate count_bedehkari_be_digaran! please check sst_update_db_to_on_off_count_bedehkari_be_digaran() function or previously has been activated<br>';
 		}
 
 	}

@@ -226,7 +226,7 @@ jQuery("#jqxgrid").jqxGrid
 	
 	jQuery("#excel").jqxButton();
 	jQuery('#excel').live('click',function(){
-		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','xls',title, true, null, true, "http://"+window.location.hostname+"/wp-content/plugins/jqwidgetnew/save-file.php" );
+		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','xls',title, true, null, true, "http://"+window.location.hostname+"/wp-content/plugins/jqwidget/save-file.php" );
     });
 	
 
@@ -453,7 +453,7 @@ jQuery("#jqxgrid").jqxGrid
 	
 	jQuery("#excel").jqxButton();
 	jQuery('#excel').live('click',function(){
-		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','xls',title, true, null, true, "http://"+window.location.hostname+"/wp-content/plugins/jqwidgetnew/save-file.php" );
+		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','xls',title, true, null, true, "http://"+window.location.hostname+"/wp-content/plugins/jqwidget/save-file.php" );
     });
 	
 
@@ -665,7 +665,7 @@ jQuery("#jqxgrid").jqxGrid
 	
 	jQuery("#excel").jqxButton();
 	jQuery('#excel').live('click',function(){
-		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','xls',title, true, null, true, "http://"+window.location.hostname+"/wp-content/plugins/jqwidgetnew/save-file.php" );
+		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','xls',title, true, null, true, "http://"+window.location.hostname+"/wp-content/plugins/jqwidget/save-file.php" );
     });
 	
 
@@ -888,7 +888,7 @@ jQuery("#jqxgrid").jqxGrid
 	
 	jQuery("#excel").jqxButton();
 	jQuery('#excel').live('click',function(){
-		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','xls',title, true, null, true, "http://"+window.location.hostname+"/wp-content/plugins/jqwidgetnew/save-file.php" );
+		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','xls',title, true, null, true, "http://"+window.location.hostname+"/wp-content/plugins/jqwidget/save-file.php" );
     });
 	
 
@@ -1106,7 +1106,7 @@ jQuery("#jqxgrid").jqxGrid
 	
 	jQuery("#excel").jqxButton();
 	jQuery('#excel').live('click',function(){
-		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','xls',title, true, null, true, "http://"+window.location.hostname+"/wp-content/plugins/jqwidgetnew/save-file.php" );
+		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','xls',title, true, null, true, "http://"+window.location.hostname+"/wp-content/plugins/jqwidget/save-file.php" );
     });
 	
 
@@ -1573,7 +1573,7 @@ if(getValues.khodro && getValues.shakhs){
 	
 	jQuery("#excel").jqxButton();
 	jQuery('#excel').live('click',function(){
-		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','xls',title, true, null, true, "http://"+window.location.hostname+"/wp-content/plugins/jqwidgetnew/save-file.php" );
+		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','xls',title, true, null, true, "http://"+window.location.hostname+"/wp-content/plugins/jqwidget/save-file.php" );
     });
 	
 
@@ -1934,7 +1934,7 @@ if(getValues.shakhs){
 	
 	jQuery("#excel").jqxButton();
 	jQuery('#excel').live('click',function(){
-		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','xls',title, true, null, true, "http://"+window.location.hostname+"/wp-content/plugins/jqwidgetnew/save-file.php" );
+		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','xls',title, true, null, true, "http://"+window.location.hostname+"/wp-content/plugins/jqwidget/save-file.php" );
     });
 	
 
@@ -2190,7 +2190,7 @@ jQuery("#jqxgrid").jqxGrid
 	
 	jQuery("#excel").jqxButton();
 	jQuery('#excel').live('click',function(){
-		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','xls',title, true, null, true, "http://"+window.location.hostname+"/wp-content/plugins/jqwidgetnew/save-file.php" );
+		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','xls',title, true, null, true, "http://"+window.location.hostname+"/wp-content/plugins/jqwidget/save-file.php" );
     });
 					
 });
@@ -2640,7 +2640,7 @@ jQuery("#jqxgrid").jqxGrid
 	
 	jQuery("#excel").jqxButton();
 	jQuery('#excel').live('click',function(){
-		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','xls',title, true, null, true, "http://"+window.location.hostname+"/wp-content/plugins/jqwidgetnew/save-file.php" );
+		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','xls',title, true, null, true, "http://"+window.location.hostname+"/wp-content/plugins/jqwidget/save-file.php" );
     });
 	
 });
@@ -2980,7 +2980,7 @@ jQuery("#jqxgrid").jqxGrid
 	
 	jQuery("#excel").jqxButton();
 	jQuery('#excel').live('click',function(){
-		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','xls',title, true, null, true, "http://"+window.location.hostname+"/wp-content/plugins/jqwidgetnew/save-file.php" );
+		var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata','xls',title, true, null, true, "http://"+window.location.hostname+"/wp-content/plugins/jqwidget/save-file.php" );
     });
 	
 
@@ -4014,7 +4014,7 @@ jQueryq(document).ready
     });
 	jQueryq("#excel").jqxButton();
 	jQueryq('#excel').live('click',function(){
-		var gridContent = jQueryq("#jqxgrid").jqxGrid('exportdata','xls',title, true, null, true, "http://"+window.location.hostname+"/wp-content/plugins/jqwidgetnew/save-file.php" );
+		var gridContent = jQueryq("#jqxgrid").jqxGrid('exportdata','xls',title, true, null, true, "http://"+window.location.hostname+"/wp-content/plugins/jqwidget/save-file.php" );
     });
 	if(getValues.list='gharardad-jari'){//user param of url list is not set
 		jQueryq("#jqxgrid").jqxGrid('showcolumn', 'mostajerashkhas_nam');

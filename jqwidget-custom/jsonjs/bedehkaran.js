@@ -407,7 +407,7 @@ jQuery(document).ready(function ($) {
 
 			jQuery("#excel").jqxButton();
 			jQuery('#excel').on('click', function () {
-				var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata', 'xls', title, true, null, true, "http://" + window.location.hostname + "/wp-content/plugins/jqwidgetnew/save-file.php");
+				var gridContent = jQuery("#jqxgrid").jqxGrid('exportdata', 'xls', title, true, null, true, "http://" + window.location.hostname + "/wp-content/plugins/jqwidget/save-file.php");
 			});
 		}).then(function () {
 			jQuery("#loading").hide();
