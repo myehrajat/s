@@ -74,7 +74,7 @@ $rows = $wpdb->get_results( $query, 'ARRAY_A' );
 			//this part is for getting soorathesab nahayyii
 			$soorathesab_query = sst_get_option( 'json_file' ) . '?list=soorathesab&asli_shakhs=' . urlencode( $gharardad[ 'ggharardad_mojer_id' ] ) . '&shakhs=' . urlencode( $gharardad[ 'ggharardad_mostajer_id' ] ) . '&psw=' . $psw . '&rawdata=raw';
 			//dbg($soorathesab_query);
-			$soorathesab_json = file_get_contents( $soorathesab_query, true );
+			$soorathesab_json = @ file_get_contents( $soorathesab_query, true );
 			$soorathesab_arr = json_decode( $soorathesab_json );
 			
 			$rows[ $key ][ 'ssoorathesab_nahayi' ] = $soorathesab_arr[ 0 ]->ssoorathesab_nahayi;
