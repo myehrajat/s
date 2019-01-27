@@ -3,7 +3,8 @@
 function sst_add_gardesh_nahayi($rows){
 	//dbg($rows);
 	//sort because gharardad add later
-	uasort($rows, make_comparer(array('ssoorathesab_tarikh', SORT_ASC),array('ssoorathesab_khodro_id', SORT_ASC)));//
+	//uasort($rows, make_comparer(array('ssoorathesab_tarikh', SORT_ASC),array('ssoorathesab_khodro_id', SORT_ASC)));//
+	uasort($rows, make_comparer('ssoorathesab_tarikh','sid'));//
 	
 	$rows = array_values ( $rows );
 
