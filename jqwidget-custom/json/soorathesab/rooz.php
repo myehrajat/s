@@ -28,8 +28,7 @@ function sst_temp_soorathesab_rooz( $gharardad, $rows, $now ) {
 				//dbg( $rooz_array );
 				break;
 			default:
-				echo '<h1>safddsfasdf</h1>';
-				//$rooz_array = sst_long_term_text_sabt_rooz( $gharardad[ 'gharardad_tarikhe_tahvil' ], $now, $gharardad[ 'gharardad_gheymate' ], 'اجاره جاری', $gharardad[ 'gharardad_mostajer_id' ], $gharardad[ 'gharardad_mojer_id' ], $gharardad[ 'gharardad_khodro_id' ], $gharardad[ 'save_id' ], $gharardad[ 'gharardad_doreye_zamani_ejareh' ] );
+				$rooz_array = sst_long_term_text_sabt_rooz( $gharardad[ 'gharardad_tarikhe_tahvil' ], $now, $gharardad[ 'gharardad_gheymate' ], 'اجاره جاری', $gharardad[ 'gharardad_mostajer_id' ], $gharardad[ 'gharardad_mojer_id' ], $gharardad[ 'gharardad_khodro_id' ], $gharardad[ 'save_id' ], $gharardad[ 'gharardad_doreye_zamani_ejareh' ] );
 				//dbg('111111111111111111');
 				break;
 
