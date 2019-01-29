@@ -46,7 +46,7 @@
 				}, {
 					text: "نام خانوادگی",
 					datafield: "aashkhas_name_khanevadegi",
-					width: "11%",
+					width: "9%",
 					cellsalign: "right",
 					align: "center",
 					cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties, rowdata) {
@@ -55,7 +55,7 @@
 				}, {
 					text: "نام",
 					datafield: "aashkhas_nam",
-					width: "5%",
+					width: "4%",
 					cellsalign: "right",
 					cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties, rowdata) {
 						return add_link_tolist(columnproperties, 'list=gharardad&shakhs=', rowdata.aid, value);
@@ -65,7 +65,7 @@
 				{
 					text: "نسبت",
 					datafield: "apaddress_phone_nesbat",
-					width: "5.66%",
+					width: "5.63%",
 					cellsalign: "right",
 					align: "center",
 				}, {
@@ -83,19 +83,31 @@
 				}, {
 					text: "آدرس",
 					datafield: "apaddress_phone_address",
-					width: "41.62%",
+					width: "35.62%",
+					cellsalign: "right",
+					align: "center",
+				}, {
+					text: "ن معرف",
+					datafield: "amashkhas_nam",
+					width: "4%",
+					cellsalign: "right",
+					align: "center",
+				}, {
+					text: "ف معرف",
+					datafield: "amashkhas_name_khanevadegi",
+					width: "9.5%",
 					cellsalign: "right",
 					align: "center",
 				}, {
 					text: "توضحیات",
 					datafield: "apaddress_phone_tozihat",
-					width: "7.66%",
+					width: "5.66%",
 					cellsalign: "right",
 					align: "center",
 				}, {
 					text: "اقدامات",
 					datafield: "apsave_id",
-					width: "6.66%",
+					width: "4.5%",
 					cellsalign: "right",
 					align: "center",
 					cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
@@ -147,6 +159,12 @@
 						type: "string"
 					}, {
 						name: "aashkhas_nam",
+						type: "string"
+					}, {
+						name: "amashkhas_nam",
+						type: "string"
+					}, {
+						name: "amashkhas_name_khanevadegi",
 						type: "string"
 					}, {
 						name: "asave_id",
