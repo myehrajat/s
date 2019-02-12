@@ -173,11 +173,7 @@ global $wpdb;
         "`gps_ghatkon` VARCHAR(255) NOT NULL,".
         "`gps_barghe_mostaghim` VARCHAR(255) NOT NULL,".
         "`gps_shenood` VARCHAR(255) NOT NULL,".
-        "`gps_direct_link_1` LONGTEXT DEFAULT NULL,".
-        "`gps_direct_link_2` LONGTEXT DEFAULT NULL,".
-        "`gps_direct_link_3` LONGTEXT DEFAULT NULL,".
-        "`gps_direct_link_4` LONGTEXT DEFAULT NULL,".
-        "`gps_direct_link_5` LONGTEXT DEFAULT NULL,".
+        "`gps_direct_link` LONGTEXT DEFAULT NULL,".
         "`gps_tozihat` LONGTEXT DEFAULT NULL,".
         "`save_id` VARCHAR(255) DEFAULT NULL,".
         "`sabt_konande_id` VARCHAR(255) NOT NULL,".
