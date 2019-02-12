@@ -9,25 +9,26 @@ $_GET[ 'onlygharardad' ]=>for NOT getting  all gharardad
 $_GET[ 'nojari' ]=>for NOT getting all jari gharardad
 $_GET[ 'onlyjari' ]=>for NOT getting all jari gharardad
 $_GET[ 'exclude' ]=>for NOT getting all jari gharardad
+$_GET[ 'soorathesab_type' ]=>only_nahayi or full
 TO add mohasebeh daily for average on hesab
 *******************************/
 
 
 
 //this function according to asli shakhs and non asli shakhs and who is mojer and mostajer determine it mablagh should be added to talab or bedehi
-	//taeen bedehi ya talab shakhs nesbat be asli_shakhs
+//taeen bedehi ya talab shakhs nesbat be asli_shakhs
 
 
 //$GETshakhs=null,$GETasli_shakhs=null,$GETtarikh=null,$GETtotarikh=null,$GETnogharardad=null,$GETnojari=null,$GETonlyjari=null,$GETexclude=null
 function sst_json_soorathesab() {
-	
+
 	set_time_limit( 0 );
 	require_once( 'soorathesab/func.php' );
 	require_once( 'soorathesab/add_gardesh_nahayi.php' );
 	global $wpdb;
 	/***********************************/
 	$_GET[ 'asli_shakhs' ] = sst_find_asli_shakhs();
-//dbg($_GET[ 'asli_shakhs' ]);
+	//dbg($_GET[ 'asli_shakhs' ]);
 	/***************************************************/
 	//get all those soorathesab which is asli_shakhs is in asli shakhs field
 	/***************************************************/
@@ -82,8 +83,8 @@ WHERE
 	/***********************************/
 	/***********************************/
 	if ( $_GET[ 'exclude' ] ) {
-		$excludes = explode(',',$_GET[ 'exclude' ]);
-		foreach($excludes as $exclude){
+		$excludes = explode( ',', $_GET[ 'exclude' ] );
+		foreach ( $excludes as $exclude ) {
 			$query .= "
 			AND ( soorathesab.soorathesab_asli_ashkhas_id<>'" . $exclude . "' AND soorathesab.soorathesab_ashkhas_id<>'" . $exclude . "') ";
 		}
@@ -120,7 +121,7 @@ WHERE
 	//dbg($rows);
 
 	//dbg($query);
-//echo "<script>alert(".$query.");</script>"
+	//echo "<script>alert(".$query.");</script>"
 
 
 
@@ -189,16 +190,17 @@ WHERE
 		$query .= "
 		AND ( soorathesab.soorathesab_asli_ashkhas_id='" . $_GET[ 'shakhs' ] . "' OR soorathesab.soorathesab_ashkhas_id='" . $_GET[ 'shakhs' ] . "') ";
 	}
-	
+
 	/***********************************/
 	if ( $_GET[ 'exclude' ] ) {
-		$excludes = explode(',',$_GET[ 'exclude' ]);
-		foreach($excludes as $exclude){
+		$excludes = explode( ',', $_GET[ 'exclude' ] );
+		foreach ( $excludes as $exclude ) {
 			$query .= "
 			AND ( soorathesab.soorathesab_asli_ashkhas_id<>'" . $exclude . "' AND soorathesab.soorathesab_ashkhas_id<>'" . $exclude . "') ";
 		}
 	}
-	/***********************************/	/***********************************/
+	/***********************************/
+	/***********************************/
 	if ( $_GET[ 'tarikh' ]and!$_GET[ 'totarikh' ] ) {
 		$query .= "
 		AND soorathesab.soorathesab_tarikh='" . $_GET[ 'tarikh' ] . "' ";
@@ -237,21 +239,21 @@ WHERE
 	/**********************************************************************************/
 	if ( !$_GET[ 'nogharardad' ]and!$_GET[ 'nojari' ] ) { //get no completed gharardad JARI
 		$gharardads_query = "SELECT * FROM wp_rent_gharardad WHERE gharardad_tarikhe_odat='' AND (gharardad_mostajer_id='" . $_GET[ 'asli_shakhs' ] . "' OR gharardad_mojer_id='" . $_GET[ 'asli_shakhs' ] . "') ";
-	/***********************************/
+		/***********************************/
 		if ( $_GET[ 'shakhs' ] ) { //get 
 			$gharardads_query .= "
 			AND (gharardad_mostajer_id='" . $_GET[ 'shakhs' ] . "' OR gharardad_mojer_id='" . $_GET[ 'shakhs' ] . "') ";
 		}
 
-	/***********************************/
-	if ( $_GET[ 'exclude' ] ) {
-		$excludes = explode(',',$_GET[ 'exclude' ]);
-		foreach($excludes as $exclude){
-			$gharardads_query .= "
+		/***********************************/
+		if ( $_GET[ 'exclude' ] ) {
+			$excludes = explode( ',', $_GET[ 'exclude' ] );
+			foreach ( $excludes as $exclude ) {
+				$gharardads_query .= "
 			AND (gharardad_mostajer_id<>'" . $exclude . "' AND gharardad_mojer_id<>'" . $exclude . "') ";
+			}
 		}
-	}
-	/***********************************/
+		/***********************************/
 
 		$result_gharardads = $wpdb->get_results( $gharardads_query, 'ARRAY_A' );
 		$gharardads = $result_gharardads;
@@ -286,18 +288,18 @@ WHERE
 
 				require_once( 'soorathesab/takhir.php' );
 				$rows = sst_temp_soorathesab_takhir( $gharardad, $rows, $now, $now_date, $khodro_obj );
-				
+
 				require_once( 'soorathesab/rooz.php' );
 				$rows = sst_temp_soorathesab_rooz( $gharardad, $rows, $now );
 
 				require_once( 'soorathesab/baravorde_khesarat.php' );
 				$rows = sst_temp_soorathesab_baravorde_khesarat( $gharardad, $rows, $now_date, $khodro_obj );
-				
+
 				require_once( 'soorathesab/baravorde_khabe_khesarat.php' );
 				$rows = sst_temp_soorathesab_baravorde_khabe_khesarat( $gharardad, $rows, $now_date, $khodro_obj );
 
 				require_once( 'soorathesab/ayab_zahab.php' );
-				$rows = sst_temp_soorathesab_ayab_zahab( $gharardad, $rows, $now_date,$khodro_obj );
+				$rows = sst_temp_soorathesab_ayab_zahab( $gharardad, $rows, $now_date, $khodro_obj );
 				require_once( 'soorathesab/softeh.php' );
 				$rows = sst_temp_soorathesab_softeh( $gharardad, $rows, $now_date, $khodro_obj );
 
@@ -308,72 +310,71 @@ WHERE
 				$rows = sst_temp_soorathesab_vadieh( $gharardad, $rows, $now_date, $khodro_obj );
 
 
-		
+
 			}
 		}
 	}
-/******************************************************************************************************/
+	/******************************************************************************************************/
 
 	$rows = group_multidimensional_array( $rows, 'aid' );
 	/******************************************************************************************************/
-//کسر بدهی های شخص از حساب دفتر بدین معنی که اگز آقای ایکس از حساب نرم دفتری 1 میلیون طلب دارد ولی 1.5 م امانت خلافی یا  ... دیگران ازش طلب دارند کسر میگررد و 500 بدهکار می شود این برای جلوگیری از برداشت بیش از حد درعین داشتن تعهد است
-/******************************************************************************************************/
-if(sst_get_option('count_bedehkari_be_digaran')==1){
-	
-	//this is recursiveness so any echo other than json cause error
-	global $moshaveran_ids;
-	//dbg($moshaveran_ids);
-	
-	//نمایش برای هنگامی که شرکت به صورت حساب نگاه میکند
-	if($_GET[ 'asli_shakhs' ]==sst_get_option('sherkat_id')){
-		
-		require_once( 'soorathesab/bedehkari_be_digaran.php' );
-		foreach($rows as $shakhs_id=>$shakhs_rows){
-			if( in_array($shakhs_id,$moshaveran_ids)){
-				$_GET[ 'shakhs' ]=$shakhs_id;
-				$rows[$shakhs_id] = sst_temp_soorathesab_bedehkari_be_digaran($shakhs_rows, $now_date);
+	//کسر بدهی های شخص از حساب دفتر بدین معنی که اگز آقای ایکس از حساب نرم دفتری 1 میلیون طلب دارد ولی 1.5 م امانت خلافی یا  ... دیگران ازش طلب دارند کسر میگررد و 500 بدهکار می شود این برای جلوگیری از برداشت بیش از حد درعین داشتن تعهد است
+	/******************************************************************************************************/
+	if ( sst_get_option( 'count_bedehkari_be_digaran' ) == 1 ) {
+
+		//this is recursiveness so any echo other than json cause error
+		global $moshaveran_ids;
+		//dbg($moshaveran_ids);
+
+		//نمایش برای هنگامی که شرکت به صورت حساب نگاه میکند
+		if ( $_GET[ 'asli_shakhs' ] == sst_get_option( 'sherkat_id' ) ) {
+
+			require_once( 'soorathesab/bedehkari_be_digaran.php' );
+			foreach ( $rows as $shakhs_id => $shakhs_rows ) {
+				if ( in_array( $shakhs_id, $moshaveran_ids ) ) {
+					$_GET[ 'shakhs' ] = $shakhs_id;
+					$rows[ $shakhs_id ] = sst_temp_soorathesab_bedehkari_be_digaran( $shakhs_rows, $now_date );
+				}
 			}
+			//
+		} elseif ( in_array( $_GET[ 'asli_shakhs' ], $moshaveran_ids )and( sst_get_option( 'sherkat_id' ) == $_GET[ 'shakhs' ]or!isset( $_GET[ 'shakhs' ] ) )and!in_array( sst_get_option( 'sherkat_id' ), explode( ',', $_GET[ 'exclude' ] ) ) ) {
+			$_GET[ 'shakhs' ] = $_GET[ 'asli_shakhs' ];
+			$_GET[ 'asli_shakhs' ] = sst_get_option( 'sherkat_id' );
+			require_once( 'soorathesab/bedehkari_be_digaran.php' );
+			//sst_temp_soorathesab_bedehkari_be_digaran($rows[sst_get_option('sherkat_id')], $now_date,true);
+			//dbg(sst_temp_soorathesab_bedehkari_be_digaran($rows, $now_date));
+			//dbg($rows);
+			$rows[ sst_get_option( 'sherkat_id' ) ] = sst_temp_soorathesab_bedehkari_be_digaran( $rows[ sst_get_option( 'sherkat_id' ) ], $now_date, true );
+			//$rows[11] = 
+
 		}
-		//
-	}elseif(in_array($_GET[ 'asli_shakhs' ],$moshaveran_ids) 
-			and (sst_get_option('sherkat_id')==$_GET[ 'shakhs' ] or !isset($_GET[ 'shakhs' ])) 
-			and !in_array(sst_get_option('sherkat_id'),explode(',',$_GET['exclude']))){
-		$_GET[ 'shakhs' ]=$_GET[ 'asli_shakhs' ];
-		$_GET[ 'asli_shakhs' ]=sst_get_option('sherkat_id');
-		require_once( 'soorathesab/bedehkari_be_digaran.php' );
-		//sst_temp_soorathesab_bedehkari_be_digaran($rows[sst_get_option('sherkat_id')], $now_date,true);
-		//dbg(sst_temp_soorathesab_bedehkari_be_digaran($rows, $now_date));
-		//dbg($rows);
-		$rows[sst_get_option('sherkat_id')]=sst_temp_soorathesab_bedehkari_be_digaran($rows[sst_get_option('sherkat_id')], $now_date,true);
-		//$rows[11] = 
 
 	}
-
-}
 	//dbg($rows)
-/******************************************************************************************************/
-$readyrows = array();
-	if($rows){
+	/******************************************************************************************************/
+	$readyrows = array();
+	if ( $rows ) {
 		foreach ( $rows as $shakhs => $soorathesab_rows ) { //get each person soorathesab then gather altogather
 			$_GET[ 'shakhs' ] = $shakhs;
 			$readyrows_one_person = sst_add_gardesh_nahayi( $soorathesab_rows );
+			//dbg($readyrows_one_person);
 			//dbg($readyrows_one_person);
 			$readyrows = array_merge( $readyrows, $readyrows_one_person );
 		}
 	}
 	$rows = $readyrows;
-
+	//dbg($rows);
 	/*****************************************************************************************/
 	/*****************************************************************************************/
 	return $rows;
 } //End of if($gharardads)
 
-function sst_get_moref_from_db($shakhs_id){
-	global $wpdb,$dbprefix;
-	
-	$shakhs_obj = sst_get_by_id($shakhs_id,$dbprefix.'ashkhas');
+function sst_get_moref_from_db( $shakhs_id ) {
+	global $wpdb, $dbprefix;
+
+	$shakhs_obj = sst_get_by_id( $shakhs_id, $dbprefix . 'ashkhas' );
 	return $shakhs_obj->ashkhas_moaref;
-	
+
 }
 
 //dbg($readyrows);

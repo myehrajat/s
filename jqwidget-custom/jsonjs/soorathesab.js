@@ -37,6 +37,9 @@ jQuery(document).ready(function ($) {
 	if (getValues.exclude) {
 		jsonparam.exclude = getValues.exclude;
 	}
+	if (getValues.soorathesab_type) {
+		jsonparam.soorathesab_type = getValues.soorathesab_type;
+	}
 	/************ first .done method *******************/
 	//this get run json.php to create data compressed in temp file
 	jQuery.get(url, jsonparam).done(function (data) {

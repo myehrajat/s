@@ -24,10 +24,17 @@ function sst_add_gardesh_nahayi($rows){
 	//add the newest soorahesab ssoorathesab_nahayi
 	$last_key = count($rows)-1;
 	$rows[$last_key]['ssoorathesab_nahayi']=$rows[$last_key]['ssoorathesab_gardesh'];
-		
-	$rows = array_reverse($rows);
-	//dbg($rows);
-	return $rows;
+	
+	if($_GET['soorathesab_type']=='only_nahayi'){
+		$only_nahayi_rows[]=$rows[$last_key];
+		return $only_nahayi_rows;
+	}elseif($_GET['soorathesab_type']=='full'){
+		$rows = array_reverse($rows);
+		return $rows;
+	}else{//the same as full
+		$rows = array_reverse($rows);
+		return $rows;
+	}
 }
 
 
