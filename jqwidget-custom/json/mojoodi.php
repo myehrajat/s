@@ -1,84 +1,64 @@
 <?php
 /*
-$_GET['start']
+$_GET['start'] 
 $_GET['end']
 $_GET['min']
 $_GET['max']
 $_GET['vo']
+$_GET['brand']
 */
-/*if(!function_exists(sst_jnow)){
-    echo '<pre>';var_dump($_SERVER);echo '</pre>';
-    require_once($_SERVER['DOCUMENT_ROOT'].'/wp-content/plugins/ehrajat-form-z-custom/custom_func/datetime/general.php');
-    require_once($_SERVER['DOCUMENT_ROOT'].'/wp-content/plugins/ehrajat-form-plugin/inc/functions/sst_get_option.php');
-}*/
+
+//at least start must be today
+function sst_reverse_end_start(){
+	if($_GET['start']>$_GET['end'] and (!empty($_GET['end']) and !empty($_GET['start']))){//if revese start end min selected correct it
+		$end = $_GET['start'];
+		$start = $_GET['end'];
+		$_GET['start'] = $start;
+		$_GET['end'] = $end;
+	}
+}
+/* if start in not no make it now*/
+function sst_at_least_start_now(){
+	if(empty($_GET['start']) or $now>$_GET['start']){
+	   $_GET['start'] =$now;
+	}
+}
+function sst_end_not_empty_not_less_start(){
+	if(empty($_GET['end']) or $now>$_GET['end']){
+		$_GET['end'] = $_GET['start'];
+	}
+}
+
+function sst_empty_to_zero(){
+	if(empty($_GET['min'])){
+		$_GET['min']=0;
+	}
+}
+function sst_empty_max_to_max(){
+	if(empty($_GET['max'])){
+		// it was 999999999999999999999999999999 and return error because php change its to other format 9 0e10 or else
+		$_GET['max']=200000000;
+	}
+}
+function sst_reverse_max_min(){
+	if($_GET['max']<$_GET['min']){//if revese max and min selected correct it
+		$min = $_GET['max'];
+		$max = $_GET['min'];
+		$_GET['max'] = $max;
+		$_GET['min'] = $min;
+	}
+}
+
 $now = sst_jnow('date');
-/*
-dbg('now:'.$now);
-dbg('start:'.$_GET['start']);
-dbg('end:'.$_GET['end']);
-dbg('vo:'.$_GET['vo']);
-*/
-if($_GET['start']>$_GET['end'] and (!empty($_GET['end']) and !empty($_GET['start']))){//if revese start end min selected correct it
-	$end = $_GET['start'];
-	$start = $_GET['end'];
-	$_GET['start'] = $start;
-	$_GET['end'] = $end;
-}
-/*
-dbg('now:'.$now);
-dbg('start:'.$_GET['start']);
-dbg('end:'.$_GET['end']);
-dbg('vo:'.$_GET['vo']);
-*/
-if(empty($_GET['start']) or $now>$_GET['start']){//at least start must be today
-	//dbg(111111111111);
-   $_GET['start'] =$now;
-}
-/*
-dbg('now:'.$now);
-dbg('start:'.$_GET['start']);
-dbg('end:'.$_GET['end']);
-dbg('vo:'.$_GET['vo']);
-*/
-if(empty($_GET['end']) or $now>$_GET['end']){
-    $_GET['end'] = $_GET['start'];
-}
-/*
-dbg('now:'.$now);
-dbg('start:'.$_GET['start']);
-dbg('end:'.$_GET['end']);
-dbg('vo:'.$_GET['vo']);
-*/
-
-
-
-
-
-
-
-
-if(empty($_GET['min'])){
-    $_GET['min']=0;
-}
-if(empty($_GET['max'])){
-	// it was 999999999999999999999999999999 and return error because php change its to other format 9 0e10 or else
-    $_GET['max']=100000000;
-}
-if($_GET['max']<$_GET['min']){//if revese max and min selected correct it
-	$min = $_GET['max'];
-	$max = $_GET['min'];
-	$_GET['max'] = $max;
-	$_GET['min'] = $min;
-}
-
+sst_reverse_end_start();
+sst_at_least_start_now();
+sst_end_not_empty_not_less_start();
+sst_empty_to_zero();
+sst_empty_max_to_max();
+sst_reverse_max_min();
 if(empty($_GET['vo'])){
     $_GET['vo']=7;
 }
-
-
-
-//dbg();
-
 
 $query_now="SELECT * FROM wp_rent_khodro WHERE (";
 //get gharardad that has no gharardad and its already existed
@@ -92,7 +72,8 @@ $query_now .= 'AND ( khodro_saheb_emtiyaz_id = ';
 $query_now .= implode(' OR khodro_saheb_emtiyaz_id = ',$moshaveran_ids);
 $query_now .= ' )';
 
-	//dbg($query_now);
+//	dbg($query_now);
+//die;
 if($_GET['max']){
 	$query_now.=" AND khodro_daily_price <= ".$_GET['max'];
 }
@@ -133,8 +114,16 @@ if(($days_after_now>=$_GET['vo'] OR $_GET['vo']=='all') AND isset($_GET['vo'])){
 	$query_namaloom="SELECT * FROM wp_rent_khodro WHERE (";
 	//get gharardad that has no gharardad and its already existed
 	$query_namaloom.="(id = ANY ( SELECT gharardad_khodro_id FROM wp_rent_gharardad WHERE gharardad_vadeye_tarikhe_odat = 'نامعلوم' AND gharardad_tarikhe_odat = '' GROUP BY gharardad_khodro_id)) ";
-	$query_namaloom.=") AND khodro_saheb_emtiyaz_id = 11 AND khodro_vaziyat = 'موجود' ";
+	$query_namaloom.=") AND khodro_vaziyat = 'موجود' ";
 
+	//AND khodro_saheb_emtiyaz_id = 11
+	$moshaveran_ids[] = sst_get_option('sherkat_id');
+	$query_namaloom .= 'AND ( khodro_saheb_emtiyaz_id = ';
+	$query_namaloom .= implode(' OR khodro_saheb_emtiyaz_id = ',$moshaveran_ids);
+	$query_namaloom .= ' )';
+
+	
+	
 	if($_GET['max']){
 		$query_namaloom.=" AND khodro_daily_price <= ".$_GET['max'];
 	}
@@ -176,7 +165,17 @@ dbg($rows_namaloom);
 
 $query_vadeye_odat="SELECT * FROM wp_rent_khodro WHERE (";
 $query_vadeye_odat.="(id = ANY ( SELECT gharardad_khodro_id FROM wp_rent_gharardad WHERE gharardad_vadeye_tarikhe_odat <= '".$_GET['start']."' AND gharardad_vadeye_tarikhe_odat>='".$now."' AND gharardad_tarikhe_odat = '' GROUP BY gharardad_khodro_id )) ";
-$query_vadeye_odat.=") AND khodro_saheb_emtiyaz_id = 11 AND khodro_vaziyat = 'موجود' ";
+$query_vadeye_odat.=") AND khodro_vaziyat = 'موجود' ";
+
+
+	//AND khodro_saheb_emtiyaz_id = 11
+	$moshaveran_ids[] = sst_get_option('sherkat_id');
+	$query_vadeye_odat .= 'AND ( khodro_saheb_emtiyaz_id = ';
+	$query_vadeye_odat .= implode(' OR khodro_saheb_emtiyaz_id = ',$moshaveran_ids);
+	$query_vadeye_odat .= ' )';
+
+
+
 if($_GET['max']){
 	$query_vadeye_odat.=" AND khodro_daily_price <= ".$_GET['max'];
 }
@@ -222,7 +221,15 @@ dbg('days_after_now:'.$days_after_now);
 	$query_gozashte="SELECT * FROM wp_rent_khodro WHERE (";
 	//get gharardad that has no gharardad and its already existed
 	$query_gozashte.="(id = ANY ( SELECT gharardad_khodro_id FROM wp_rent_gharardad WHERE gharardad_vadeye_tarikhe_odat < '".$now."' AND gharardad_tarikhe_odat = '' GROUP BY gharardad_khodro_id)) ";
-	$query_gozashte.=") AND khodro_saheb_emtiyaz_id = 11 AND khodro_vaziyat = 'موجود' ";
+	$query_gozashte.=") AND khodro_vaziyat = 'موجود' ";
+
+
+	//AND khodro_saheb_emtiyaz_id = 11
+	$moshaveran_ids[] = sst_get_option('sherkat_id');
+	$query_vadeye_odat .= 'AND ( khodro_saheb_emtiyaz_id = ';
+	$query_vadeye_odat .= implode(' OR khodro_saheb_emtiyaz_id = ',$moshaveran_ids);
+	$query_vadeye_odat .= ' )';
+
 
 	if($_GET['max']){
 		$query_gozashte.=" AND khodro_daily_price <= ".$_GET['max'];
@@ -275,12 +282,51 @@ if(!empty($rows_namaloom)){
 		$namaloom['status']='نامعلوم';
 		$rows[]=$namaloom;
 	}
-}if(!empty($rows_gozashte)){
+}
+if(!empty($rows_gozashte)){
 	foreach($rows_gozashte as $gozashte){
 		$gozashte['status']='وعده عودت گذشته';
 		$rows[]=$gozashte;
 	}
 }
+############################################################################
+//START check duplicate mojoodi
+############################################################################
+//Create a list of car ids from gathered mojoodi for checking ids
+foreach($rows as $row_key=>$row_val){
+	$rows_car_id[] = $row_val['id'];
+}
+//this function find all values which has been occured more than once
+//https://stackoverflow.com/questions/3450022/check-and-return-duplicates-array-php
+function sst_find_duplicate_or_more_in_array($arr){
+	$dups = array();
+	foreach(array_count_values($arr) as $val => $c){
+		if($c > 1) $dups[] = $val;
+	}
+	return  $dups;
+}
+//dbg(sst_find_duplicate_or_more_in_array($rows_car_id));
+//$duplicate_rows_car_id is all two or more occurance values means duplicate
+$duplicate_rows_car_id = sst_find_duplicate_or_more_in_array($rows_car_id);
+//if there is any duplicate fix it
+if(!empty($duplicate_rows_car_id)){
+	//search through all rows to find those which are duplicate
+	foreach($rows as $row_k=>$row_v){
+		//search to find all thos which we have foun these ids are duplicate
+		foreach($duplicate_rows_car_id as $duplicate_row_car_id){
+			//now check duplication and unset one which are نامعلوم
+			// usuallly are duplicate areنامعلوم and وعده عودت گذشته and we rempve نامعلوم
+			if($row_v['id']==$duplicate_row_car_id and $row_v['status']=='نامعلوم'){
+				//dbg($duplicate_row_car_id);
+				unset($rows[$row_k]);
+			}
+		}
+	}
+}
+############################################################################
+//END check duplicate mojoodi
+############################################################################
+
 //dbg(count($rows));
 
 
