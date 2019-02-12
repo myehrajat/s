@@ -39,18 +39,6 @@ jQuery(document).ready(function ($) {
 					return "<div class='jqx-grid-cell-" + columnproperties['cellsalign'] + "-align' style='margin-top:4px;'><a href='http://" + window.location.hostname + "/لیست-ها/?list=gharardad&khodro=" + rowdata.kid + "'>" + value + "</a></div>";
 				}
 			}, {
-				text: "شماره شهربانی",
-				datafield: "kkhodro_shomare_shahrbani",
-				width: "9%",
-				cellsalign: "right",
-				align: "center",
-			}, {
-				text: "مدل",
-				datafield: "kkhodro_model",
-				width: "4%",
-				cellsalign: "right",
-				align: "center",
-			}, {
 				text: "رنگ",
 				datafield: "kkhodro_rang",
 				width: "5%",
@@ -69,9 +57,15 @@ jQuery(document).ready(function ($) {
 				cellsalign: "right",
 				align: "center",
 			}, {
+				text: "مالک سیم",
+				datafield: "ggps_malek_sim",
+				width: "9%",
+				cellsalign: "right",
+				align: "center",
+			}, {
 				text: "شماره سریال",
 				datafield: "ggps_shomareh_serial",
-				width: "8%",
+				width: "10%",
 				cellsalign: "right",
 				align: "center",
 			}, {
@@ -95,9 +89,22 @@ jQuery(document).ready(function ($) {
 			}, {
 				text: "شنود",
 				datafield: "ggps_shenood",
-				width: "6%",
+				width: "4%",
 				cellsalign: "right",
 				align: "center",
+			}, {
+				text: "لینک",
+				datafield: "ggps_direct_link",
+				width: "4%",
+				cellsalign: "right",
+				align: "center",
+				cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+					if(value){
+						return "<div class='jqx-grid-cell-"+columnproperties['cellsalign']+"-align' style='margin-top:4px;'><a href='"+value+"' target='_blank'>"+"ردیابی"+"</a></div>";
+					}else{
+						return '';
+					}
+				}
 			}, {
 				text: "توضیحات",
 				datafield: "ggps_tozihat",
@@ -115,7 +122,7 @@ jQuery(document).ready(function ($) {
 				cellsalign: "right",
 				align: "center",
 				cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
-					return add_virayesh(columnproperties, value);
+					return add_virayesh(columnproperties, value,'ویرایش');
 				}
 			}]
 			var source = {
@@ -125,12 +132,6 @@ jQuery(document).ready(function ($) {
 					type: "number"
 				}, {
 					name: "kkhodro_khodro",
-					type: "string"
-				}, {
-					name: "kkhodro_shomare_shahrbani",
-					type: "string"
-				}, {
-					name: "kkhodro_model",
 					type: "string"
 				}, {
 					name: "kkhodro_rang",
@@ -143,6 +144,9 @@ jQuery(document).ready(function ($) {
 					type: "string"
 				}, {
 					name: "ggps_shomareh_sim",
+					type: "string"
+				}, {
+					name: "ggps_malek_sim",
 					type: "string"
 				}, {
 					name: "ggps_shomareh_serial",
@@ -158,6 +162,9 @@ jQuery(document).ready(function ($) {
 					type: "string"
 				}, {
 					name: "ggps_shenood",
+					type: "string"
+				}, {
+					name: "ggps_direct_link",
 					type: "string"
 				}, {
 					name: "ggps_tozihat",
