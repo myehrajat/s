@@ -167,11 +167,17 @@ global $wpdb;
         "`gps_khodro_id` VARCHAR(255) NOT NULL,".
         "`gps_noe_gps` VARCHAR(255) NOT NULL,".
         "`gps_shomareh_sim` VARCHAR(255) NOT NULL,".
+		"`gps_malek_sim` VARCHAR (255) NULL,".
         "`gps_shomareh_serial` VARCHAR(255) NOT NULL,".
         "`gps_mahale_nasb` VARCHAR(255) NOT NULL,".
         "`gps_ghatkon` VARCHAR(255) NOT NULL,".
         "`gps_barghe_mostaghim` VARCHAR(255) NOT NULL,".
         "`gps_shenood` VARCHAR(255) NOT NULL,".
+        "`gps_direct_link_1` LONGTEXT DEFAULT NULL,".
+        "`gps_direct_link_2` LONGTEXT DEFAULT NULL,".
+        "`gps_direct_link_3` LONGTEXT DEFAULT NULL,".
+        "`gps_direct_link_4` LONGTEXT DEFAULT NULL,".
+        "`gps_direct_link_5` LONGTEXT DEFAULT NULL,".
         "`gps_tozihat` LONGTEXT DEFAULT NULL,".
         "`save_id` VARCHAR(255) DEFAULT NULL,".
         "`sabt_konande_id` VARCHAR(255) NOT NULL,".
@@ -179,7 +185,6 @@ global $wpdb;
         "`created` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',".
         "`modified` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
         PRIMARY KEY id  (`id`)) $collate;";
-
     $wpdb->query($sql);
 	$sql = "CREATE TABLE IF NOT EXISTS ". $wpdb->prefix . $dbprefix . "gps_charge" ." (".
         "`id` INT(10) NOT NULL auto_increment,".
