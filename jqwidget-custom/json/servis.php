@@ -94,11 +94,13 @@ $query="SELECT
 	khodro.khodro_model AS kkhodro_model,
 	khodro.khodro_rang AS kkhodro_rang,
 	khodro.khodro_shomare_shahrbani AS kkhodro_shomare_shahrbani,
+	khodro.khodro_vaziyat AS kkhodro_vaziyat,
 	khodro.save_id AS ksave_id 
 FROM
 	wp_rent_servis AS servis
 	LEFT JOIN wp_rent_khodro AS khodro ON servis.servis_khodro_id = khodro.id
 	LEFT JOIN wp_rent_ashkhas AS ashkhas ON servis.servis_servis_konnadeh_id = ashkhas.id 
+	WHERE khodro.khodro_vaziyat = 'موجود'
 ORDER BY
 	servis.servis_tarikh ASC";
 
