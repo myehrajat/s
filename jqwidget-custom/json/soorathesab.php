@@ -23,8 +23,8 @@ TO add mohasebeh daily for average on hesab
 function sst_json_soorathesab() {
 
 	set_time_limit( 0 );
-	require_once( 'soorathesab/func.php' );
-	require_once( 'soorathesab/add_gardesh_nahayi.php' );
+	require_once( plugin_dir_path( __FILE__ ).'soorathesab/func.php' );
+	require_once( plugin_dir_path( __FILE__ ).'soorathesab/add_gardesh_nahayi.php' );
 	global $wpdb;
 	/***********************************/
 	$_GET[ 'asli_shakhs' ] = sst_find_asli_shakhs();

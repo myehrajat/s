@@ -87,6 +87,9 @@ if ( $authorize ) {
 			//dbg('gharardad_jariaaaaaaaa');
 			//die;
 			require_once( 'json/gharardad_jari.php' );
+			$rows = sst_json_gharardad_jari();
+			//$rows = sst_prepare_json_records( $rows, array( ) );
+			//dbg($rows);
 			break;
 		case "gharardad-bayegani":
 			require_once( 'json/gharardad_bayegani.php' );

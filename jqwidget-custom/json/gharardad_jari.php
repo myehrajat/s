@@ -5,10 +5,10 @@ ALTER TABLE `wp_rent_gharardad`
 ADD COLUMN `gharardad_takhfif`  varchar(255) NULL AFTER `gharardad_hazineye_ayab_zahab`;
 */
 
-function sst_json_gharardad_jari( ) {
+function sst_json_gharardad_jari() {
 	global $wpdb, $dbprefix, $psw;
-	
-$query = "SELECT
+
+	$query = "SELECT
 	gharardad.id AS gid,
 	gharardad.gharardad_shomare_gharardad AS ggharardad_shomare_gharardad,
 	gharardad.gharardad_mostajer_id AS ggharardad_mostajer_id,
@@ -50,26 +50,28 @@ $query = "SELECT
 	gharardad_tahvil_dahande.ashkhas_name_khanevadegi AS gharardad_tahvil_dahandeashkhas_name_khanevadegi,
 	gharardad_tahvil_girande.id AS gharardad_tahvil_girandeid,
 	gharardad_tahvil_girande.ashkhas_nam AS gharardad_tahvil_girandeashkhas_nam,
-	gharardad_tahvil_girande.ashkhas_name_khanevadegi AS gharardad_tahvil_girandeashkhas_name_khanevadegi
+	gharardad_tahvil_girande.ashkhas_name_khanevadegi AS gharardad_tahvil_girandeashkhas_name_khanevadegi 
 FROM
 	wp_rent_gharardad AS gharardad
-LEFT JOIN wp_rent_khodro AS khodro ON gharardad.gharardad_khodro_id = khodro.id
-LEFT JOIN wp_rent_ashkhas AS mojer_ashkhas ON mojer_ashkhas.id = gharardad.gharardad_mojer_id
-LEFT JOIN wp_rent_ashkhas AS mostajer_ashkhas ON mostajer_ashkhas.id = gharardad.gharardad_mostajer_id
-LEFT JOIN wp_rent_ashkhas AS gharardad_tahvil_dahande ON gharardad_tahvil_dahande.id = gharardad.gharardad_tahvil_dahande
-LEFT JOIN wp_rent_ashkhas AS gharardad_tahvil_girande ON gharardad_tahvil_girande.id = gharardad.gharardad_tahvil_girande
+	LEFT JOIN wp_rent_khodro AS khodro ON gharardad.gharardad_khodro_id = khodro.id
+	LEFT JOIN wp_rent_ashkhas AS mojer_ashkhas ON mojer_ashkhas.id = gharardad.gharardad_mojer_id
+	LEFT JOIN wp_rent_ashkhas AS mostajer_ashkhas ON mostajer_ashkhas.id = gharardad.gharardad_mostajer_id
+	LEFT JOIN wp_rent_ashkhas AS gharardad_tahvil_dahande ON gharardad_tahvil_dahande.id = gharardad.gharardad_tahvil_dahande
+	LEFT JOIN wp_rent_ashkhas AS gharardad_tahvil_girande ON gharardad_tahvil_girande.id = gharardad.gharardad_tahvil_girande 
 WHERE
-	gharardad.gharardad_tarikhe_odat = ''
+	gharardad.gharardad_tarikhe_odat = '' 
 ORDER BY
 	khodro_khodro ASC";
-$rows = $wpdb->get_results( $query, 'ARRAY_A' );
+	$rows = $wpdb->get_results( $query, 'ARRAY_A' );
 	$calculed_before = array();
 	$value_calculed_before = array();
 	//dbg(count($rows));
 	//die;
 	foreach ( $rows as $key => $gharardad ) {
 		$mojer_mostajer_indentifier = $gharardad[ 'ggharardad_mojer_id' ] . '-' . $gharardad[ 'ggharardad_mostajer_id' ];
+		//dbg($mojer_mostajer_indentifier);
 		if ( !in_array( $mojer_mostajer_indentifier, $calculed_before ) ) { //find tha nahayii
+			/*
 			$psw = 'ehrajat1363';
 			//this part is for getting soorathesab nahayyii
 			$soorathesab_query = sst_get_option( 'json_file' ) . '?list=soorathesab&asli_shakhs=' . urlencode( $gharardad[ 'ggharardad_mojer_id' ] ) . '&shakhs=' . urlencode( $gharardad[ 'ggharardad_mostajer_id' ] ) . '&psw=' . $psw . '&soorathesab_type=only_nahayi&rawdata=raw';
@@ -77,9 +79,18 @@ $rows = $wpdb->get_results( $query, 'ARRAY_A' );
 			$soorathesab_json = @ file_get_contents( $soorathesab_query, true );
 			$soorathesab_arr = json_decode( $soorathesab_json );
 			//dbg($soorathesab_arr);
-			$rows[ $key ][ 'ssoorathesab_nahayi' ] = $soorathesab_arr[ 0 ]->ssoorathesab_nahayi;
+			*/
+			require_once( plugin_dir_path( __FILE__ ).'soorathesab.php');
+			$_GET['asli_shakhs']=urlencode( $gharardad[ 'ggharardad_mojer_id' ] );
+			$_GET['shakhs']=urlencode( $gharardad[ 'ggharardad_mostajer_id' ] );
+			$_GET['soorathesab_type']='only_nahayi';
+			$_GET['rawdata']='raw';
+			$soorathesab_arr = sst_json_soorathesab();
+			//dbg($soorathesab_arr);
+			//dbg($soorathesab_arr[ 0 ]['ssoorathesab_nahayi']);
+			$rows[ $key ][ 'ssoorathesab_nahayi' ] = $soorathesab_arr[ 0 ]['ssoorathesab_nahayi'];
 			$calculed_before[] = $mojer_mostajer_indentifier;
-			$value_calculed_before[ $mojer_mostajer_indentifier ] = $soorathesab_arr[ 0 ]->ssoorathesab_nahayi;
+			$value_calculed_before[ $mojer_mostajer_indentifier ] = $soorathesab_arr[ 0 ]['ssoorathesab_nahayi'];
 		} else { //before we find nahayii now only set it
 			$rows[ $key ][ 'ssoorathesab_nahayi' ] = $value_calculed_before[ $mojer_mostajer_indentifier ];
 		}
@@ -87,6 +98,10 @@ $rows = $wpdb->get_results( $query, 'ARRAY_A' );
 	foreach ( $rows as $rk => $rv ) {
 		$rows[ $rk ] = json_encode( $rv );
 	}
+	//dbg($rows);
+	unset($_GET['asli_shakhs']);
+	unset($_GET['shakhs']);
+	unset($_GET['soorathesab_type']);
+	unset($_GET['rawdata']);
 	return $rows;
 }
-$rows = sst_json_gharardad_jari( );
