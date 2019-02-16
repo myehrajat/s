@@ -72,11 +72,11 @@ $rows = $wpdb->get_results( $query, 'ARRAY_A' );
 		if ( !in_array( $mojer_mostajer_indentifier, $calculed_before ) ) { //find tha nahayii
 			$psw = 'ehrajat1363';
 			//this part is for getting soorathesab nahayyii
-			$soorathesab_query = sst_get_option( 'json_file' ) . '?list=soorathesab&asli_shakhs=' . urlencode( $gharardad[ 'ggharardad_mojer_id' ] ) . '&shakhs=' . urlencode( $gharardad[ 'ggharardad_mostajer_id' ] ) . '&psw=' . $psw . '&rawdata=raw';
+			$soorathesab_query = sst_get_option( 'json_file' ) . '?list=soorathesab&asli_shakhs=' . urlencode( $gharardad[ 'ggharardad_mojer_id' ] ) . '&shakhs=' . urlencode( $gharardad[ 'ggharardad_mostajer_id' ] ) . '&psw=' . $psw . '&soorathesab_type=only_nahayi&rawdata=raw';
 			//dbg($soorathesab_query);
 			$soorathesab_json = @ file_get_contents( $soorathesab_query, true );
 			$soorathesab_arr = json_decode( $soorathesab_json );
-			
+			//dbg($soorathesab_arr);
 			$rows[ $key ][ 'ssoorathesab_nahayi' ] = $soorathesab_arr[ 0 ]->ssoorathesab_nahayi;
 			$calculed_before[] = $mojer_mostajer_indentifier;
 			$value_calculed_before[ $mojer_mostajer_indentifier ] = $soorathesab_arr[ 0 ]->ssoorathesab_nahayi;

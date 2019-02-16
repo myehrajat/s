@@ -107,6 +107,66 @@ $rows_now = $wpdb->get_results($query_now,'ARRAY_A');
 
 
 
+
+
+/*
+dbg('now:'.$now);
+dbg('start:'.$_GET['start']);
+dbg('end:'.$_GET['end']);
+dbg('vo:'.$_GET['vo']);
+dbg('days_after_now:'.$days_after_now);
+
+
+dbg('namaloom:');
+dbg($query_namaloom);
+dbg($rows_namaloom);
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+$query_vadeye_odat="SELECT * FROM wp_rent_khodro WHERE (";
+$query_vadeye_odat.="(id = ANY ( SELECT gharardad_khodro_id FROM wp_rent_gharardad WHERE  gharardad_vadeye_tarikhe_odat ='".$now."' AND gharardad_tarikhe_odat = '' GROUP BY gharardad_khodro_id )) ";
+$query_vadeye_odat.=") AND khodro_vaziyat = 'موجود' ";
+
+
+	//AND khodro_saheb_emtiyaz_id = 11
+	$moshaveran_ids[] = sst_get_option('sherkat_id');
+	$query_vadeye_odat .= 'AND ( khodro_saheb_emtiyaz_id = ';
+	$query_vadeye_odat .= implode(' OR khodro_saheb_emtiyaz_id = ',$moshaveran_ids);
+	$query_vadeye_odat .= ' )';
+
+
+
+if($_GET['max']){
+	$query_vadeye_odat.=" AND khodro_daily_price <= ".$_GET['max'];
+}
+if($_GET['min']){
+	$query_vadeye_odat.=" AND khodro_daily_price >= ".$_GET['min'];
+}
+if($_GET['brand'] and $_GET['brand']<>'all'){
+	$query_vadeye_odat.=" AND khodro_brand = '".$_GET['brand']."'";
+}
+$query_vadeye_odat.=" GROUP BY id ORDER BY khodro_khodro ASC";
+///dbg($query_vadeye_odat);
+$rows_vadeye_odat = $wpdb->get_results($query_vadeye_odat,'ARRAY_A');
+///dbg($rows_vadeye_odat);
+
+
+
+
+
+
+
+
 //in sys system you can omit $_GET['vo'] variable to dont show that or set all to show all
 $days_after_now = sst_date_diff($now,$_GET['start'],'int_days',true);//true means omit time and only check for date
 
@@ -139,54 +199,6 @@ if(($days_after_now>=$_GET['vo'] OR $_GET['vo']=='all') AND isset($_GET['vo'])){
 }
 
 
-/*
-dbg('now:'.$now);
-dbg('start:'.$_GET['start']);
-dbg('end:'.$_GET['end']);
-dbg('vo:'.$_GET['vo']);
-dbg('days_after_now:'.$days_after_now);
-
-
-dbg('namaloom:');
-dbg($query_namaloom);
-dbg($rows_namaloom);
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-$query_vadeye_odat="SELECT * FROM wp_rent_khodro WHERE (";
-$query_vadeye_odat.="(id = ANY ( SELECT gharardad_khodro_id FROM wp_rent_gharardad WHERE gharardad_vadeye_tarikhe_odat <= '".$_GET['start']."' AND gharardad_vadeye_tarikhe_odat>='".$now."' AND gharardad_tarikhe_odat = '' GROUP BY gharardad_khodro_id )) ";
-$query_vadeye_odat.=") AND khodro_vaziyat = 'موجود' ";
-
-
-	//AND khodro_saheb_emtiyaz_id = 11
-	$moshaveran_ids[] = sst_get_option('sherkat_id');
-	$query_vadeye_odat .= 'AND ( khodro_saheb_emtiyaz_id = ';
-	$query_vadeye_odat .= implode(' OR khodro_saheb_emtiyaz_id = ',$moshaveran_ids);
-	$query_vadeye_odat .= ' )';
-
-
-
-if($_GET['max']){
-	$query_vadeye_odat.=" AND khodro_daily_price <= ".$_GET['max'];
-}
-if($_GET['min']){
-	$query_vadeye_odat.=" AND khodro_daily_price >= ".$_GET['min'];
-}
-if($_GET['brand'] and $_GET['brand']<>'all'){
-	$query_vadeye_odat.=" AND khodro_brand = '".$_GET['brand']."'";
-}
-$query_vadeye_odat.=" GROUP BY id ORDER BY khodro_khodro ASC";
-$rows_vadeye_odat = $wpdb->get_results($query_vadeye_odat,'ARRAY_A');
 
 
 
@@ -275,18 +287,20 @@ if(!empty($rows_vadeye_odat)){
 		$rows[]=$vadeye_odat;
 	}
 }
+
+if(!empty($rows_gozashte)){
+	foreach($rows_gozashte as $gozashte){
+		$gozashte['status']='وعده عودت گذشته';
+		$rows[]=$gozashte;
+	}
+}
+
 //dbg(count($rows));
 //dbg($rows_namaloom);
 if(!empty($rows_namaloom)){
 	foreach($rows_namaloom as $namaloom){
 		$namaloom['status']='نامعلوم';
 		$rows[]=$namaloom;
-	}
-}
-if(!empty($rows_gozashte)){
-	foreach($rows_gozashte as $gozashte){
-		$gozashte['status']='وعده عودت گذشته';
-		$rows[]=$gozashte;
 	}
 }
 ############################################################################
