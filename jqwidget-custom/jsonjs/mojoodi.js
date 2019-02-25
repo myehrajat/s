@@ -86,6 +86,12 @@ jQuery(document).ready(function ($) {
 				cellsalign: "right",
 				align: "center",
 			}, {
+				text: "وضعیت دقیق",
+				datafield: "status_detailed",
+				width: "8%",
+				cellsalign: "right",
+				align: "center",
+			}, {
 				text: "مدل",
 				datafield: "khodro_model",
 				width: "5%",
@@ -104,15 +110,15 @@ jQuery(document).ready(function ($) {
 				cellsalign: "right",
 				align: "center",
 			}, {
-				text: "قیمت روزانه",
-				datafield: "khodro_daily_price",
-				width: "9%",
+				text: "موجرها",
+				datafield: "mojers",
+				width: "35%",
 				cellsalign: "right",
 				align: "center",
 			}, {
 				text: "اقدامات",
 				datafield: "save_id",
-				width: "9%",
+				width: "6%",
 				cellsalign: "right",
 				align: "center",
 				cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
@@ -134,6 +140,9 @@ jQuery(document).ready(function ($) {
 					name: "status",
 					type: "string"
 				}, {
+					name: "status_detailed",
+					type: "string"
+				}, {
 					name: "khodro_model",
 					type: "string"
 				}, {
@@ -143,7 +152,7 @@ jQuery(document).ready(function ($) {
 					name: "khodro_shomare_shahrbani",
 					type: "string"
 				}, {
-					name: "khodro_daily_price",
+					name: "mojers",
 					type: "string"
 				}, {
 					name: "save_id",
